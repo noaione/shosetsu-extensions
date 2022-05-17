@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.0.9","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.1.0","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
@@ -45,12 +45,40 @@ end
 --- @param projects table
 --- @return boolean
 local function isProjectInTable(url, projects)
+	if not projects then
+		return false
+	end
 	for i = 1, #projects do
 		if shrinkURL(projects[i]) == shrinkURL(url) then
 			return true
 		end
 	end
 	return false
+end
+
+
+--- @param content Element
+--- @return string
+local function extractDescription(content)
+	-- iter until we match something then stop
+	local desc = ""
+	local pData = content:select("p")
+	local shouldAddToDesc = true
+	for i = 0, pData:size() do
+		local p = pData:get(i)
+		if p and shouldAddToDesc then
+			local text = p:text()
+			-- check if text empty
+			if text:len() > 0 then
+				-- check if text is a link
+				desc = desc .. text .. "\n"
+			end
+			if p:selectFirst("a") then
+				shouldAddToDesc = false
+			end
+		end
+	end
+	return desc
 end
 
 return {
@@ -102,20 +130,27 @@ return {
 			info:setStatus(NovelStatus.UNKNOWN)
 		end
 
+		local infoDesc = extractDescription(content:selectFirst(".entry-content"))
+		if infoDesc:len() > 0 then
+			info:setDescription(infoDesc)
+		end
+
 		if loadChapters then
 			local actualChapters = {}
 			local selectedData = content:selectFirst(".entry-content"):select("p a")
 			local actualOrder = 1
-			for i = 0, #selectedData do
+			for i = 0, selectedData:size() do
 				local selectThis = selectedData:get(i)
-				local hrefUrl = selectThis:attr("href")
-				if (hrefUrl:find("bakapervert.wordpress.com")) then
-					table.insert(actualChapters, NovelChapter {
-						order = actualOrder,
-						title = selectThis:text(),
-						link = shrinkURL(hrefUrl)
-					})
-					actualOrder = actualOrder + 1
+				if selectThis then
+					local hrefUrl = selectThis:attr("href")
+					if (hrefUrl:find("bakapervert.wordpress.com")) then
+						table.insert(actualChapters, NovelChapter {
+							order = actualOrder,
+							title = selectThis:text(),
+							link = shrinkURL(hrefUrl)
+						})
+						actualOrder = actualOrder + 1
+					end
 				end
 			end
 			info:setChapters(AsList(actualChapters))
