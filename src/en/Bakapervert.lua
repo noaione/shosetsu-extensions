@@ -1,11 +1,15 @@
--- {"id":1331219,"ver":"1.0.2","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.0.3","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
+--- @param url string
+--- @return string
 local function shrinkURL(url)
 	return url:gsub("^.-bakapervert%.wordpress%.com", "")
 end
 
+--- @param url string
+--- @return string
 local function expandURL(url)
 	return baseURL .. url
 end
@@ -43,7 +47,7 @@ return {
 			return map(flatten(mapNotNil(doc:selectFirst("div#access ul"):children(), function(v)
 				local text = v:selectFirst("a"):text()
 				return (text:find("Projects", 0, true)) and
-						map(v:selectFirst("ul.menu"):select("> li > a"), function(v) return v end)
+						map(v:selectFirst("ul.sub-menu"):select("> li > a"), function(v) return v end)
 			end)), function(v)
 				return Novel {
 					title = v:text(),
