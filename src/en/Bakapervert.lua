@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.0.0","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.0.1","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
