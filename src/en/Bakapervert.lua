@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.0.1","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.0.2","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
@@ -40,10 +40,10 @@ return {
 	listings = {
 		Listing("Novels", false, function(data)
 			local doc = GETDocument(baseURL)
-			return map(flatten(mapNotNil(doc:selectFirst("nav#access ul"):children(), function(v)
+			return map(flatten(mapNotNil(doc:selectFirst("div#access ul"):children(), function(v)
 				local text = v:selectFirst("a"):text()
 				return (text:find("Projects", 0, true)) and
-						map(v:selectFirst("ul.sub-menu"):select("> li > a"), function(v) return v end)
+						map(v:selectFirst("ul.menu"):select("> li > a"), function(v) return v end)
 			end)), function(v)
 				return Novel {
 					title = v:text(),
