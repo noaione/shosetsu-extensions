@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.1.5","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.1.6","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
@@ -136,17 +136,15 @@ return {
 		-- end
 
 		if loadChapters then
-			info:setChapters(AsList(map(flatten(mapNotNil(content:selectFirst(".entry-content"):select("p a"), function (v)
-					local hrefUrl = v:attr("href")
-					return (hrefUrl:find("bakapervert.wordpress.com", 0, true)) and v
-				end)), function (v, i)
-					return NovelChapter {
+			info:setChapters(AsList(mapNotNil(content:selectFirst(".entry-content"):select("p a"), function (v, i)
+				local chUrl = v:attr("href")
+				return (chUrl:find("bakapervert.wordpress.com", 0, true)) and
+					NovelChapter {
 						order = i,
 						title = v:text(),
-						link = shrinkURL(v:attr("href")),
+						link = shrinkURL(chUrl)
 					}
-				end)
-			))
+			end)))
 		end
 
 		return info
