@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.1.3","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.1.4","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
@@ -114,21 +114,21 @@ return {
 		local doc = GETDocument(baseURL .. novelURL)
 		local content = doc:selectFirst("#content div")
 
-		local ongoingProject = getProjectNav(doc, "li#menu-item-5787")
-		local finishedProject = getProjectNav(doc, "li#menu-item-12566")
+		-- local ongoingProject = getProjectNav(doc, "li#menu-item-5787")
+		-- local finishedProject = getProjectNav(doc, "li#menu-item-12566")
 
 		local info = NovelInfo {
 			title = content:selectFirst(".entry-title"):text(),
 			imageURL = content:selectFirst("img"):attr("src")
 		}
 
-		if isProjectInTable(novelURL, ongoingProject) then
-			info:setStatus(NovelStatus.PUBLISHING)
-		elseif isProjectInTable(novelURL, finishedProject) then
-			info:setStatus(NovelStatus.COMPLETED)
-		else
-			info:setStatus(NovelStatus.UNKNOWN)
-		end
+		-- if isProjectInTable(novelURL, ongoingProject) then
+		-- 	info:setStatus(NovelStatus.PUBLISHING)
+		-- elseif isProjectInTable(novelURL, finishedProject) then
+		-- 	info:setStatus(NovelStatus.COMPLETED)
+		-- else
+		-- 	info:setStatus(NovelStatus.UNKNOWN)
+		-- end
 
 		local infoDesc = extractDescription(content:selectFirst(".entry-content"))
 		if infoDesc:len() > 0 then
@@ -136,13 +136,17 @@ return {
 		end
 
 		if loadChapters then
-			info:setChapters(AsList(map(content:selectFirst(".entry-content"):select("p a"), function(v, i)
-				return NovelChapter {
-					order = i,
-					title = v:text(),
-					link = shrinkURL(v:attr("href"))
-				}
-			end)))
+			info:setChapters(AsList(map(flatten(mapNotNil(content:selectFirst(".entry-content"):select("p a"), function (v)
+					local hrefUrl = v:attr("href")
+					return (hrefUrl:find("bakapervert.wordpress.com", 0, true)) and v
+				end)), function (v, i)
+					return NovelChapter {
+						order = i,
+						title = v:text(),
+						link = shrinkURL(v:attr("href")),
+					}
+				end)
+			))
 		end
 
 		return info
