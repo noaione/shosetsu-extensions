@@ -311,16 +311,6 @@
       "md5": ""
     },
     {
-      "name": "bakapervert",
-      "fileName": "Bakapervert",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Bakapervert.jpg",
-      "id": 1331219,
-      "lang": "en",
-      "ver": "1.0.1",
-      "libVer": "1.0.0",
-      "md5": ""
-    },
-    {
       "name": "ScribbleHub",
       "fileName": "ScribbleHub",
       "imageURL": "https://github.com/shosetsuorg/extensions/raw/dev/icons/ScribbleHub.png",
@@ -448,6 +438,16 @@
       "id": 16581,
       "lang": "en",
       "ver": "1.0.0",
+      "libVer": "1.0.0",
+      "md5": ""
+    },
+    {
+      "name": "bakapervert",
+      "fileName": "Bakapervert",
+      "imageURL": "https://raw.githubusercontent.com/noaione/shosetsu-extensions/dev/icons/Bakapervert.jpg",
+      "id": 1331219,
+      "lang": "en",
+      "ver": "1.0.1",
       "libVer": "1.0.0",
       "md5": ""
     }
