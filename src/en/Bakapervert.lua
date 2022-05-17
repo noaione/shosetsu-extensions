@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.1.0","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.1.1","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
@@ -136,23 +136,19 @@ return {
 		end
 
 		if loadChapters then
-			local actualChapters = {}
-			local selectedData = content:selectFirst(".entry-content"):select("p a")
-			local actualOrder = 1
-			for i = 0, selectedData:size() do
-				local selectThis = selectedData:get(i)
-				if selectThis then
-					local hrefUrl = selectThis:attr("href")
-					if (hrefUrl:find("bakapervert.wordpress.com")) then
-						table.insert(actualChapters, NovelChapter {
-							order = actualOrder,
-							title = selectThis:text(),
-							link = shrinkURL(hrefUrl)
-						})
-						actualOrder = actualOrder + 1
-					end
-				end
-			end
+			bpChCounter = 1
+			local actualChapters = map(flatten(mapNotNil(content:selectFirst(".entry-content"):select("p a"), function (v)
+				local hrefUrl = v:attr("href")
+				return (hrefUrl:find("bakapervert.wordpress.com", 0, true)) and v
+			end)), function (v)
+				local chInfo = NovelChapter {
+					order = bpChCounter,
+					title = v:text(),
+					link = shrinkURL(v:attr("href")),
+				}
+				bpChCounter = bpChCounter + 1
+				return chInfo
+			end)
 			info:setChapters(AsList(actualChapters))
 		end
 
