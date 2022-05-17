@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.0.4","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.0.5","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
@@ -15,7 +15,7 @@ local function expandURL(url)
 end
 
 local function parsePage(url)
-    local doc = GETDocument(url)
+    local doc = GETDocument(expandURL(url))
     local content = doc:selectFirst("#content div")
     local p = content:selectFirst(".entry-content")
 
