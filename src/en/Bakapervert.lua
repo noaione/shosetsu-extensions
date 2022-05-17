@@ -73,7 +73,7 @@ local function extractDescription(content)
 				-- check if text is a link
 				desc = desc .. text .. "\n"
 			end
-			if p:selectFirst("a") then
+			if p:selectFirst("a") or p:selectFirst("h2") then
 				shouldAddToDesc = false
 			end
 		end
