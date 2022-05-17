@@ -1,7 +1,6 @@
 -- {"id":1331219,"ver":"1.0.0","libVer":"1.0.0","author":"N4O"}
 
-local baseURL = "https://bakapervert.wordpress.com/"
-local settings = {}
+local baseURL = "https://bakapervert.wordpress.com"
 
 local function shrinkURL(url)
 	return url:gsub("^.-bakapervert%.wordpress%.com", "")
@@ -27,18 +26,6 @@ local function parsePage(url)
     end
 
     return p
-end
-
---- @param text string
---- @param arrayData table
---- @return boolean
-local function isTextInTable(text, arrayData)
-    for _, v in pairs(arrayData) do
-        if text:find(v, 0, true) then
-            return true
-        end
-    end
-    return false
 end
 
 return {
@@ -79,9 +66,7 @@ return {
 			imageURL = content:selectFirst("img"):attr("src")
 		}
 
-
 		if loadChapters then
-            local EntryContents = content:selectFirst(".entry-content"):children()
 			info:setChapters(AsList(map(content:selectFirst(".entry-content"):select("p a"), function(v, i)
 				return NovelChapter {
 					order = i,
