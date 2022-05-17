@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.0.7","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.0.8","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
@@ -30,6 +30,26 @@ local function parsePage(url)
     end
 
     return p
+end
+
+--- @param queryData string
+--- @return table
+local function getProjectNav(queryData)
+	return map(doc:selectFirst(queryData):selectFirst("ul.sub-menu"):select("> li > a"), function (v)
+		return v:attr("href")
+	end)
+end
+
+--- @param url string
+--- @param projects table
+--- @return boolean
+local function isProjectInTable(url, projects)
+	for i = 1, #projects do
+		if shrinkURL(projects[i]) == shrinkURL(url) then
+			return true
+		end
+	end
+	return false
 end
 
 return {
@@ -65,10 +85,21 @@ return {
 		local doc = GETDocument(baseURL .. novelURL)
 		local content = doc:selectFirst("#content div")
 
+		local ongoingProject = getProjectNav("li#menu-item-5787")
+		local finishedProject = getProjectNav("li#menu-item-12566")
+
 		local info = NovelInfo {
 			title = content:selectFirst(".entry-title"):text(),
 			imageURL = content:selectFirst("img"):attr("src")
 		}
+
+		if isProjectInTable(novelURL, ongoingProject) then
+			info:setStatus(NovelStatus.PUBLISHING)
+		elseif isProjectInTable(novelURL, finishedProject) then
+			info:setStatus(NovelStatus.COMPLETED)
+		else
+			info:setStatus(NovelStatus.UNKNOWN)
+		end
 
 		if loadChapters then
 			local actualChapters = {}
@@ -78,11 +109,11 @@ return {
 				local selectThis = selectedData:get(i)
 				local hrefUrl = selectThis:attr("href")
 				if (hrefUrl:find("bakapervert.wordpress.com")) then
-					actualChapters[#actualChapters+1] = NovelChapter {
+					table.insert(actualChapters, NovelChapter {
 						order = actualOrder,
 						title = selectThis:text(),
 						link = shrinkURL(hrefUrl)
-					}
+					})
 					actualOrder = actualOrder + 1
 				end
 			end
