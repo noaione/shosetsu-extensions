@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.0.8","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.0.9","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
@@ -32,10 +32,11 @@ local function parsePage(url)
     return p
 end
 
+--- @param docs Document
 --- @param queryData string
 --- @return table
-local function getProjectNav(queryData)
-	return map(doc:selectFirst(queryData):selectFirst("ul.sub-menu"):select("> li > a"), function (v)
+local function getProjectNav(docs, queryData)
+	return map(docs:selectFirst(queryData):selectFirst("ul.sub-menu"):select("> li > a"), function (v)
 		return v:attr("href")
 	end)
 end
@@ -85,8 +86,8 @@ return {
 		local doc = GETDocument(baseURL .. novelURL)
 		local content = doc:selectFirst("#content div")
 
-		local ongoingProject = getProjectNav("li#menu-item-5787")
-		local finishedProject = getProjectNav("li#menu-item-12566")
+		local ongoingProject = getProjectNav(doc, "li#menu-item-5787")
+		local finishedProject = getProjectNav(doc, "li#menu-item-12566")
 
 		local info = NovelInfo {
 			title = content:selectFirst(".entry-title"):text(),
