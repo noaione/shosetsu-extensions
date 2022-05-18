@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.1.6","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.1.7","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
@@ -14,6 +14,53 @@ local function expandURL(url)
 	return baseURL .. url
 end
 
+--- @param testString string
+--- @return boolean
+local function isTocRelated(testString)
+	-- check "Previous"
+	if testString:find("Previous", 0, true) then
+		return true
+	end
+	if testString:find("previous", 0, true) then
+		return true
+	end
+
+	-- check "Next"
+	if testString:find("Next", 0, true) then
+		return true
+	end
+	if testString:find("next", 0, true) then
+		return true
+	end
+
+	-- check "ToC"
+	if testString:find("ToC", 0, true) then
+		return true
+	end
+	if testString:find("toc", 0, true) then
+		return true
+	end
+	if testString:find("table of content", 0, true) then
+		return true
+	end
+	if testString:find("table of contents", 0, true) then
+		return true
+	end
+	if testString:find("Table of content", 0, true) then
+		return true
+	end
+	if testString:find("Table of contents", 0, true) then
+		return true
+	end
+	if testString:find("Table of Content", 0, true) then
+		return true
+	end
+	if testString:find("Table of Contents", 0, true) then
+		return true
+	end
+	return false
+end
+
 local function parsePage(url)
     local doc = GETDocument(expandURL(url))
     local content = doc:selectFirst("#content div")
@@ -25,9 +72,16 @@ local function parsePage(url)
     -- get last "p" to remove prev/next links
     local allElements = p:select("p")
     local lastElement = allElements:get(allElements:size()-1)
-    if lastElement:children():size() > 0 and lastElement:attr("style"):find("center") then
-		lastElement:remove()
-    end
+	map(allElements, function (elem)
+		local aLinks = elem:select("a")
+		if aLinks:size() > 0 then
+			local a = aLinks:get(0)
+			local atext = a:text()
+			if isTocRelated(atext) then
+				elem:remove()
+			end
+		end
+	end)
 
     return p
 end
