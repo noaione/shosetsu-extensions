@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.1.7","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.1.8","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
@@ -71,17 +71,14 @@ local function parsePage(url)
 
     -- get last "p" to remove prev/next links
     local allElements = p:select("p")
-    local lastElement = allElements:get(allElements:size()-1)
-	map(allElements, function (elem)
-		local aLinks = elem:select("a")
-		if aLinks:size() > 0 then
-			local a = aLinks:get(0)
-			local atext = a:text()
-			if isTocRelated(atext) then
-				elem:remove()
-			end
-		end
-	end)
+    local lastElement = allElements:get(allElements:size() - 1)
+	if lastElement:text() == "&nbsp;" or lastElement:text() == " " then
+		-- step back by one
+		lastElement = allElements:get(allElements:size() - 2)
+	end
+	if lastElement:select("> a"):size() > 0 and lastElement:attr("style"):find("center") then
+		lastElement:remove()
+	end
 
     return p
 end
