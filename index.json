@@ -450,6 +450,16 @@
       "ver": "1.1.8",
       "libVer": "1.0.0",
       "md5": ""
+    },
+    {
+      "name": "Kuro Kurori's Lounge",
+      "fileName": "KuroKurori",
+      "imageURL": "https://raw.githubusercontent.com/noaione/shosetsu-extensions/dev/icons/KuroKurori.png",
+      "id": 309841,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": ""
     }
   ]
 }
