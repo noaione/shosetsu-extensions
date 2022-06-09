@@ -460,6 +460,16 @@
       "ver": "0.1.0",
       "libVer": "1.0.0",
       "md5": ""
+    },
+    {
+      "name": "Europa is a cool moon",
+      "fileName": "EuropaMoon",
+      "imageURL": "https://raw.githubusercontent.com/noaione/shosetsu-extensions/dev/icons/EuropaMoon.png",
+      "id": 376794,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": ""
     }
   ]
 }
