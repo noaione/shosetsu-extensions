@@ -166,13 +166,14 @@ return {
 
 	parseNovel = function(novelURL, loadChapters)
 		local doc = GETDocument(baseURL .. novelURL)
-		local content = doc:selectFirst("div.entry-content")
+		local baseArticles = doc:selectFirst("article")
+		local content = baseArticles:selectFirst(".entry-content")
 
 		-- local ongoingProject = getProjectNav(doc, "li#menu-item-5787")
 		-- local finishedProject = getProjectNav(doc, "li#menu-item-12566")
 
 		local info = NovelInfo {
-			title = content:selectFirst(".entry-title"):text(),
+			title = baseArticles:selectFirst(".entry-title"):text(),
 			imageURL = content:selectFirst("img"):attr("src")
 		}
 
