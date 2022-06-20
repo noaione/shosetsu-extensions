@@ -1,4 +1,4 @@
--- {"id":376794,"ver":"0.1.3","libVer":"1.0.0","author":"N4O"}
+-- {"id":376794,"ver":"0.1.4","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://europaisacoolmoon.wordpress.com"
 
@@ -146,9 +146,11 @@ return {
 	listings = {
 		Listing("Novels", false, function(data)
 			local doc = GETDocument(baseURL)
+			-- desktop version
 			return map(flatten(mapNotNil(doc:selectFirst("ul#menu-primary"):children(), function (v)
-				local href = v:selectFirst("a"):attr("href")
-				return href:find("/home/", 0, true) and v:selectFirst("a")
+				local linky = v:selectFirst("a")
+				return (linky:attr("href"):find("/home/")) and
+					map(v:select("a"), function (ev) return ev end)
 			end)), function (v)
 				return Novel {
 					title = v:text(),
