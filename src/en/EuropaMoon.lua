@@ -1,4 +1,4 @@
--- {"id":376794,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
+-- {"id":376794,"ver":"0.1.2","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://europaisacoolmoon.wordpress.com"
 
@@ -146,17 +146,15 @@ return {
 	listings = {
 		Listing("Novels", false, function(data)
 			local doc = GETDocument(baseURL)
-			local entryContent = doc:selectFirst("div.entry-content")
-			local homeContent = entryContent:selectFirst("ul.wp-block-page-list")
-			local submenuItems = homeContent:selectFirst("ul.submenu-container")
-
-			local novels = map(submenuItems:select("li a"), function (v)
+			return map(flatten(mapNotNil(doc:selectFirst("ul#menu-primary"):children(), function (v)
+				local href = v:selectFirst("a"):attr("href")
+				return (href:find("/home/", 0, true)) and v:selectFirst("a")
+			end)), function (v)
 				return Novel {
 					title = v:text(),
 					link = shrinkURL(v:attr("href"))
 				}
 			end)
-			return novels
 		end)
 	},
 
