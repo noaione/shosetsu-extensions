@@ -148,7 +148,7 @@ return {
 			local doc = GETDocument(baseURL)
 			return map(flatten(mapNotNil(doc:selectFirst("ul#menu-primary"):children(), function (v)
 				local href = v:selectFirst("a"):attr("href")
-				return (href:find("/home/", 0, true)) and v:selectFirst("a")
+				return href:find("/home/", 0, true) and v:selectFirst("a")
 			end)), function (v)
 				return Novel {
 					title = v:text(),
