@@ -480,6 +480,16 @@
       "ver": "0.1.0",
       "libVer": "1.0.0",
       "md5": ""
+    },
+    {
+      "name": "Fans Translations",
+      "fileName": "FansTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/FansTranslations.png",
+      "id": 40159,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": ""
     }
   ]
 }
