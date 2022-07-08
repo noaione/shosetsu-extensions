@@ -490,6 +490,16 @@
       "ver": "0.1.0",
       "libVer": "1.0.0",
       "md5": ""
+    },
+    {
+      "name": "bayabusco translation",
+      "fileName": "bayabusco",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/BayaBuscoTL.png",
+      "id": 38669,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": ""
     }
   ]
 }
