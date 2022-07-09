@@ -1,4 +1,4 @@
--- {"id":376754,"ver":"0.1.0","libVer":"1.0.0","author":"N4O"}
+-- {"id":376754,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://experimentaltranslations.com"
 
@@ -65,7 +65,7 @@ return {
 		Listing("Novels", false, function(data)
 			local doc = GETDocument(baseURL)
 			-- desktop version
-			return map(flatten(mapNotNil(doc:selectFirst("ul#menu-primary"):children(), function (v)
+			return map(flatten(mapNotNil(doc:selectFirst("ul#primary-menu"):children(), function (v)
 				return mapNotNil(v:select("a"), function (ev)
 					return checkIfValidProject(ev:attr("href")) and ev
 				end)
