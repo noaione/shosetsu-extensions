@@ -1,20 +1,16 @@
-# Extensions - Universe
+# N4O Shosetsu Extensions
 
-Community extensions for Shosetsu
+A collection of Shosetsu extension I have created, will not be merged to top branch.
 
-## Source request
+## Added
+1. bakapervert
+2. Kuro Kurori's Lounge
+3. Europa is a cool moon
+4. Reigokai - Isekai Lunatic
+5. bayabusco translation
+6. Experimental Translations
 
-Simply create an issue with the tag `[SOURCE REQUEST]` and the source name next to it, then in the body paragraph have
-the link to the source. It will be handled eventually
+**Madara**-based:
+1. Fans Translations
 
-## Development
-
-A very generic how to:
-
-1. Fork this repository
-2. Create a local clone of the repository on your pc
-3. Choose what site you want to develop from, either from [issues](https://github.com/shosetsuorg/extensions/issues) or
-   of your own choosing
-4. Create a new branch on your local repository, following the following naming scheme `impl-thisisaname.domain`
-5. Start to develop the extension
-6. Make a PR of that branch into master
+Please note that I'm creating for the stuff I'm reading myself, if some pages does not work please open up a new Issue so I can look up how to solve it.
