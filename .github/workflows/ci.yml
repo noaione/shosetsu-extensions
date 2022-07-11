@@ -42,4 +42,6 @@ jobs:
             ./src/en/${{ matrix.TEST_EXTENSIONS }}.lua \
             --print-listings \
             --print-list-stats \
+            --print-novels \
+            --print-meta \
             --test-all-novels
