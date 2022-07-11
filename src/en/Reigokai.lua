@@ -183,12 +183,14 @@ return {
 		-- local ongoingProject = getProjectNav(doc, "li#menu-item-5787")
 		-- local finishedProject = getProjectNav(doc, "li#menu-item-12566")
 
-		local imgBase = articles:selectFirst("img"):attr("src")
-
 		local info = NovelInfo {
 			title = articles:selectFirst(".entry-title"):text(),
-			imageURL = cleanImgUrl(imgBase),
 		}
+
+		local imageTarget = articles:selectFirst("img")
+		if imageTarget then
+			info.setImageURL(cleanImgUrl(imageTarget:attr("src")))
+		end
 
 		-- if isProjectInTable(novelURL, ongoingProject) then
 		-- 	info:setStatus(NovelStatus.PUBLISHING)

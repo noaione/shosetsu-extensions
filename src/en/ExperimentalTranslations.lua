@@ -45,8 +45,14 @@ local function checkIfValidProject(pageUrl)
 	if pageUrl:find("/ongoing/", 0, true) then
 		return false
 	end
+	if pageUrl:find("/finished/", 0, true) then
+		return false
+	end
 	local shrinked = shrinkURL(pageUrl)
 	if shrinked:find("/2020/03", 0, true) then
+		return false
+	end
+	if shrinked:find("-images", 0, true) and shrinked:find("/the-villainous") and true or false then
 		return false
 	end
 	return true
@@ -92,8 +98,12 @@ return {
 
 		local info = NovelInfo {
 			title = baseArticles:selectFirst(".entry-title"):text(),
-			imageURL = content:selectFirst("img"):attr("src")
 		}
+
+		local imageTarget = content:selectFirst("img")
+		if imageTarget then
+			info.setImageURL(imageTarget:attr("src"))
+		end
 
 		-- if isProjectInTable(novelURL, ongoingProject) then
 		-- 	info:setStatus(NovelStatus.PUBLISHING)
