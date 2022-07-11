@@ -39,5 +39,5 @@ jobs:
         run: |
           java -jar extension-tester.jar \
             ./src/en/${{ matrix.TEST_EXTENSIONS }}.lua \
-            --print-listing \
+            --print-listings \
             --print-list-stats
