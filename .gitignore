@@ -9,3 +9,4 @@ out/*
 gradlew
 gradlew.bat
 gradle
+extension-tester.jar
