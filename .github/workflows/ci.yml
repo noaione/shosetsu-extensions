@@ -10,21 +10,19 @@ on:
 
 env:
   EXTENSION_TESTER_VERSION: '0.1.1'
-  TEST_EXTENSIONS:
-    - Bakapervert
-    - bayabusco
-    - EuropaMoon
-    - Reigokai
-    - ExperimentalTranslations
-    - KuroKurori
 
-# Jobs
 jobs:
   tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        TEST_EXTENSIONS: $TEST_EXTENSIONS
+        TEST_EXTENSIONS:
+          - 'Bakapervert'
+          - 'bayabusco'
+          - 'EuropaMoon'
+          - 'Reigokai'
+          - 'ExperimentalTranslations'
+          - 'KuroKurori'
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
