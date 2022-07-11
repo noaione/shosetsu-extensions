@@ -17,22 +17,6 @@ end
 --- @param testString string
 --- @return boolean
 local function isTocRelated(testString)
-	-- check "Previous"
-	if testString:find("Previous", 0, true) then
-		return true
-	end
-	if testString:find("previous", 0, true) then
-		return true
-	end
-
-	-- check "Next"
-	if testString:find("Next", 0, true) then
-		return true
-	end
-	if testString:find("next", 0, true) then
-		return true
-	end
-
 	-- check "ToC"
 	if testString:find("ToC", 0, true) then
 		return true
@@ -58,6 +42,22 @@ local function isTocRelated(testString)
 	if testString:find("Table of Contents", 0, true) then
 		return true
 	end
+
+	-- check "Previous"
+	if testString:find("Previous", 0, true) then
+		return true
+	end
+	if testString:find("previous", 0, true) then
+		return true
+	end
+
+	-- check "Next"
+	if testString:find("Next", 0, true) then
+		return true
+	end
+	if testString:find("next", 0, true) then
+		return true
+	end	
 	return false
 end
 
@@ -71,14 +71,17 @@ local function parsePage(url)
 
     -- get last "p" to remove prev/next links
     local allElements = p:select("p")
-    local lastElement = allElements:get(allElements:size() - 1)
-	if lastElement:text() == "&nbsp;" or lastElement:text() == " " then
-		-- step back by one
-		lastElement = allElements:get(allElements:size() - 2)
-	end
-	if lastElement:select("> a"):size() > 0 and lastElement:attr("style"):find("center") then
-		lastElement:remove()
-	end
+	map(allElements, function (v)
+		local style = v:attr("style")
+		-- local isAlignCenter = style and style:find("text-align", 0, true) and style:find("center", 0, true) and true or false
+		local isValidTocData = isTocRelated(v:text()) and true or false
+		if isValidTocData then
+			v:remove()
+		end
+		if v:id():find("atatags") then
+			v:remove()
+		end
+	end)
 
     return p
 end

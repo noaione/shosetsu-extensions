@@ -17,21 +17,6 @@ end
 --- @param testString string
 --- @return boolean
 local function isTocRelated(testString)
-	-- check "Previous"
-	if testString:find("Previous", 0, true) then
-		return true
-	end
-	if testString:find("previous", 0, true) then
-		return true
-	end
-
-	-- check "Next"
-	if testString:find("Next", 0, true) then
-		return true
-	end
-	if testString:find("next", 0, true) then
-		return true
-	end
 
 	-- check "ToC"
 	if testString:find("ToC", 0, true) then
@@ -58,6 +43,22 @@ local function isTocRelated(testString)
 	if testString:find("Table of Contents", 0, true) then
 		return true
 	end
+
+	-- check "Previous"
+	if testString:find("Previous", 0, true) then
+		return true
+	end
+	if testString:find("previous", 0, true) then
+		return true
+	end
+
+	-- check "Next"
+	if testString:find("Next", 0, true) then
+		return true
+	end
+	if testString:find("next", 0, true) then
+		return true
+	end
 	return false
 end
 
@@ -80,7 +81,14 @@ local function parsePage(url)
 		local className = v:attr("class")
 		if className:find("patreon_button") then
 			v:remove()
-		elseif className:find("sharedaddy") then
+		end
+		if className:find("sharedaddy") then
+			v:remove()
+		end
+		local style = v:attr("style")
+		-- local isAlignCenter = style and style:find("text-align", 0, true) and style:find("center", 0, true) and true or false
+		local isValidTocData = isTocRelated(v:text()) and true or false
+		if isValidTocData then
 			v:remove()
 		end
 	end)

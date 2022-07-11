@@ -17,22 +17,6 @@ end
 --- @param testString string
 --- @return boolean
 local function isTocRelated(testString)
-	-- check "Previous"
-	if testString:find("Previous", 0, true) then
-		return true
-	end
-	if testString:find("previous", 0, true) then
-		return true
-	end
-
-	-- check "Next"
-	if testString:find("Next", 0, true) then
-		return true
-	end
-	if testString:find("next", 0, true) then
-		return true
-	end
-
 	-- check "ToC"
 	if testString:find("ToC", 0, true) then
 		return true
@@ -56,6 +40,22 @@ local function isTocRelated(testString)
 		return true
 	end
 	if testString:find("Table of Contents", 0, true) then
+		return true
+	end
+
+	-- check "Previous"
+	if testString:find("Previous", 0, true) then
+		return true
+	end
+	if testString:find("previous", 0, true) then
+		return true
+	end
+
+	-- check "Next"
+	if testString:find("Next", 0, true) then
+		return true
+	end
+	if testString:find("next", 0, true) then
 		return true
 	end
 	return false
