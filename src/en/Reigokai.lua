@@ -98,6 +98,36 @@ local function cleanImgUrl(url)
 	return url:sub(0, found - 1)
 end
 
+--- @param doc Document
+--- @return string
+local function findNovelTitle(doc)
+	local articles = doc:selectFirst("article")
+	if articles then
+		local title = articles:selectFirst(".entry-title")
+		if title then
+			return title:text()
+		else
+			local bgeEntryContent = articles:selectFirst(".bge-entry-content")
+			if bgeEntryContent then
+				local cTitle = bgeEntryContent:selectFirst("h4")
+				return cTitle:text()
+			else
+				local entryContent = articles:selectFirst(".entry-content")
+				local cTitle = entryContent:selectFirst("h2")
+				return cTitle:text()
+			end
+		end
+	end
+	-- get from header
+	local titleHead = doc:selectFirst("title")
+	if titleHead then
+		local actualTitle = titleHead:text()
+		-- remove `| Reigokai: Isekai TL` from title
+		return actualTitle:gsub("| Reigokai: Isekai TL", "")
+	end
+	return "Unknown title"
+end
+
 return {
 	id = 221702,
 	name = "Reigokai - Isekai Lunatic",
@@ -132,7 +162,7 @@ return {
 		local articles = doc:selectFirst("article")
 
 		local info = NovelInfo {
-			title = articles:selectFirst(".entry-title"):text(),
+			title = findNovelTitle(doc),
 		}
 
 		local imageTarget = articles:selectFirst("img")
@@ -141,7 +171,7 @@ return {
 		end
 
 		if loadChapters then
-			info:setChapters(AsList(mapNotNil(articles:selectFirst(".entry-content"):select("p a"), function (v, i)
+			info:setChapters(AsList(mapNotNil(articles:selectFirst("div"):select("p a"), function (v, i)
 				local chUrl = v:attr("href")
 				return (chUrl:find("www.isekailunatic.com", 0, true) and v:children():size() < 1) and
 					NovelChapter {
