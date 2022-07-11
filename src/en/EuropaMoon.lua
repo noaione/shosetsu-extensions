@@ -127,7 +127,7 @@ return {
 
 		local imageTarget = content:selectFirst("img")
 		if imageTarget then
-			info.setImageURL(imageTarget:attr("src"))
+			info:setImageURL(imageTarget:attr("src"))
 		end
 
 		if loadChapters then

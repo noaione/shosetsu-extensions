@@ -118,12 +118,11 @@ return {
 
 		local info = NovelInfo {
 			title = content:selectFirst(".entry-title"):text(),
-			imageURL = content:selectFirst("img"):attr("src")
 		}
 
 		local imageTarget = content:selectFirst("img")
 		if imageTarget then
-			info.setImageURL(imageTarget:attr("src"))
+			info:setImageURL(imageTarget:attr("src"))
 		end
 
 		if loadChapters then

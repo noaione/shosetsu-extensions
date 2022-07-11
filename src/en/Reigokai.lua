@@ -88,55 +88,6 @@ local function parsePage(url)
     return p
 end
 
--- --- @param docs Document
--- --- @param queryData string
--- --- @return table
--- local function getProjectNav(docs, queryData)
--- 	return map(docs:selectFirst(queryData):selectFirst("ul.sub-menu"):select("> li > a"), function (v)
--- 		return v:attr("href")
--- 	end)
--- end
-
--- --- @param url string
--- --- @param projects table
--- --- @return boolean
--- local function isProjectInTable(url, projects)
--- 	if not projects then
--- 		return false
--- 	end
--- 	for i = 1, #projects do
--- 		if shrinkURL(projects[i]) == shrinkURL(url) then
--- 			return true
--- 		end
--- 	end
--- 	return false
--- end
-
-
--- --- @param content Element
--- --- @return string
--- local function extractDescription(content)
--- 	-- iter until we match something then stop
--- 	local desc = ""
--- 	local pData = content:select("p")
--- 	local shouldAddToDesc = true
--- 	for i = 0, pData:size() do
--- 		local p = pData:get(i)
--- 		if p and shouldAddToDesc then
--- 			local text = p:text()
--- 			-- check if text empty
--- 			if text:len() > 0 then
--- 				-- check if text is a link
--- 				desc = desc .. text .. "\n"
--- 			end
--- 			if p:selectFirst("a") or p:selectFirst("h2") then
--- 				shouldAddToDesc = false
--- 			end
--- 		end
--- 	end
--- 	return desc
--- end
-
 --- @param url string
 --- @return string
 local function cleanImgUrl(url)
@@ -180,30 +131,14 @@ return {
 		local doc = GETDocument(baseURL .. novelURL)
 		local articles = doc:selectFirst("article")
 
-		-- local ongoingProject = getProjectNav(doc, "li#menu-item-5787")
-		-- local finishedProject = getProjectNav(doc, "li#menu-item-12566")
-
 		local info = NovelInfo {
 			title = articles:selectFirst(".entry-title"):text(),
 		}
 
 		local imageTarget = articles:selectFirst("img")
 		if imageTarget then
-			info.setImageURL(cleanImgUrl(imageTarget:attr("src")))
+			info:setImageURL(cleanImgUrl(imageTarget:attr("src")))
 		end
-
-		-- if isProjectInTable(novelURL, ongoingProject) then
-		-- 	info:setStatus(NovelStatus.PUBLISHING)
-		-- elseif isProjectInTable(novelURL, finishedProject) then
-		-- 	info:setStatus(NovelStatus.COMPLETED)
-		-- else
-		-- 	info:setStatus(NovelStatus.UNKNOWN)
-		-- end
-
-		-- local infoDesc = extractDescription(content:selectFirst(".entry-content"))
-		-- if infoDesc:len() > 0 then
-		-- 	info:setDescription(infoDesc)
-		-- end
 
 		if loadChapters then
 			info:setChapters(AsList(mapNotNil(articles:selectFirst(".entry-content"):select("p a"), function (v, i)

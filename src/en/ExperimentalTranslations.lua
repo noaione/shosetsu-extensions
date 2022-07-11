@@ -93,30 +93,14 @@ return {
 		local baseArticles = doc:selectFirst("article")
 		local content = baseArticles:selectFirst(".entry-content")
 
-		-- local ongoingProject = getProjectNav(doc, "li#menu-item-5787")
-		-- local finishedProject = getProjectNav(doc, "li#menu-item-12566")
-
 		local info = NovelInfo {
 			title = baseArticles:selectFirst(".entry-title"):text(),
 		}
 
 		local imageTarget = content:selectFirst("img")
 		if imageTarget then
-			info.setImageURL(imageTarget:attr("src"))
+			info:setImageURL(imageTarget:attr("src"))
 		end
-
-		-- if isProjectInTable(novelURL, ongoingProject) then
-		-- 	info:setStatus(NovelStatus.PUBLISHING)
-		-- elseif isProjectInTable(novelURL, finishedProject) then
-		-- 	info:setStatus(NovelStatus.COMPLETED)
-		-- else
-		-- 	info:setStatus(NovelStatus.UNKNOWN)
-		-- end
-
-		-- local infoDesc = extractDescription(content:selectFirst(".entry-content"))
-		-- if infoDesc:len() > 0 then
-		-- 	info:setDescription(infoDesc)
-		-- end
 
 		if loadChapters then
 			info:setChapters(AsList(mapNotNil(content:select("p a"), function (v, i)
