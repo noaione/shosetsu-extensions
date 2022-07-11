@@ -9,7 +9,7 @@ on:
       - dev
 
 env:
-  EXTENSION_TESTER_VERSION: '0.1.1'
+  EXTENSION_TESTER_VERSION: '0.1.1-nao1'
 
 jobs:
   tests:
@@ -35,10 +35,11 @@ jobs:
       - name: Download test tools
         run: |
           wget -O extension-tester.jar \
-            https://github.com/shosetsuorg/extension-tester/releases/download/v$EXTENSION_TESTER_VERSION/extension-tester.jar
+            https://github.com/noaione/shosetsu-ext-tester/releases/download/v$EXTENSION_TESTER_VERSION/extension-tester.jar
       - name: Test ${{ matrix.TEST_EXTENSIONS }}.lua
         run: |
           java -jar extension-tester.jar \
             ./src/en/${{ matrix.TEST_EXTENSIONS }}.lua \
             --print-listings \
-            --print-list-stats
+            --print-list-stats \
+            --test-all-novels
