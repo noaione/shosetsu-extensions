@@ -1,4 +1,4 @@
--- {"id":376754,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
+-- {"id":376754,"ver":"0.1.2","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://experimentaltranslations.com"
 

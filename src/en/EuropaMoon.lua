@@ -1,4 +1,4 @@
--- {"id":376794,"ver":"0.1.4","libVer":"1.0.0","author":"N4O"}
+-- {"id":376794,"ver":"0.1.5","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://europaisacoolmoon.wordpress.com"
 

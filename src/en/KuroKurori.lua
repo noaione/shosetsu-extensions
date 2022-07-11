@@ -1,4 +1,4 @@
--- {"id":309841,"ver":"0.1.0","libVer":"1.0.0","author":"N4O"}
+-- {"id":309841,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://kurokurori.wordpress.com"
 
