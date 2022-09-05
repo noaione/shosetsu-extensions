@@ -24,6 +24,8 @@ jobs:
           - 'Reigokai'
           - 'ExperimentalTranslations'
           - 'KuroKurori'
+          - 'ShiruSekai'
+          - 'ShiroKun'
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
