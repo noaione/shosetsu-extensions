@@ -9,7 +9,7 @@ on:
       - dev
 
 env:
-  EXTENSION_TESTER_VERSION: '0.1.1-nao1'
+  EXTENSION_TESTER_VERSION: '0.1.1-nao2'
 
 jobs:
   tests:
@@ -44,4 +44,5 @@ jobs:
             --print-list-stats \
             --print-novels \
             --print-meta \
-            --test-all-novels
+            --test-all-novels \
+            --ignore-missing
