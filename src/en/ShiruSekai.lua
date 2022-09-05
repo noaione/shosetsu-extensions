@@ -1,4 +1,4 @@
--- {"id":26015,"ver":"0.1.0","libVer":"1.0.0","author":"N4O"}
+-- {"id":26015,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://shirusekaitranslations.wordpress.com"
 
@@ -129,7 +129,8 @@ return {
 		if loadChapters then
 			info:setChapters(AsList(mapNotNil(content:selectFirst(".entry-content"):select("li a"), function (v, i)
 				local chUrl = v:attr("href")
-				return (chUrl:find("shirusekaitranslations.wordpress.com", 0, true)) and
+				local isShareLink = (chUrl:find("?share=", 0, true) or chUrl:find("&share=")) and true or false
+				return (chUrl:find("shirusekaitranslations.wordpress.com", 0, true) and not isShareLink) and
 					NovelChapter {
 						order = i,
 						title = v:text(),
