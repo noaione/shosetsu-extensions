@@ -510,6 +510,26 @@
       "ver": "0.1.2",
       "libVer": "1.0.0",
       "md5": ""
+    },
+    {
+      "name": "Shiru Sekai Translations",
+      "fileName": "ShiruSekai",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ShiruSekai.png",
+      "id": 26015,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": ""
+    },
+    {
+      "name": "ShiroKun's Translation",
+      "fileName": "ShiroKun",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ShiroKunTL.png",
+      "id": 26016,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": ""
     }
   ]
 }
