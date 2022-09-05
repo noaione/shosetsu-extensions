@@ -30,5 +30,9 @@ The following list is the novel I used for testing and it's working properly (it
    1. The Demon King Seems to Conquer the World
 6. Experimental Translations
    1. Grimoire Master of an Everchanging World
+7. ShiroKun's Translation
+   1. Chiyu Mahou no Machigatta Tsukaikata ~Senjou wo Kakeru Kaifuku Youin~
+8. Shiru Sekai Translations
+   1. Chiyu Mahou no Machigatta Tsukaikata ~Senjou wo Kakeru Kaifuku Youin~
 
 Above list should be working as intended when you open up the chapter, for Madara-based extension it should be working just fine.
