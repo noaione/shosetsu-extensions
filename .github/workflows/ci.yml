@@ -14,18 +14,6 @@ env:
 jobs:
   tests:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        TEST_EXTENSIONS:
-          - 'Bakapervert'
-          - 'bayabusco'
-          - 'EuropaMoon'
-          - 'Reigokai'
-          - 'ExperimentalTranslations'
-          - 'KuroKurori'
-          - 'ShiruSekai'
-          - 'ShiroKun'
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -34,14 +22,17 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8' 
       - name: Download test tools
         run: |
           wget -O extension-tester.jar \
             https://github.com/noaione/shosetsu-ext-tester/releases/download/v$EXTENSION_TESTER_VERSION/extension-tester.jar
-      - name: Test ${{ matrix.TEST_EXTENSIONS }}.lua
+      - name: Test all extensions
         run: |
-          java -jar extension-tester.jar \
-            ./src/en/${{ matrix.TEST_EXTENSIONS }}.lua \
+          python3 ci/multi-test.py \
             --print-listings \
             --print-list-stats \
             --print-novels \
