@@ -1,4 +1,4 @@
--- {"id":221710,"ver":"0.1.0","libVer":"1.0.0","author":"N4O"}
+-- {"id":221710,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://translation.craneanime.xyz"
 
@@ -87,6 +87,9 @@ local function parsePage(url)
 			v:remove()
 		end
 		if className:find("wp-post-navigation", 0, true) and true or false then
+			v:remove()
+		end
+		if className:find("wpulike", 0, true) and true or false then
 			v:remove()
 		end
 		local style = v:attr("style")
