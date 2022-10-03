@@ -86,7 +86,7 @@ local function parsePage(url)
 		if className:find("sharedaddy") then
 			v:remove()
 		end
-		if className:find("wp-post-navigation") then
+		if className:find("wp-post-navigation", 0, true) and true or false then
 			v:remove()
 		end
 		local style = v:attr("style")
