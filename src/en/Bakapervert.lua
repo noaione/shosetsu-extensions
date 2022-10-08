@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.1.9","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.1.10","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
@@ -61,10 +61,25 @@ local function isTocRelated(testString)
 	return false
 end
 
+--- @param doc Document
+local function propagateToDocument(doc)
+	local content = doc:selectFirst(".entry-content")
+	local firstLink = content:selectFirst("a")
+
+	return GETDocument(expandURL(shrinkURL(firstLink:attr("href"))))
+end
+
 local function parsePage(url)
     local doc = GETDocument(expandURL(url))
     local content = doc:selectFirst("#content div")
     local p = content:selectFirst(".entry-content")
+
+	-- check if p is null
+	if p == nil then
+		doc = propagateToDocument(doc)
+		content = doc:selectFirst("#content div")
+		p = content:selectFirst(".entry-content")
+	end
 
     local post_flair = content:selectFirst("div#jp-post-flair")
     if post_flair then post_flair:remove() end
