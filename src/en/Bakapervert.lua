@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.1.10","libVer":"1.0.0","author":"N4O"}
+-- {"id":1331219,"ver":"1.1.11","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://bakapervert.wordpress.com"
 
@@ -64,9 +64,19 @@ end
 --- @param doc Document
 local function propagateToDocument(doc)
 	local content = doc:selectFirst(".entry-content")
-	local firstLink = content:selectFirst("a")
 
-	return GETDocument(expandURL(shrinkURL(firstLink:attr("href"))))
+	local links = mapNotNil(content:select("a"), function(link)
+		local href = link:attr("href")
+		return href and href:match("^https?://bakapervert%.wordpress%.com") and href
+	end)
+
+	if links == nil then
+		local firstLink = content:selectFirst("a")
+		return GETDocument(expandURL(shrinkURL(firstLink:attr("href"))))
+	end
+
+	local fisrtLink = links[1]
+	return GETDocument(expandURL(shrinkURL(fisrtLink)))
 end
 
 local function parsePage(url)
