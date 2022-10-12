@@ -1,4 +1,4 @@
--- {"id":376796,"ver":"0.1.0","libVer":"1.0.0","author":"N4O"}
+-- {"id":376796,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://toastytranslations.com"
 
@@ -160,11 +160,14 @@ return {
 		end
 
 		if loadChapters then
-			info:setChapters(AsList(mapNotNil(content:select("ul li a"), function (v, i)
+			local counter = 0.0
+			info:setChapters(AsList(mapNotNil(content:select("ul li a"), function (v)
 				local chUrl = v:attr("href")
-				return (chUrl:find("toastytranslations.com", 0, true)) and
+				local isShareLink = (chUrl:find("?share=", 0, true) or chUrl:find("&share=")) and true or false
+				counter = counter + 1.0
+				return (chUrl:find("toastytranslations.com", 0, true) and not isShareLink) and
 					NovelChapter {
-						order = i,
+						order = counter,
 						title = v:text(),
 						link = shrinkURL(chUrl)
 					}
