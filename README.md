@@ -12,6 +12,7 @@ A collection of Shosetsu extension I have created, will not be merged to top bra
 7. ShiroKun's Translation
 8. Shiru Sekai Translations
 9. Craneanime Translation
+10. Toasty Translations
 
 **Madara**-based:
 1. Fans Translations
@@ -40,5 +41,7 @@ The following list is the novel I used for testing and it's working properly (it
 9. Craneanime Translation
    1. Reborn Girl Starting a New Life In Another World As a Seventh Daughter
    2. The Novice Alchemist’s Store
+10. Toasty Translations
+    1. I'm Not Even An Otome Game Mob Character!
 
 Above list should be working as intended when you open up the chapter, for Madara-based extension it should be working just fine.
