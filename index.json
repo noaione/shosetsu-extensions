@@ -139,6 +139,16 @@
       "ver": "0.1.1",
       "libVer": "1.0.0",
       "md5": ""
+    },
+    {
+      "name": "Foxaholic 18+",
+      "fileName": "Foxaholic18",
+      "imageURL": "https://github.com/shosetsuorg/extensions/raw/dev/icons/Foxaholic.png",
+      "id": 69420,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": ""
     }
   ]
 }
