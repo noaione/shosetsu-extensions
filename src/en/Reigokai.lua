@@ -1,11 +1,11 @@
--- {"id":221702,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
+-- {"id":221702,"ver":"0.1.2","libVer":"1.0.0","author":"N4O"}
 
-local baseURL = "https://www.isekailunatic.com"
+local baseURL = "https://isekailunatic.com"
 
 --- @param url string
 --- @return string
 local function shrinkURL(url)
-	return url:gsub("^.-www%.isekailunatic%.com", "")
+	return url:gsub("^.-www%.isekailunatic%.com", ""):gsub("^.-isekailunatic%.com", "")
 end
 
 --- @param url string
@@ -117,7 +117,7 @@ local function findNovelTitle(doc)
 		else
 			local bgeEntryContent = articles:selectFirst(".bge-entry-content")
 			if bgeEntryContent then
-				local cTitle = bgeEntryContent:selectFirst("h4")
+				local cTitle = bgeEntryContent:selectFirst("h4") or bgeEntryContent:selectFirst("h3")
 				return cTitle:text()
 			else
 				local entryContent = articles:selectFirst(".entry-content")
@@ -181,7 +181,7 @@ return {
 		if loadChapters then
 			info:setChapters(AsList(mapNotNil(articles:selectFirst("div"):select("p a"), function (v, i)
 				local chUrl = v:attr("href")
-				return (chUrl:find("www.isekailunatic.com", 0, true) and v:children():size() < 1) and
+				return (chUrl:find("isekailunatic.com", 0, true) and v:children():size() < 1) and
 					NovelChapter {
 						order = i,
 						title = v:text(),
