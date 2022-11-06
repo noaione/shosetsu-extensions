@@ -2,6 +2,15 @@
 
 A collection of Shosetsu extension I have created, will not be merged to top branch.
 
+## Adding to Shosetsu
+To add this repository to Shosetsu, follow this instructions:
+1. Open More
+2. Open Repositories
+3. Copy the following link: `https://raw.githubusercontent.com/noaione/shosetsu-extensions/dev`
+4. Click Add
+5. Paste the above link to `Repository URL` and name the `Repository name` into `N4O` or something similar
+6. Refresh your extension list
+
 ## Added
 1. bakapervert
 2. Kuro Kurori's Lounge
