@@ -89,9 +89,10 @@ for script in scripts:
     name = script["name"]
     filename: str = script["fileName"]
     language: str = script["lang"]
+    disable_test: bool = script.get("disableTest", False)
     print(f" ∟ Trying to test {name}")
     target_path = SOURCE_FOLDER / language / f"{filename}.lua"
-    if not should_test_extension(target_path):
+    if not should_test_extension(target_path) or disable_test:
         print(f"   ∟ Skipping {name}")
         continue
 
