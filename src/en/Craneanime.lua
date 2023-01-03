@@ -1,4 +1,4 @@
--- {"id":221710,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
+-- {"id":221710,"ver":"0.2.0","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://translation.craneanime.xyz"
 
@@ -70,13 +70,6 @@ local function parsePage(url)
 
 	local dark_switch = p:selectFirst("div.wp-dark-mode-switcher")
 	if dark_switch then dark_switch:remove() end
-	
-    -- get last "p" to remove prev/next links
-    local allElements = p:select("p")
-    local lastElement = allElements:get(allElements:size() - 1)
-	if lastElement:select("> a"):size() > 0 then
-		lastElement:remove()
-	end
 
 	map(p:children(), function (v)
 		local className = v:attr("class")
@@ -100,6 +93,13 @@ local function parsePage(url)
 		end
 	end)
 
+	-- add title
+	local chTitle = content:selectFirst(".entry-title")
+	if chTitle then
+		local title = chTitle:text()
+		p:child(0):before("<h2>" .. title .. "</h2>")
+	end
+
     return p
 end
 
@@ -115,7 +115,8 @@ return {
 	listings = {
 		Listing("Novels", false, function(data)
 			local doc = GETDocument("https://translation.craneanime.xyz/library/")
-			return map(doc:select("figure.wp-caption"), function (v)
+			local content = doc:selectFirst(".entry-content")
+			return map(content:select("figure"), function (v)
 				return Novel {
 					title = v:selectFirst("figcaption"):text(),
 					imageURL = v:selectFirst("img"):attr("src"),
@@ -131,7 +132,7 @@ return {
 
 	parseNovel = function(novelURL, loadChapters)
 		local doc = GETDocument(baseURL .. novelURL)
-		local innerWrap = doc:selectFirst("#inner-wrap")
+		local innerWrap = doc:selectFirst("#main article")
 
 		local title = innerWrap:selectFirst(".entry-title")
 
@@ -139,15 +140,15 @@ return {
 			title = title:text(),
 		}
 
-		local articles = innerWrap:selectFirst("article")
+		local content = innerWrap:selectFirst(".entry-content")
 
-		local imageTarget = articles:selectFirst("img")
+		local imageTarget = content:selectFirst("img")
 		if imageTarget then
 			info:setImageURL(imageTarget:attr("src"))
 		end
 
 		if loadChapters then
-			info:setChapters(AsList(mapNotNil(articles:select(".elementor-tab-content a"), function (v, i)
+			info:setChapters(AsList(mapNotNil(content:select("p a"), function (v, i)
 				local chUrl = v:attr("href")
 				return (chUrl:find("translation.craneanime.xyz", 0, true) and v:children():size() < 1) and
 					NovelChapter {
