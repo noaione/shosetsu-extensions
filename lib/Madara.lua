@@ -1,4 +1,4 @@
--- {"ver":"2.3.3","author":"TechnoJo4","dep":["url"]}
+-- {"ver":"2.5.0","author":"TechnoJo4","dep":["url"]}
 
 local encode = Require("url").encode
 local text = function(v)
@@ -11,6 +11,8 @@ local defaults = {
 	latestNovelSel = "div.col-12.col-md-6",
 	searchNovelSel = "div.c-tabs-item__content",
 	novelListingURLPath = "novel",
+	-- Certain sites like TeamXNovel do not use [novelListingURLPath] and instead use a suffix to the query to declare what is expected.
+ 	novelListingURLSuffix = "",
 	novelPageTitleSel = "div.post-title",
 	shrinkURLNovel = "novel",
 	searchHasOper = false, -- is AND/OR operation selector present?
@@ -28,7 +30,10 @@ local defaults = {
 	ajaxFormDataSel= "a.wp-manga-action-button",
 	ajaxFormDataAttr = "data-post",
 	ajaxFormDataUrl = "/wp-admin/admin-ajax.php",
-	ajaxSeriesUrl = "ajax/chapters/"
+	ajaxSeriesUrl = "ajax/chapters/",
+
+	--- Some sites require custom CSS to exist, such as RTL support
+	customStyle = "",
 }
 
 local ORDER_BY_FILTER_EXT = { "Relevance", "Latest", "A-Z", "Rating", "Trending", "Most Views", "New" }
@@ -42,7 +47,7 @@ local STATUS_FILTER_KEY_CANCELED = 8
 local STATUS_FILTER_KEY_ON_HOLD = 9
 
 function defaults:latest(data)
-	return self.parse(GETDocument(self.baseURL .. "/" .. self.novelListingURLPath .. "/page/" .. data[PAGE] .. "/?m_orderby=latest"))
+	return self.parse(GETDocument(self.baseURL .. "/" .. self.novelListingURLPath .. "/page/" .. data[PAGE] .. "/?m_orderby=latest" .. self.novelListingURLSuffix))
 end
 
 ---@param tbl table
@@ -128,7 +133,7 @@ function defaults:getPassage(url)
 	htmlElement:select("div.lnbad-tag"):remove() -- LightNovelBastion text size
 	htmlElement:select("i.icon.j_open_para_comment.j_para_comment_count"):remove() -- BoxNovel, VipNovel numbers
 
-	return pageOfElem(htmlElement, true)
+	return pageOfElem(htmlElement, true, self.customStyle)
 end
 
 ---@param image_element Element An img element of which the biggest image shall be selected.
@@ -153,6 +158,12 @@ local function img_src(image_element)
 
 	-- Check data-src:
 	srcset = image_element:attr("data-src")
+	if srcset ~= "" then
+		return srcset
+	end
+
+	-- Check data-lazy-src:
+	srcset = image_element:attr("data-lazy-src")
 	if srcset ~= "" then
 		return srcset
 	end
