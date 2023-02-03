@@ -22,6 +22,7 @@ To add this repository to Shosetsu, follow this instructions:
 8. Shiru Sekai Translations
 9. Craneanime Translation
 10. Toasty Translations
+11. Light Novels Translations
 
 **Madara**-based:
 1. Fans Translations
@@ -44,13 +45,15 @@ The following list is the novel I used for testing and it's working properly (it
 6. Experimental Translations
    1. Grimoire Master of an Everchanging World
 7. ShiroKun's Translation
-   1. Chiyu Mahou no Machigatta Tsukaikata ~Senjou wo Kakeru Kaifuku Youin~
+   1. Chiyu Mahou no Machigatta Tsukaikata \~Senjou wo Kakeru Kaifuku Youin\~
 8. Shiru Sekai Translations
-   1. Chiyu Mahou no Machigatta Tsukaikata ~Senjou wo Kakeru Kaifuku Youin~
+   1. Chiyu Mahou no Machigatta Tsukaikata \~Senjou wo Kakeru Kaifuku Youin\~
 9. Craneanime Translation
    1. Reborn Girl Starting a New Life In Another World As a Seventh Daughter
    2. The Novice Alchemist’s Store
 10. Toasty Translations
     1. I'm Not Even An Otome Game Mob Character!
+11. Light Novels Translations
+    1.  100 Things I Don't Know About My Senpai
 
 Above list should be working as intended when you open up the chapter, for Madara-based extension it should be working just fine.
