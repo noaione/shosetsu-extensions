@@ -1,4 +1,4 @@
--- {"id":26375,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
+-- {"id":26375,"ver":"0.1.2","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://lightnovelstranslations.com"
 
@@ -145,7 +145,7 @@ end
 local function parseChaptersListing(entryContent)
     -- chapters are put into an accordion
     -- div.su-accordion > div.su-spoiler > div.su-spoiler-content > p a
-    local chapters = mapNotNil(entryContent:selectFirst("div.su-accordion"):children(), function (v)
+    local chapters = mapNotNil(entryContent:selectFirst("div.su-accordion"):select("div.su-spoiler"), function (v)
         local title = v:selectFirst("div.su-spoiler-title"):text()
         local content = v:selectFirst("div.su-spoiler-content")
         return map(content:select("a"), function (vv)
