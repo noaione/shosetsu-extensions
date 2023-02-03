@@ -1,4 +1,4 @@
--- {"id":26375,"ver":"0.1.0","libVer":"1.0.0","author":"N4O"}
+-- {"id":26375,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://lightnovelstranslations.com"
 
@@ -148,7 +148,7 @@ local function parseChaptersListing(entryContent)
     local chapters = mapNotNil(entryContent:selectFirst("div.su-accordion"):children(), function (v)
         local title = v:selectFirst("div.su-spoiler-title"):text()
         local content = v:selectFirst("div.su-spoiler-content")
-        return map(content:select("p a"), function (vv)
+        return map(content:select("a"), function (vv)
             return NovelChapter {
                 title = title .. " - " .. vv:text(),
                 link = shrinkURL(vv:attr("href"))
