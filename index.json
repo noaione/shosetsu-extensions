@@ -150,6 +150,17 @@
       "ver": "0.1.0",
       "libVer": "1.0.0",
       "md5": ""
+    },
+    {
+      "name": "Light Novels Translations",
+      "fileName": "LightNovelsTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/LightNovelsTranslations.png",
+      "id": 26375,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "",
+      "disableTest": false
     }
   ]
 }
