@@ -237,22 +237,22 @@ const MotoKanoV1 = [
     Chapter(
         "motokano/motokano-v1/motokano-v1-chapter-7-first-half/",
         "Volume 1 Chapter 7.1 – The ex-couple XXXX, First Half (Please go out with me, and that we’ll get married in the future)",
-        7,
+        7.1,
     ),
     Chapter(
         "motokano/motokano-v1/motokano-v1-chapter-7-second-half/",
         "Volume 1 Chapter 7.2 – The ex-couple goes on a date, Second Half (Shitty Maniac) (Shitty otaku)",
-        8,
+        7.2,
     ),
     Chapter(
         "motokano/motokano-v1/motokano-v1-chapter-8/",
         "Volume 1 Chapter 8 – The couple exchange gifts. (I wanna die)",
-        9,
+        8,
     ),
     Chapter(
         "motokano/motokano-v1/motokano-v1-afterword/",
         "Volume 1 Afterword - Instead of an afterword: A comment on every chapter",
-        10,
+        8.5,
     ),
 ]
 
@@ -260,42 +260,42 @@ const MotoKanoV2 = [
     Chapter(
         "motokano/motokano-v2/motokano-v2-chapter-1/",
         "Volume 2 Chapter 1 – A snapshot of the ex-couple’s daily life (How to live through Golden Week)",
-        11,
+        9,
     ),
     Chapter(
         "motokano/motokano-v2/motokano-v2-chapter-2/",
         "Volume 2 Chapter 2 – The ex-couple change seats (...0.325%...)",
-        12,
+        10,
     ),
     Chapter(
         "motokano/motokano-v2/motokano-v2-chapter-3/",
         "Volume 2 Chapter 3 – The ex-couple lean on each other (I’m the older sister after all)",
-        13,
+        11,
     ),
     Chapter(
         "motokano/motokano-v2/motokano-v2-chapter-4/",
         "Volume 2 Chapter 4 – The ex-couple stays over (Help yourselves)",
-        14,
+        12,
     ),
     Chapter(
         "motokano/motokano-v2/motokano-v2-chapter-5/",
         "Volume 2 Chapter 5 – The ex-couple Contest each other (Don’t take me as an idiot!!)",
-        15,
+        13,
     ),
     Chapter(
         "motokano/motokano-v2/motokano-v2-chapter-6",
         "Volume 2 Chapter 6 – The ex isn’t jealous (Thank you for being friends with Mizuto)",
-        16,
+        14,
     ),
     Chapter(
         "motokano/motokano-v2/motokano-v2-chapter-7/",
         "Volume 2 Chapter 7 – Isana Higashira doesn’t know love",
-        17,
+        15,
     ),
     Chapter(
         "motokano/motokano-v2/motokano-v2-afterword/",
         "Volume 2 Afterword – New Age of happiness",
-        18,
+        15.5,
     ),
 ]
 
@@ -463,7 +463,7 @@ const AmaryllisCountryV1 = [
     Chapter(
         "amaryllis-in-the-ice-country/amaryllis-afterword/",
         "Afterword",
-        12,
+        11.5,
     )
 ]
 
