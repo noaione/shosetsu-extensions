@@ -765,6 +765,7 @@ const HellPingChaptersMappings = {
     "biblia": [...BibliaV1V2],
     "shippai-kinshi-kanojo-no-himitsu-wa-morasanai": [...ShippaiKinshiV1],
     "86-2": EightySixSideStories,
+    "sunday-without-god": [],
 }
 
 router.get("/", async (req, res) => {
@@ -784,13 +785,13 @@ router.get("/:id", async (req, res) => {
             } else if (typeof HPResult === "function") {
                 res.json({contents: {chapters: await HPResult(), novel}});
             } else {
-                res.status(500).json({contents: []});
+                res.status(500).json({contents: {chapters: [], novel}});
             }
         } else {
-            res.status(404).json({contents: []});
+            res.status(404).json({contents: {chapters: [], novel: null}});
         }
     } else {
-        res.status(404).json({ contents: [] });
+        res.status(404).json({contents: {chapters: [], novel: null}});
     }
 });
 
