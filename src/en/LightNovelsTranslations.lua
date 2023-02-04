@@ -137,6 +137,8 @@ local function parseListings(data)
     for _, v in ipairs(otherNovels) do
         table.insert(novels, v)
     end
+	-- sort result
+	-- table.sort(novels, function (a, b) return a and a.title < b and b.title end)
     return novels
 end
 
