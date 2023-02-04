@@ -160,11 +160,12 @@ This, is the story of the Ice Country.`,
         "The Angel Next Door Spoils Me Rotten",
         ["Saekisan"],
         "https://hellping.org/wp-content/uploads/2020/04/Angelv1-Cover-1.jpeg",
-        `In the distant future, the world was in ice
-Humans live in cryo facilities underground, awaiting for the distant Spring,
-Robots manage the facilities, they built a ‘village’ there and lived there.
-They dreamed that, one day, they would live together with the "Humans" (Master).
-This, is the story of the Ice Country.`,
+        `Mahiru is a beautiful girl whose classmates all call her an “angel.”
+Not only is she a star athlete with perfect grades—she’s also drop-dead gorgeous.
+Amane‚ an average guy and self-admitted slob‚ has never thought much of the divine beauty‚
+despite attending the same school. Everything changes‚ however‚ when he happens to see
+Mahiru sitting alone in a park during a rainstorm. Thus begins the strange relationship
+between this incredibly unlikely pair!`,
         0,
     ),
     Novel(

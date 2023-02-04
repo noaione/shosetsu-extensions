@@ -23,6 +23,7 @@ To add this repository to Shosetsu, follow this instructions:
 9. Craneanime Translation
 10. Toasty Translations
 11. Light Novels Translations
+12. Hellping
 
 **Madara**-based:
 1. Fans Translations
@@ -55,5 +56,11 @@ The following list is the novel I used for testing and it's working properly (it
     1. I'm Not Even An Otome Game Mob Character!
 11. Light Novels Translations
     1.  100 Things I Don't Know About My Senpai
+12. Hellping
+    1.  The Angel Next Door Spoils Me Rotten
 
 Above list should be working as intended when you open up the chapter, for Madara-based extension it should be working just fine.
+
+### Specials Info
+1. Hellping
+   This extension use a custom API made specifically for Shosetsu since the website design is so broken and hard to parse. See [`extras`](https://github.com/noaione/shosetsu-extensions/tree/dev/extras) folder for more info.
