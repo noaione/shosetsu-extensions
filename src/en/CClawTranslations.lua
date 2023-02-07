@@ -1,4 +1,4 @@
--- {"id":24903,"ver":"0.1.0","libVer":"1.0.0","author":"N4O"}
+-- {"id":24903,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://cclawtranslations.home.blog"
 
@@ -132,11 +132,12 @@ local function findImageNode(elem)
 				return imgNode
 			end
 		end
-		if contains(className, "wp-block-heading") then
+		local tagName = nextSib:tagName()
+		if tagName == "h2" and contains(className, "wp-block-heading") then
 			-- we reach the next heading, stop!
 			return nil
 		end
-		findImageNode(nextSib)
+		return findImageNode(nextSib)
 	end
 	return nil
 end
@@ -184,7 +185,7 @@ local function findVolumeText(elem)
 		if contains(className, "wp-block-heading") then
 			return prevSib
 		end
-		findImageNode(prevSib)
+		return findVolumeText(prevSib)
 	end
 	return nil
 end
@@ -225,7 +226,7 @@ local function parseNovelInfo(doc, loadChapters)
 			end
 			local volNode = findVolumeText(_parent)
 			if volNode then
-				tempText = volNode:text() .. ": " .. tempText
+				tempText = volNode:text() .. " " .. tempText
 			end
 			-- we want to get the heading text
 			local _temp = NovelChapter {

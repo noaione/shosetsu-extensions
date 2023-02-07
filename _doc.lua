@@ -89,6 +89,9 @@ do
     ---@return void
     function Element:remove() return end
 
+    ---@return string
+    function Element:tagName() return end
+
     ---@return number
     function Elements:size() return end
 
