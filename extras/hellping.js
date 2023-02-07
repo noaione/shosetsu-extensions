@@ -53,18 +53,19 @@ async function expandHPShortURL(url) {
     } else {
         url = `https://hellping.org/${url}`;
     }
-    try {
-        const tempDoc = await axios.get(url, {
-            responseType: "text",
-        });
-        const request = tempDoc.request;
-        if (isNone(request)) return null;
-        const response = request.res || {};
-        return response.responseUrl || request.responseUrl
-    } catch (err) {
-        log(err);
-        return null;
-    }
+    return url;
+    // try {
+    //     const tempDoc = await axios.get(url, {
+    //         responseType: "text",
+    //     });
+    //     const request = tempDoc.request;
+    //     if (isNone(request)) return null;
+    //     const response = request.res || {};
+    //     return response.responseUrl || request.responseUrl
+    // } catch (err) {
+    //     log(err);
+    //     return null;
+    // }
 }
 
 /**
