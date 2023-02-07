@@ -1,4 +1,4 @@
--- {"id":24903,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1"]}
+-- {"id":24903,"ver":"0.2.1","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1"]}
 
 local baseURL = "https://cclawtranslations.home.blog"
 local apiUrl = "https://naotimes-og.glitch.me/shosetsu-api/cclaw/"
@@ -219,6 +219,9 @@ local function parseNovelInfo(doc, loadChapters)
 	if tocTextIdx then
 		postTitle = postTitle:sub(1, tocTextIdx - 1)
 	end
+
+	local jpFlair = content:selectFirst("#jp-post-flair")
+	if jpFlair then jpFlair:remove() end
 
 	local info = NovelInfo {
 		title = postTitle,
