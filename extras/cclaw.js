@@ -338,6 +338,98 @@ const JishouFRankV1 = [
 
 /// XXX: Jishou F-Rank Oniisama (END)
 
+/// XXX: Kou 2 Time Leaped
+
+const Kou2TimeLeapedV1 = [
+    Chapter(
+        "2019/04/08/kou-2-time-leaped-volume-1-illustrations/",
+        "Volume 1 Illustrations",
+        0.1,
+    ),
+    Chapter(
+        "2019/04/08/kou-2-time-leaped-ln-volume-1-chapter-1/",
+        "Volume 1 Chapter 1",
+        1,
+    ),
+    Chapter(
+        "2019/04/08/kou-2-time-leaped-ln-volume-1-chapter-2/",
+        "Volume 1 Chapter 2",
+        2,
+    ),
+    Chapter(
+        "2019/04/09/kou-2-time-leaped-ln-volume-1-chapter-3/",
+        "Volume 1 Chapter 3",
+        3,
+    ),
+    Chapter(
+        "2019/04/12/kou-2-time-leaped-ln-volume-1-chapter-4/",
+        "Volume 1 Chapter 4",
+        4,
+    ),
+    Chapter(
+        "2019/04/12/kou-2-time-leaped-ln-volume-1-chapter-5/",
+        "Volume 1 Chapter 5",
+        5,
+    ),
+    Chapter(
+        "2019/04/12/kou-2-time-leaped-ln-volume-1-chapter-6/",
+        "Volume 1 Chapter 6",
+        6,
+    ),
+    Chapter(
+        "2019/04/19/kou-2-time-leaped-ln-volume-1-chapter-7/",
+        "Volume 1 Chapter 7",
+        7,
+    ),
+    Chapter(
+        "2019/04/27/kou-2-time-leaped-ln-volume-1-chapter-8/",
+        "Volume 1 Chapter 8",
+        8,
+    ),
+    Chapter(
+        "2019/04/27/kou-2-time-leaped-ln-volume-1-chapter-9/",
+        "Volume 1 Chapter 9",
+        9,
+    ),
+    Chapter(
+        "2019/07/16/kou-2-time-leaped-ln-volume-1-chapter-10/",
+        "Volume 1 Chapter 10",
+        10,
+    ),
+    Chapter(
+        "2019/10/28/kou-2-time-leaped-ln-volume-1-chapter-11/",
+        "Volume 1 Chapter 11",
+        11,
+    ),
+    Chapter(
+        "2019/11/03/kou-2-time-leaped-ln-volume-1-chapter-12/",
+        "Volume 1 Chapter 12",
+        12,
+    ),
+    Chapter(
+        "2019/12/05/kou-2-time-leaped-ln-volume-1-chapter-13/",
+        "Volume 1 Chapter 13",
+        13,
+    ),
+    Chapter(
+        "2020/02/23/kou-2-time-leaped-ln-volume-1-chapter-14/",
+        "Volume 1 Chapter 14",
+        14,
+    ),
+    Chapter(
+        "2020/04/14/kou-2-time-leaped-ln-volume-1-chapter-15/",
+        "Volume 1 Chapter 15",
+        15,
+    ),
+    Chapter(
+        "2020/05/18/kou-2-time-leaped-ln-volume-1-chapter-16/",
+        "Volume 1 Chapter 16",
+        16,
+    ),
+]
+
+/// XXX: Kou 2 Time Leaped (END)
+
 /// XXX: Kujibiki Tokushou
 
 const KujibikiTokushouV1 = [
@@ -1029,11 +1121,15 @@ const CClawChaptersMapping = {
     ],
     "isekai-tanjou-2006": IsekaiTanjouV1,
     "f-rank-oniisama": JishouFRankV1,
+    "kou-2-time-leaped": Kou2TimeLeapedV1,
     "kujibiki-tokushou-ln": KujibikiTokushouV1,
     "naze-boku-no-sekai": NazeBokuNoSekaiV1,
     "nine-contract-no-91": NineContractV1,
-    // TODO:
-    "osananajimi-love-comedy": [],
+    "osananajimi-love-comedy": [
+        ...OsananajimiLoveComedyV1,
+        ...OsananajimiLoveComedyV2,
+        ...OsananajimiLoveComedyV3,
+    ],
     "agi-virtual-girl": AGIVirtualGirlV1,
     "ie-ni-kaeru-kanojo": IeNiKaeruKanojoV1,
     "lonely-loser": LonelyLoserV1,
