@@ -65,6 +65,27 @@ do
     ---@return Elements
     function Element:children() return end
 
+    ---@param index int
+    ---@return Element
+    function Element:child(index) return end
+
+    ---@return Element | nil
+    function Element:nextElementSibling() return end
+
+    ---@return Element | nil
+    function Element:previousElementSibling() return end
+
+    ---@return Element | nil
+    function Element:parent() return end
+
+    ---@param html string | Node
+    ---@return Element | nil
+    function Element:before(html) return end
+
+    ---@param html string | Node
+    ---@return Element | nil
+    function Element:after(html) return end
+
     ---@return number
     function Elements:size() return end
 
