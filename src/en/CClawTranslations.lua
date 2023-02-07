@@ -1,6 +1,9 @@
--- {"id":24903,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
+-- {"id":24903,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1"]}
 
 local baseURL = "https://cclawtranslations.home.blog"
+local apiUrl = "https://naotimes-og.glitch.me/shosetsu-api/cclaw/"
+
+local json = Require("dkjson")
 
 --- @param url string
 --- @return string
@@ -172,6 +175,20 @@ local function parseListings(doc)
 	end)
 end
 
+local function parseListingViaAPI()
+	local doc = GETDocument(apiUrl)
+	local jsonDoc = json.decode(doc:text())
+	return map(jsonDoc.contents, function (v)
+		return Novel {
+			title = v.title,
+			imageURL = v.cover,
+			link = "shosetsu-api/" .. v.id .. "/",
+			description = v.description,
+			authors = v.authors,
+		}
+	end)
+end
+
 --- @param elem Element|nil
 --- @return Element|nil
 local function findVolumeText(elem)
@@ -241,6 +258,42 @@ local function parseNovelInfo(doc, loadChapters)
 	return info
 end
 
+--- @param url string
+--- @param loadChapters boolean
+local function parseNovelInfoAPI(url, loadChapters)
+	-- strip the shosetsu-api/ part
+	local id = url:sub(14, -2)
+	local doc = GETDocument(apiUrl .. id)
+	local jsonRes = json.decode(doc:text()).contents
+	local novel = jsonRes.novel
+
+	local info = NovelInfo {
+		title = novel.title,
+		imageURL = novel.cover,
+		-- authors = novel.authors,
+		-- genres = jsonRes.genres,
+		-- status = NovelStatus(jsonRes.status),
+	}
+	if novel.description ~= nil then
+		info:setDescription(novel.description)
+	end
+	if novel.status ~= nil then
+		info:setStatus(NovelStatus(novel.status))
+	end
+
+	if loadChapters then
+		info:setChapters(AsList(map(jsonRes.chapters, function (v)
+			return NovelChapter {
+				order = v.order,
+				title = v.title,
+				link = "/" .. v.id,
+				-- release = v.release,
+			}
+		end)))
+	end
+	return info
+end
+
 return {
 	id = 24903,
 	name = "CClaw Translations",
@@ -257,6 +310,7 @@ return {
 		Listing("Completed", false, function ()
 			return parseListings(GETDocument("https://cclawtranslations.home.blog/completed-projects/"))
 		end),
+		Listing("Dropped/Axed", false, parseListingViaAPI),
 	},
 
 	getPassage = function(chapterURL)
@@ -264,8 +318,12 @@ return {
 	end,
 
 	parseNovel = function(novelURL, loadChapters)
-		local doc = GETDocument(baseURL .. novelURL)
-		return parseNovelInfo(doc, loadChapters)
+		if contains(novelURL, "shosetsu-api") then
+			return parseNovelInfoAPI(novelURL, loadChapters)
+		else
+			local doc = GETDocument(baseURL .. novelURL)
+			return parseNovelInfo(doc, loadChapters)
+		end
 	end,
 
 	shrinkURL = shrinkURL,
