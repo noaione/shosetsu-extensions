@@ -1,4 +1,4 @@
--- {"id":22903,"ver":"0.1.0","libVer":"1.0.0","author":"N4O"}
+-- {"id":22903,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://skythewood.blogspot.com"
 
@@ -119,11 +119,21 @@ local function parseListings(doc)
 	local _addedUrl = {} -- deduplication
 	mapNotNil(content:select("a"), function (v)
 		local url = v:attr("href")
-		if not contains(url, "skythewood.blogspot.com") then
+		if not contains(url, "skythewood.blogspot") then
+			return nil
+		end
+		-- skythewood.blogspot.sg need to be fixed to skythewood.blogspot.com
+		url = url:gsub("skythewood%.blogspot%.sg", "skythewood.blogspot.com")
+		local text = v:text()
+		if contains(text:lower(), "click here for") then
 			return nil
 		end
 
 		if _addedUrl[url] then
+			return nil
+		end
+
+		if text:len() < 1 then
 			return nil
 		end
 
