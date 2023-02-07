@@ -181,6 +181,16 @@
       "ver": "0.1.1",
       "libVer": "1.0.0",
       "md5": ""
+    },
+    {
+      "name": "Ainushi Translation",
+      "fileName": "Ainushi",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Ainushi.png",
+      "id": 22933,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": ""
     }
   ]
 }
