@@ -1,8 +1,9 @@
 import argparse
-from pathlib import Path
+import asyncio
 import json
-import subprocess as sp
-from typing import List, Optional
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Optional
 
 ROOT_DIR = Path(__file__).absolute().parent.parent
 
@@ -83,9 +84,14 @@ scripts = index_metadata["scripts"]
 scripts.sort(key=lambda x: x["fileName"])
 extension_jar = ROOT_DIR / "extension-tester.jar"
 
-print("—  Starting Test")
-failed_to_run: List[str] = []
-for script in scripts:
+
+@dataclass
+class RunReesult:
+    success: bool
+    name: str
+
+
+async def test_extension(script: dict) -> Optional[RunReesult]:
     name = script["name"]
     filename: str = script["fileName"]
     language: str = script["lang"]
@@ -94,8 +100,7 @@ for script in scripts:
     target_path = SOURCE_FOLDER / language / f"{filename}.lua"
     if not should_test_extension(target_path) or disable_test:
         print(f"   ∟ Skipping {name}")
-        continue
-
+        return None
     build_cmds = [
         "java",
         "-jar",
@@ -130,12 +135,24 @@ for script in scripts:
         build_cmds.append("--ignore-missing")
 
     print(f"   ∟ Testing: {name}")
-    result = sp.run(build_cmds, check=True)
-    if result.returncode != 0:
-        failed_to_run.append(name)
+    proc = await asyncio.create_subprocess_shell(" ".join(build_cmds))
+    returncode = await proc.wait()
+    if returncode != 0:
         print(f"   ∟ Failed to test {name}")
+        return RunReesult(False, name)
     else:
         print(f"   ∟ Finished testing {name}")
+        return RunReesult(True, name)
+
+
+print("—  Starting Test")
+loop = asyncio.get_event_loop()
+tasks = [
+    test_extension(script)
+    for script in scripts
+]
+results = loop.run_until_complete(asyncio.gather(*tasks))
+failed_to_run = [result.name for result in results if result is not None and not result.success]
 
 if failed_to_run:
     print("—  Failed to test the following extensions:")
