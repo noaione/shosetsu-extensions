@@ -86,6 +86,9 @@ do
     ---@return Element | nil
     function Element:after(html) return end
 
+    ---@return void
+    function Element:remove() return end
+
     ---@return number
     function Elements:size() return end
 

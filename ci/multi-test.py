@@ -33,9 +33,11 @@ class ExtensionNamespace(argparse.Namespace):
     target_chapter: Optional[str] = None
     # Ignore missing novels (useful for testing a lot of novels)
     ignore_missing = False
+    # Limit to a specific extension (can be used multiple times)
+    limit_to: list[str] = []
 
 
-def should_test_extension(extension_path: Path):
+def should_test_extension(extension_path: Path, limit_to: list[str] = list()):
     if not extension_path.exists():
         return False
     if not extension_path.is_file():
@@ -47,6 +49,8 @@ def should_test_extension(extension_path: Path):
         or "247truyen" in read_ext
         or "WWVolare" in read_ext
     ):
+        return False
+    if len(limit_to) > 0 and extension_path.stem in limit_to:
         return False
     return True
 
