@@ -1,9 +1,11 @@
--- {"id":24903,"ver":"0.2.1","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1"]}
+-- {"id":24903,"ver":"0.3.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0","NaoAPI>=1.0.0"]}
 
 local baseURL = "https://cclawtranslations.home.blog"
 local apiUrl = "https://naotimes-og.glitch.me/shosetsu-api/cclaw/"
 
-local json = Require("dkjson")
+local WPCommon = Require("WPCommon")
+local NaoAPI = Require("NaoAPI")
+NaoAPI.setURL(apiUrl)
 
 --- @param url string
 --- @return string
@@ -17,66 +19,26 @@ local function expandURL(url)
 	return baseURL .. url
 end
 
---- @param str string
---- @param pattern string
-local function contains(str, pattern)
-	return str:find(pattern, 0, true) and true or false
-end
-
---- @param testString string
---- @return boolean
-local function isTocRelated(testString)
-	local lowerTestStr = testString:lower()
-
-	-- check "ToC"
-	if lowerTestStr:find("toc", 0, true) then
-		return true
-	end
-	if lowerTestStr:find("table of content", 0, true) then
-		return true
-	end
-	if lowerTestStr:find("table of contents", 0, true) then
-		return true
-	end
-	if lowerTestStr:find("main page", 0, true) then
-		return true
-	end
-
-	-- check "Previous"
-	if lowerTestStr:find("previous", 0, true) then
-		return true
-	end
-
-	-- check "Next"
-	if lowerTestStr:find("Next", 0, true) then
-		return true
-	end
-	if lowerTestStr:find("next", 0, true) then
-		return true
-	end
-	return false
-end
-
 --- @param text string
 --- @return boolean
 local function isAdsText(text)
 	local lowerText = text:lower()
-	if contains("twitter:") then
+	if WPCommon.contains(lowerText, "twitter:") then
 		return true
 	end
-	if contains("facebook:") then
+	if WPCommon.contains(lowerText, "facebook:") then
 		return true
 	end
-	if contains("discord server:") then
+	if WPCommon.contains(lowerText, "discord server:") then
 		return true
 	end
-	if contains("discord.gg") then
+	if WPCommon.contains(lowerText, "discord.gg") then
 		return true
 	end
-	if contains("patreon.com") then
+	if WPCommon.contains(lowerText, "patreon.com") then
 		return true
 	end
-	if contains("UCOQyW7GmCyTKwjCJEaTBWRw") then
+	if WPCommon.contains(lowerText, "UCOQyW7GmCyTKwjCJEaTBWRw") then
 		return true
 	end
 	return false
@@ -86,25 +48,19 @@ local function parsePage(url)
     local doc = GETDocument(expandURL(url))
 	local postBody = doc:selectFirst("article")
 	local content = postBody:selectFirst(".entry-content")
-
-	local jpFlair = content:selectFirst("#jp-post-flair")
-	if jpFlair then jpFlair:remove() end
+	WPCommon.cleanupElement(content)
 
 	map(content:children(), function (v)
-		local className = v:attr("class")
-		if contains(className, "sharedaddy") then
-			v:remove()
-			return
-		end
-		local idTag = v:attr("id")
-		if contains(idTag, "atatags") then
-			v:remove()
-			return
-		end
+		local isRemoved = WPCommon.cleanupElement(v)
+		if isRemoved then return end
 		local style = v:attr("style")
 		local isAlignCenter = style and style:find("text-align", 0, true) and style:find("center", 0, true) and true or false
-		local isValidTocData = isTocRelated(v:text()) and isAlignCenter and true or false
+		local isValidTocData = WPCommon.isTocRelated(v:text()) and isAlignCenter and true or false
 		if isValidTocData then
+			v:remove()
+			return
+		end
+		if isAdsText(v:text()) then
 			v:remove()
 		end
 	end)
@@ -129,14 +85,14 @@ local function findImageNode(elem)
 	local nextSib = elem:nextElementSibling()
 	if nextSib then
 		local className = nextSib:attr("class")
-		if contains(className, "wp-block-image") then
+		if WPCommon.contains(className, "wp-block-image") then
 			local imgNode = nextSib:selectFirst("img")
 			if imgNode then
 				return imgNode
 			end
 		end
 		local tagName = nextSib:tagName()
-		if tagName == "h2" and contains(className, "wp-block-heading") then
+		if tagName == "h2" and WPCommon.contains(className, "wp-block-heading") then
 			-- we reach the next heading, stop!
 			return nil
 		end
@@ -154,7 +110,7 @@ local function parseListings(doc)
 
 	return mapNotNil(content:select("a"), function (v)
 		local url = v:attr("href")
-		if not contains(url, "cclawtranslations.home.blog") then
+		if not WPCommon.contains(url, "cclawtranslations.home.blog") then
 			return nil
 		end
 		local _parent = v:parent()
@@ -175,20 +131,6 @@ local function parseListings(doc)
 	end)
 end
 
-local function parseListingViaAPI()
-	local doc = GETDocument(apiUrl)
-	local jsonDoc = json.decode(doc:text())
-	return map(jsonDoc.contents, function (v)
-		return Novel {
-			title = v.title,
-			imageURL = v.cover,
-			link = "shosetsu-api/" .. v.id .. "/",
-			description = v.description,
-			authors = v.authors,
-		}
-	end)
-end
-
 --- @param elem Element|nil
 --- @return Element|nil
 local function findVolumeText(elem)
@@ -199,7 +141,7 @@ local function findVolumeText(elem)
 	local prevSib = elem:previousElementSibling()
 	if prevSib then
 		local className = prevSib:attr("class")
-		if contains(className, "wp-block-heading") then
+		if WPCommon.contains(className, "wp-block-heading") then
 			return prevSib
 		end
 		return findVolumeText(prevSib)
@@ -236,7 +178,7 @@ local function parseNovelInfo(doc, loadChapters)
 		local chapters = {}
 		map(content:select("a"), function (v)
 			local url = v:attr("href")
-			if not contains(url, "cclawtranslations.home.blog") then
+			if not WPCommon.contains(url, "cclawtranslations.home.blog") then
 				return nil
 			end
 			local tempText = v:text()
@@ -261,42 +203,6 @@ local function parseNovelInfo(doc, loadChapters)
 	return info
 end
 
---- @param url string
---- @param loadChapters boolean
-local function parseNovelInfoAPI(url, loadChapters)
-	-- strip the shosetsu-api/ part
-	local id = url:sub(14, -2)
-	local doc = GETDocument(apiUrl .. id)
-	local jsonRes = json.decode(doc:text()).contents
-	local novel = jsonRes.novel
-
-	local info = NovelInfo {
-		title = novel.title,
-		imageURL = novel.cover,
-		-- authors = novel.authors,
-		-- genres = jsonRes.genres,
-		-- status = NovelStatus(jsonRes.status),
-	}
-	if novel.description ~= nil then
-		info:setDescription(novel.description)
-	end
-	if novel.status ~= nil then
-		info:setStatus(NovelStatus(novel.status))
-	end
-
-	if loadChapters then
-		info:setChapters(AsList(map(jsonRes.chapters, function (v)
-			return NovelChapter {
-				order = v.order,
-				title = v.title,
-				link = "/" .. v.id,
-				-- release = v.release,
-			}
-		end)))
-	end
-	return info
-end
-
 return {
 	id = 24903,
 	name = "CClaw Translations",
@@ -313,7 +219,7 @@ return {
 		Listing("Completed", false, function ()
 			return parseListings(GETDocument("https://cclawtranslations.home.blog/completed-projects/"))
 		end),
-		Listing("Dropped/Axed", false, parseListingViaAPI),
+		Listing("Dropped/Axed", false, NaoAPI.getListings),
 	},
 
 	getPassage = function(chapterURL)
@@ -321,12 +227,12 @@ return {
 	end,
 
 	parseNovel = function(novelURL, loadChapters)
-		if contains(novelURL, "shosetsu-api") then
-			return parseNovelInfoAPI(novelURL, loadChapters)
-		else
-			local doc = GETDocument(baseURL .. novelURL)
-			return parseNovelInfo(doc, loadChapters)
+		local novelAPI = NaoAPI.parseNovel(novelURL, loadChapters)
+		if novelAPI then
+			return novelAPI
 		end
+		local doc = GETDocument(baseURL .. novelURL)
+		return parseNovelInfo(doc, loadChapters)
 	end,
 
 	shrinkURL = shrinkURL,

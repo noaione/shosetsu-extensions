@@ -1,6 +1,7 @@
--- {"id":22903,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
+-- {"id":22903,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://skythewood.blogspot.com"
+local WPCommon = Require("WPCommon") -- this is actually blogspot, but whatever
 
 --- @param url string
 --- @return string
@@ -14,65 +15,12 @@ local function expandURL(url)
 	return baseURL .. url
 end
 
---- @param testString string
---- @return boolean
-local function isTocRelated(testString)
-	local lowerTestStr = testString:lower()
-
-	-- check "ToC"
-	if lowerTestStr:find("toc", 0, true) then
-		return true
-	end
-	if lowerTestStr:find("table of content", 0, true) then
-		return true
-	end
-	if lowerTestStr:find("table of contents", 0, true) then
-		return true
-	end
-	if lowerTestStr:find("main page", 0, true) then
-		return true
-	end
-
-	-- check "Previous"
-	if lowerTestStr:find("previous", 0, true) then
-		return true
-	end
-
-	-- check "Next"
-	if lowerTestStr:find("Next", 0, true) then
-		return true
-	end
-	if lowerTestStr:find("next", 0, true) then
-		return true
-	end
-	return false
-end
-
 local function parsePage(url)
     local doc = GETDocument(expandURL(url))
 	local postBody = doc:selectFirst("div#main > div > .blog-posts > .date-outer > .date-posts > .post-outer > .post")
 	local content = postBody:selectFirst(".post-body")
 
-	map(content:children(), function (v)
-		local className = v:attr("class")
-		if className:find("patreon_button") then
-			v:remove()
-		end
-		if className:find("sharedaddy") then
-			v:remove()
-		end
-		if className:find("wp-post-navigation", 0, true) and true or false then
-			v:remove()
-		end
-		if className:find("wpulike", 0, true) and true or false then
-			v:remove()
-		end
-		local style = v:attr("style")
-		local isValidTocData = isTocRelated(v:text()) and true or false
-		if isValidTocData then
-			v:remove()
-		end
-	end)
+	WPCommon.cleanupPassages(content:children(), false)
 
 	-- add title
 	local postTitle = postBody:selectFirst(".post-title")
@@ -104,12 +52,6 @@ local function findSeparatorNode(elem)
 	return nil
 end
 
---- @param str string
---- @param pattern string
-local function contains(str, pattern)
-	return str:find(pattern, 0, true) and true or false
-end
-
 --- @param doc Document
 local function parseListings(doc)
 	local postBody = doc:selectFirst("div#main > div > .blog-posts > .date-outer > .date-posts > .post-outer > .post")
@@ -119,13 +61,13 @@ local function parseListings(doc)
 	local _addedUrl = {} -- deduplication
 	mapNotNil(content:select("a"), function (v)
 		local url = v:attr("href")
-		if not contains(url, "skythewood.blogspot") then
+		if not WPCommon.contains(url, "skythewood.blogspot") then
 			return nil
 		end
 		-- skythewood.blogspot.sg need to be fixed to skythewood.blogspot.com
 		url = url:gsub("skythewood%.blogspot%.sg", "skythewood.blogspot.com")
 		local text = v:text()
-		if contains(text:lower(), "click here for") then
+		if WPCommon.contains(text:lower(), "click here for") then
 			return nil
 		end
 
@@ -176,7 +118,8 @@ local function parseNovelInfo(doc, loadChapters)
 		local chapters = {}
 		mapNotNil(content:select("a"), function (v)
 			local url = v:attr("href")
-			if not contains(url, "skythewood.blogspot.com") then
+			url = url:gsub("skythewood%.blogspot%.sg", "skythewood.blogspot.com")
+			if not WPCommon.contains(url, "skythewood.blogspot.com") then
 				return nil
 			end
 			local _temp = NovelChapter {

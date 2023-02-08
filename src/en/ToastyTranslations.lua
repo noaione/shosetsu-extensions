@@ -1,6 +1,7 @@
--- {"id":376796,"ver":"0.1.1","libVer":"1.0.0","author":"N4O"}
+-- {"id":376796,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://toastytranslations.com"
+local WPCommon = Require("WPCommon")
 
 --- @param url string
 --- @return string
@@ -14,54 +15,21 @@ local function expandURL(url)
 	return baseURL .. url
 end
 
---- @param testString string
---- @return boolean
-local function isTocRelated(testString)
-	-- check "Previous"
-	if testString:find("Previous", 0, true) then
-		return true
+--- @param v Element
+local function passageCleanup(v)
+	if WPCommon.cleanupElement(v) then
+		return
 	end
-	if testString:find("previous", 0, true) then
-		return true
+	if WPCommon.isTocRelated(v:text()) then
+		v:remove()
+		return
 	end
-
-	-- check "Next"
-	if testString:find("Next", 0, true) then
-		return true
+	local classData = v:attr("class")
+	local isTocButton = classData and classData:find("wp-block-buttons", 0, true) and true or false
+	if isTocButton then
+		v:remove()
+		return
 	end
-	if testString:find("next", 0, true) then
-		return true
-	end
-
-	-- check "ToC"
-	if testString:find("TOC", 0, true) then
-		return true
-	end
-	if testString:find("ToC", 0, true) then
-		return true
-	end
-	if testString:find("toc", 0, true) then
-		return true
-	end
-	if testString:find("table of content", 0, true) then
-		return true
-	end
-	if testString:find("table of contents", 0, true) then
-		return true
-	end
-	if testString:find("Table of content", 0, true) then
-		return true
-	end
-	if testString:find("Table of contents", 0, true) then
-		return true
-	end
-	if testString:find("Table of Content", 0, true) then
-		return true
-	end
-	if testString:find("Table of Contents", 0, true) then
-		return true
-	end
-	return false
 end
 
 local function parsePage(url)
@@ -69,46 +37,15 @@ local function parsePage(url)
     local content = doc:selectFirst("#main article")
     local p = content:selectFirst(".entry-content")
 
-    local post_flair = content:selectFirst("div#jp-post-flair")
-    if post_flair then post_flair:remove() end
+	WPCommon.cleanupElement(p)
 
-	-- get last div element
-	if lastDiv then lastDiv:remove() end
+	map(p:select("p"), passageCleanup)
+	map(p:select("div"), passageCleanup)
 
-    local allElements = p:select("p")
-	map(allElements, function (v)
-		if isTocRelated(v:text()) then
-			v:remove()
-			return
-		end
-		local classData = v:attr("class")
-		local isTocButton = classData and classData:find("wp-block-buttons", 0, true) and true or false
-		if isTocButton then
-			v:remove()
-			return
-		end
-		if v:id():find("atatags", 0, true) and true or false then
-			v:remove()
-			return
-		end
-	end)
-	local allDivElements = p:select("div")
-	map(allDivElements, function (v)
-		if isTocRelated(v:text()) then
-			v:remove()
-			return
-		end
-		local classData = v:attr("class")
-		local isTocButton = classData and classData:find("wp-block-buttons", 0, true) and true or false
-		if isTocButton then
-			v:remove()
-			return
-		end
-		if v:id():find("atatags", 0, true) and true or false then
-			v:remove()
-			return
-		end
-	end)
+	local title = content:selectFirst(".entry-title")
+	if title then
+		p:child(0):before("<h2>" .. title:text() .. "</h2><hr/>")
+	end
 
     return p
 end

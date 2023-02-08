@@ -1,6 +1,8 @@
--- {"id":22933,"ver":"0.1.0","libVer":"1.0.0","author":"N4O"}
+-- {"id":22933,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://www.ainushi.com"
+
+local WPCommon = Require("WPCommon")
 
 --- @param url string
 --- @return string
@@ -14,72 +16,12 @@ local function expandURL(url)
 	return baseURL .. url
 end
 
---- @param str string
---- @param pattern string
-local function contains(str, pattern)
-	return str:find(pattern, 0, true) and true or false
-end
-
---- @param testString string
---- @return boolean
-local function isTocRelated(testString)
-	local lowerTestStr = testString:lower()
-
-	-- check "ToC"
-	if lowerTestStr:find("toc", 0, true) then
-		return true
-	end
-	if lowerTestStr:find("table of content", 0, true) then
-		return true
-	end
-	if lowerTestStr:find("table of contents", 0, true) then
-		return true
-	end
-	if lowerTestStr:find("main page", 0, true) then
-		return true
-	end
-
-	-- check "Previous"
-	if lowerTestStr:find("previous", 0, true) then
-		return true
-	end
-
-	-- check "Next"
-	if lowerTestStr:find("Next", 0, true) then
-		return true
-	end
-	if lowerTestStr:find("next", 0, true) then
-		return true
-	end
-	return false
-end
-
 local function parsePage(url)
     local doc = GETDocument(expandURL(url))
 	local article = doc:selectFirst("article")
 	local content = article:selectFirst(".post-wrap > .entry-content")
 
-	map(content:children(), function (v)
-		local className = v:attr("class")
-		if className:find("patreon_button") then
-			v:remove()
-		end
-		if className:find("sharedaddy") then
-			v:remove()
-		end
-		if className:find("wp-post-navigation", 0, true) and true or false then
-			v:remove()
-		end
-		if className:find("wpulike", 0, true) and true or false then
-			v:remove()
-		end
-		local style = v:attr("style")
-		local isAlignCenter = style and style:find("text-align", 0, true) and style:find("center", 0, true) and true or false
-		local isValidTocData = isTocRelated(v:text()) and isAlignCenter and true or false
-		if isValidTocData then
-			v:remove()
-		end
-	end)
+	WPCommon.cleanupPassages(content:children(), true)
 
 	-- add title
 	local postTitle = article:selectFirst(".post-header > .entry-title")
@@ -110,6 +52,7 @@ local function parseNovelInfo(doc, loadChapters)
 	local postBody = doc:selectFirst("article > .post-wrap")
 	local postTitle = postBody:selectFirst(".entry-title"):text()
 	local content = postBody:selectFirst(".entry-content")
+	WPCommon.cleanupElement(content)
 
 	local info = NovelInfo {
 		title = postTitle,
@@ -124,7 +67,7 @@ local function parseNovelInfo(doc, loadChapters)
 		local chapters = {}
 		mapNotNil(content:select("p a"), function (v)
 			local url = v:attr("href")
-			if not contains(url, "www.ainushi.com") then
+			if not WPCommon.contains(url, "www.ainushi.com") then
 				return nil
 			end
 			local _temp = NovelChapter {

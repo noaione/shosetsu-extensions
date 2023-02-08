@@ -6,7 +6,7 @@
     },
     {
       "name": "CommonCSS",
-      "ver": "1.0.0"
+      "ver": "1.0.1"
     },
     {
       "name": "dkjson",
@@ -14,7 +14,7 @@
     },
     {
       "name": "NovelFull",
-      "ver": "2.0.5"
+      "ver": "2.0.6"
     },
     {
       "name": "url",
@@ -26,7 +26,15 @@
     },
     {
       "name": "Madara",
-      "ver": "2.3.3"
+      "ver": "2.5.0"
+    },
+    {
+      "name": "NaoAPI",
+      "ver": "1.0.0"
+    },
+    {
+      "name": "WPCommon",
+      "ver": "1.0.0"
     }
   ],
   "scripts": [
@@ -36,7 +44,7 @@
       "imageURL": "https://raw.githubusercontent.com/noaione/shosetsu-extensions/dev/icons/Bakapervert.jpg",
       "id": 1331219,
       "lang": "en",
-      "ver": "1.1.11",
+      "ver": "1.2.0",
       "libVer": "1.0.0",
       "md5": ""
     },
@@ -46,7 +54,7 @@
       "imageURL": "https://raw.githubusercontent.com/noaione/shosetsu-extensions/dev/icons/KuroKurori.png",
       "id": 309841,
       "lang": "en",
-      "ver": "0.1.1",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": ""
     },
@@ -56,7 +64,7 @@
       "imageURL": "https://raw.githubusercontent.com/noaione/shosetsu-extensions/dev/icons/EuropaMoon.png",
       "id": 376794,
       "lang": "en",
-      "ver": "0.1.6",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": ""
     },
@@ -66,7 +74,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Reigokai.png",
       "id": 221702,
       "lang": "en",
-      "ver": "0.1.2",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": ""
     },
@@ -86,7 +94,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/BayaBuscoTL.png",
       "id": 38669,
       "lang": "en",
-      "ver": "0.1.1",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": ""
     },
@@ -96,7 +104,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ExperimentalTL.png",
       "id": 376754,
       "lang": "en",
-      "ver": "0.1.2",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": ""
     },
@@ -106,7 +114,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ShiruSekai.png",
       "id": 26015,
       "lang": "en",
-      "ver": "0.1.1",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": ""
     },
@@ -116,7 +124,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ShiroKunTL.png",
       "id": 26016,
       "lang": "en",
-      "ver": "0.1.0",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": "",
       "disableTest": false
@@ -127,7 +135,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Craneanime.png",
       "id": 221710,
       "lang": "en",
-      "ver": "0.2.0",
+      "ver": "0.3.0",
       "libVer": "1.0.0",
       "md5": ""
     },
@@ -137,7 +145,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ToastyTL.png",
       "id": 376796,
       "lang": "en",
-      "ver": "0.1.1",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": ""
     },
@@ -157,7 +165,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/LightNovelsTranslations.png",
       "id": 26375,
       "lang": "en",
-      "ver": "0.1.2",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": "",
       "disableTest": true
@@ -168,7 +176,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Hellping.png",
       "id": 221740,
       "lang": "en",
-      "ver": "0.1.0",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": ""
     },
@@ -178,7 +186,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Skythewood.png",
       "id": 22903,
       "lang": "en",
-      "ver": "0.1.1",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": ""
     },
@@ -188,7 +196,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Ainushi.png",
       "id": 22933,
       "lang": "en",
-      "ver": "0.1.0",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": ""
     },
@@ -198,7 +206,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/CClawTL.png",
       "id": 24903,
       "lang": "en",
-      "ver": "0.2.1",
+      "ver": "0.3.0",
       "libVer": "1.0.0",
       "md5": ""
     }

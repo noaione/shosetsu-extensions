@@ -1,6 +1,7 @@
--- {"id":26375,"ver":"0.1.2","libVer":"1.0.0","author":"N4O"}
+-- {"id":26375,"ver":"0.2.0","libVer":"1.0.0","author":"N4O""dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://lightnovelstranslations.com"
+local WPCommon = Require("WPCommon")
 
 --- @param url string
 --- @return string
@@ -14,58 +15,14 @@ local function expandURL(url)
 	return baseURL .. url
 end
 
---- @param testString string
---- @return boolean
-local function isTocRelated(testString)
-	-- check "ToC"
-	if testString:find("ToC", 0, true) then
-		return true
-	end
-	if testString:find("toc", 0, true) then
-		return true
-	end
-	if testString:find("table of content", 0, true) then
-		return true
-	end
-	if testString:find("table of contents", 0, true) then
-		return true
-	end
-	if testString:find("Table of content", 0, true) then
-		return true
-	end
-	if testString:find("Table of contents", 0, true) then
-		return true
-	end
-	if testString:find("Table of Content", 0, true) then
-		return true
-	end
-	if testString:find("Table of Contents", 0, true) then
-		return true
-	end
-	-- check "Previous"
-	if testString:find("Previous Chapter", 0, true) then
-		return true
-	end
-	if testString:find("previous", 0, true) then
-		return true
-	end
-
-	-- check "Next"
-	if testString:find("Next", 0, true) then
-		return true
-	end
-	if testString:find("next", 0, true) then
-		return true
-	end
-	return false
-end
-
 --- @param elem Element
 local function cleanupPassages(elem)
+	local isRemoved = WPCommon.cleanupElement(elem)
+	if isRemoved then return end
     local style = elem:attr("style")
     local className = elem:attr("class")
     local isAlignCenter = style and style:find("text-align", 0, true) and style:find("center", 0, true) and true or false
-    local isValidTocData = isAlignCenter and isTocRelated(elem:text()) and true or false
+    local isValidTocData = isAlignCenter and WPCommon.isTocRelated(elem:text()) and true or false
     if isValidTocData then
         elem:remove()
     end

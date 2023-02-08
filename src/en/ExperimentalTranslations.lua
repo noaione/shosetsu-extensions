@@ -1,6 +1,7 @@
--- {"id":376754,"ver":"0.1.2","libVer":"1.0.0","author":"N4O"}
+-- {"id":376754,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://experimentaltranslations.com"
+local WPCommon = Require("WPCommon")
 
 --- @param url string
 --- @return string
@@ -19,20 +20,19 @@ local function parsePage(url)
     local content = doc:selectFirst("#main article")
     local p = content:selectFirst(".entry-content")
 
-    local post_flair = content:selectFirst("div#jp-post-flair")
-    if post_flair then post_flair:remove() end
+	WPCommon.cleanupElement(p)
 
-    local allElements = p:select("p")
+	local allElements = p:select("p")
 	map(allElements, function (v)
+		local isRemoved = WPCommon.cleanupElement(v)
+		if isRemoved then return end
 		local hasToCmark = v:text():find("⊥", 0, true) and true or false
 		local style = v:attr("style")
 		local isAlignCenter = style and style:find("text-align", 0, true) and style:find("center", 0, true) and true or false
 		local isValidToc = isAlignCenter and hasToCmark and true or false
 		if isValidToc then
 			v:remove()
-		end
-		if v:id():find("atatags") then
-			v:remove()
+			return
 		end
 	end)
 
