@@ -1,4 +1,4 @@
--- {"ver":"1.0.0","author":"N4O","dep":["dkjson"]}
+-- {"ver":"1.0.1","author":"N4O","dep":["dkjson"]}
 
 -- A common function to handle the custom mirror API that I made
 
@@ -12,6 +12,18 @@ NaoAPI._baseAPIUrl = nil -- change later
 --- @param pattern string
 local function contains(str, pattern)
 	return str:find(pattern, 0, true) and true or false
+end
+
+function NaoAPI.getBaseURL()
+	if NaoAPI._baseAPIUrl == nil then
+		error("NaoAPI._baseAPIUrl is nil. Please set it with NaoAPI.setURL()")
+		return
+	end
+	-- check if has a trailing slash
+	if NaoAPI._baseAPIUrl:sub(-1) == "/" then
+		return NaoAPI._baseAPIUrl:sub(1, -2)
+	end
+	return NaoAPI._baseAPIUrl
 end
 
 
@@ -33,14 +45,14 @@ end
 --- @return table
 function NaoAPI.getListings()
     NaoAPI._checkAPIUrl()
-    local doc = GETDocument(NaoAPI._baseAPIUrl)
+    local doc = GETDocument(NaoAPI.getBaseURL())
     local contents = json.decode(doc:text())
     return map(contents.contents, function(v)
         return Novel {
             title = v.title,
 			imageURL = v.cover,
             -- for custom handling
-			link = "shosetsu-api/" .. v.id .. "/",
+			link = "/shosetsu-api/" .. v.id .. "/",
 			description = v.description,
 			authors = v.authors,
         }
@@ -52,12 +64,13 @@ end
 --- @param loadChapters boolean
 function NaoAPI.parseNovel(url, loadChapters)
 	-- strip the shosetsu-api/ part
-    if not contains(url, "shosetsu-api/") then
+	print(url)
+    if not contains(url, "/shosetsu-api/") then
         return nil
     end
     NaoAPI._checkAPIUrl()
 	local id = url:sub(14, -2)
-	local doc = GETDocument(NaoAPI._baseAPIUrl .. id)
+	local doc = GETDocument(NaoAPI.getBaseURL() .. id)
 	local jsonRes = json.decode(doc:text()).contents
 	local novel = jsonRes.novel
 
