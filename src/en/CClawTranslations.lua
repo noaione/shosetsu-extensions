@@ -1,4 +1,4 @@
--- {"id":24903,"ver":"0.3.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0","NaoAPI>=1.0.0"]}
+-- {"id":24903,"ver":"0.3.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0","NaoAPI>=1.0.1"]}
 
 local baseURL = "https://cclawtranslations.home.blog"
 local apiUrl = "https://naotimes-og.glitch.me/shosetsu-api/cclaw/"

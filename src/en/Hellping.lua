@@ -1,4 +1,4 @@
--- {"id":221740,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["NaoAPI>=1.0.0", "WPCommon>=1.0.0"]}
+-- {"id":221740,"ver":"0.2.1","libVer":"1.0.0","author":"N4O","dep":["NaoAPI>=1.0.1", "WPCommon>=1.0.0"]}
 
 local baseURL = "https://hellping.org"
 local apiUrl = "https://naotimes-og.glitch.me/shosetsu-api/hellping/"
