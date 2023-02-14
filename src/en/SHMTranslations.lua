@@ -1,4 +1,4 @@
--- {"id":176796,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":176796,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://shmtranslations.com"
 local WPCommon = Require("WPCommon")
@@ -31,6 +31,12 @@ local function passageCleanup(v)
 		return
 	end
 	if WPCommon.contains(classData, "ai-viewport-") then
+		v:remove()
+		return
+	end
+	-- nuke "SHMtranslation" watermark, it's fucking annoying as an actual reader
+	local text = v:text()
+	if WPCommon.contains(text:upper(), "SHMTRANSLATION") then
 		v:remove()
 		return
 	end
