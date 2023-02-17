@@ -1,4 +1,4 @@
--- {"id":176796,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":176796,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://shmtranslations.com"
 local WPCommon = Require("WPCommon")
@@ -40,6 +40,18 @@ local function passageCleanup(v)
 		v:remove()
 		return
 	end
+	local adsByGoogle = v:selectFirst("ins.adsbygoogle")
+	if adsByGoogle then
+		adsByGoogle:remove()
+	end
+end
+
+--- @param paragraph Element
+local function cleanupChildStyle(paragraph)
+	map(paragraph:select("span"), function (v)
+		v:removeAttr("style")
+	end)
+	paragraph:removeAttr("style")
 end
 
 local function parsePage(url)
@@ -51,6 +63,7 @@ local function parsePage(url)
 
 	map(p:select("p"), passageCleanup)
 	map(p:select("div"), passageCleanup)
+	map(p:select("p"), cleanupChildStyle)
 
 	local title = content:selectFirst(".wp-block-post-title")
 	if title then
