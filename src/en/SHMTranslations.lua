@@ -1,6 +1,6 @@
--- {"id":176796,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":176796,"ver":"0.1.3","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
-local baseURL = "https://shmtranslations.com"
+local baseURL = "https://www.shmtranslations.com"
 local WPCommon = Require("WPCommon")
 
 --- @param url string
