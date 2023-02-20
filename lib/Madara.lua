@@ -1,4 +1,4 @@
--- {"ver":"2.5.0","author":"TechnoJo4","dep":["url"]}
+-- {"ver":"2.8.0","author":"TechnoJo4","dep":["url"]}
 
 local encode = Require("url").encode
 local text = function(v)
@@ -127,7 +127,7 @@ function defaults:getPassage(url)
 	local title = htmlElement:selectFirst("ol.breadcrumb li.active"):text()
 	htmlElement = htmlElement:selectFirst("div.text-left")
 	-- Chapter title inserted before chapter text
-	htmlElement:child(0):before("<h1>" .. title .. "</h1>");
+	htmlElement:prepend("<h1>" .. title .. "</h1>");
 
 	-- Remove/modify unwanted HTML elements to get a clean webpage.
 	htmlElement:select("div.lnbad-tag"):remove() -- LightNovelBastion text size
@@ -172,6 +172,12 @@ local function img_src(image_element)
 	return image_element:attr("src")
 end
 
+---@param document Document The page containing novel information
+---@return string the novel description
+function defaults:parseNovelDescription(document)
+	return table.concat(map(document:selectFirst("div.summary__content"):select("p"), text), "\n")
+end
+
 ---@param url string
 ---@param loadChapters boolean
 ---@return NovelInfo
@@ -187,7 +193,7 @@ function defaults:parseNovel(url, loadChapters)
 	local selectedContent = doc:selectFirst("div.post-status"):select("div.post-content_item")
 
 	local info = NovelInfo {
-		description = table.concat(map(doc:selectFirst("div.summary__content"):select("p"), text), "\n"),
+		description = self.parseNovelDescription(doc),
 		title = titleElement:text(),
 		imageURL = img_src(doc:selectFirst("div.summary_image"):selectFirst("img.img-responsive")),
 		status = ({
