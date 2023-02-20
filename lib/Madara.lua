@@ -1,4 +1,4 @@
--- {"ver":"2.8.0","author":"TechnoJo4","dep":["url"]}
+-- {"ver":"2.9.0","author":"TechnoJo4","dep":["url"]}
 
 local encode = Require("url").encode
 local text = function(v)
@@ -12,7 +12,7 @@ local defaults = {
 	searchNovelSel = "div.c-tabs-item__content",
 	novelListingURLPath = "novel",
 	-- Certain sites like TeamXNovel do not use [novelListingURLPath] and instead use a suffix to the query to declare what is expected.
- 	novelListingURLSuffix = "",
+	novelListingURLSuffix = "",
 	novelPageTitleSel = "div.post-title",
 	shrinkURLNovel = "novel",
 	searchHasOper = false, -- is AND/OR operation selector present?
@@ -175,7 +175,15 @@ end
 ---@param document Document The page containing novel information
 ---@return string the novel description
 function defaults:parseNovelDescription(document)
-	return table.concat(map(document:selectFirst("div.summary__content"):select("p"), text), "\n")
+	local summaryContent = document:selectFirst("div.summary__content")
+	if summaryContent then
+		return table.concat(map(document:selectFirst("div.summary__content"):select("p"), text), "\n")
+	end
+	local mangaExcerpt = document:selectFirst("div.manga-excerpt")
+	if mangaExcerpt then
+		return mangaExcerpt:text()
+	end
+	return ""
 end
 
 ---@param url string
