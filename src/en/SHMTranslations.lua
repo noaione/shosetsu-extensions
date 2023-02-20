@@ -1,4 +1,4 @@
--- {"id":176796,"ver":"0.1.3","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":176796,"ver":"0.1.4","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://www.shmtranslations.com"
 local WPCommon = Require("WPCommon")
@@ -73,6 +73,18 @@ local function parsePage(url)
     return p
 end
 
+local extraCss = [[
+.has-text-align-center {
+	text-align: center;
+}
+
+.wp-block-table td,
+.wp-block-table th {
+	border: 1px solid;
+	padding: .5em;
+}
+]]
+
 return {
 	id = 176796,
 	name = "SHM Translations",
@@ -101,7 +113,7 @@ return {
 	},
 
 	getPassage = function(chapterURL)
-		return pageOfElem(parsePage(chapterURL))
+		return pageOfElem(parsePage(chapterURL), false, extraCss)
 	end,
 
 	parseNovel = function(novelURL, loadChapters)
