@@ -424,6 +424,13 @@ do
         ---@param f function @Function to wrap
         ---@return function @Wrapper
         function wrap(o, f) return end
+
+        --- Create a HTML string representation from a element data.
+        --- @param elem Element Element to convert
+        --- @param removeStyleAttr boolean Remove style attribute from element, default false
+        --- @param customStyle string Custom style to add to element, default empty string
+        --- @param keepScripts boolean Keep script tags, default false
+        function pageOfElem(elem, removeStyleAttr, customStyle, keepScripts) return end
     end
 
     -- ArrayList
