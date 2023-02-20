@@ -26,7 +26,7 @@
     },
     {
       "name": "Madara",
-      "ver": "2.8.0"
+      "ver": "2.9.0"
     },
     {
       "name": "NaoAPI",
@@ -84,7 +84,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/FansTranslations.png",
       "id": 40159,
       "lang": "en",
-      "ver": "0.1.0",
+      "ver": "0.1.1",
       "libVer": "1.0.0",
       "md5": ""
     },
@@ -227,6 +227,16 @@
       "id": 176796,
       "lang": "en",
       "ver": "0.1.4",
+      "libVer": "1.0.0",
+      "md5": ""
+    },
+    {
+      "name": "Zetro Translations",
+      "fileName": "ZetroTranslation",
+      "imageURL": "https://zetrotranslation.com/wp-content/uploads/2020/12/logo_red-e1607700845220.png",
+      "id": 428270,
+      "lang": "en",
+      "ver": "1.0.2",
       "libVer": "1.0.0",
       "md5": ""
     }
