@@ -1,4 +1,4 @@
--- {"id":24271,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":24271,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://yuriko-aya.cc"
 
@@ -58,6 +58,13 @@ local function passageCleanup(v)
 	end
 end
 
+--- @param paragraph Element
+local function cleanupChildStyle(paragraph)
+	map(paragraph:select("span"), function (v)
+		v:removeAttr("style")
+	end)
+	paragraph:removeAttr("style")
+end
 
 local function parsePage(url)
     local doc = GETDocument(expandURL(url))
@@ -71,6 +78,7 @@ local function parsePage(url)
 
 	map(content:select("> p"), passageCleanup)
 	map(content:select("> div"), passageCleanup)
+	map(content:select("p"), cleanupChildStyle)
 
 	-- add title
 	local postTitle = postBody:selectFirst(".entry-title")
