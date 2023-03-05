@@ -1,4 +1,4 @@
--- {"id":176796,"ver":"0.1.4","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":176796,"ver":"0.1.5","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://www.shmtranslations.com"
 local WPCommon = Require("WPCommon")
@@ -25,6 +25,11 @@ local function passageCleanup(v)
 		return
 	end
 	local classData = v:attr("class")
+	if WPCommon.contains(classData, "wp-post-nav-shortcode") then
+		-- the new ToC nav
+		v:remove()
+		return
+	end
 	local isTocButton = classData and classData:find("wp-block-buttons", 0, true) and true or false
 	if isTocButton then
 		v:remove()
