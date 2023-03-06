@@ -1,4 +1,4 @@
--- {"id":26375,"ver":"0.2.0","libVer":"1.0.0","author":"N4O""dep":["WPCommon>=1.0.0"]}
+-- {"id":26375,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://lightnovelstranslations.com"
 local WPCommon = Require("WPCommon")
