@@ -58,9 +58,18 @@ The following list is the novel I used for testing and it's working properly (it
     1.  100 Things I Don't Know About My Senpai
 12. Hellping
     1.  The Angel Next Door Spoils Me Rotten
+13. Skythewood
+14. Ainushi
+15. CClaw Translations
+16. Glucose Translations
+17. SHM Translations
+18. AYA Translation
+19. Tintan
 
 Above list should be working as intended when you open up the chapter, for Madara-based extension it should be working just fine.
 
 ### Specials Info
-1. Hellping
+1. Hellping<br />
    This extension use a custom API made specifically for Shosetsu since the website design is so broken and hard to parse. See [`extras`](https://github.com/noaione/shosetsu-extensions/tree/dev/extras) folder for more info.
+2. CClaw Translations<br />
+   Part of this extension use the custom API. See [`extras`](https://github.com/noaione/shosetsu-extensions/tree/dev/extras) folder for more info.
