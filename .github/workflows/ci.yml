@@ -25,7 +25,7 @@ jobs:
       - name: Setup Python 3.8
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8' 
+          python-version: '3.8'
       - name: Download test tools
         run: |
           wget -O extension-tester.jar \
@@ -39,3 +39,34 @@ jobs:
             --print-meta \
             --test-all-novels \
             --ignore-missing
+
+  build:
+    runs-on: ubuntu-latest
+    needs: tests
+    # Run only if pushed to dev branch
+    if: github.event == 'push'
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+      - name: Copy extension files
+        run: |
+          mkdir -p final/src
+          mkdir -p final/lib
+          cp -r src/* final/src/
+          cp -r lib/* final/lib/
+          cp README.md final/
+      - name: Generate index files
+        run: |
+          python3 ci/generate-index.py
+      - name: Deploy to Repo branch
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          BRANCH: repo
+          REPO: self
+          FOLDER: final
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_KEY }}
+          MESSAGE: "📈 Automatic deployment from noaione/shosetsu-extensions@{long-sha}"

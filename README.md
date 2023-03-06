@@ -12,7 +12,7 @@ You can also try to contact me via Discord: **N4O#8868**
 To add this repository to Shosetsu, follow this instructions:
 1. Open More
 2. Open Repositories
-3. Copy the following link: `https://raw.githubusercontent.com/noaione/shosetsu-extensions/dev`
+3. Copy the following link: `https://raw.githubusercontent.com/noaione/shosetsu-extensions/repo`
 4. Click `Add`
 5. Paste the above link to `Repository URL` and name the `Repository name` into `N4O` or something similar
 6. Refresh your extension list
@@ -82,3 +82,15 @@ Above list should be working as intended when you open up the chapter, for Madar
    This extension use a custom API made specifically for Shosetsu since the website design is so broken and hard to parse. See [`extras`](https://github.com/noaione/shosetsu-extensions/tree/dev/extras) folder for more info.
 2. CClaw Translations<br />
    Part of this extension use the custom API. See [`extras`](https://github.com/noaione/shosetsu-extensions/tree/dev/extras) folder for more info.
+
+## Contributing
+
+Contribution is allowed, as long as it is not available in the upstream repository because it is useless.
+
+Please make sure to test the extension using my fork of [extension-tester](https://github.com/noaione/shosetsu-ext-tester)
+
+```sh
+$ java -jar extension-tester.jar src/en/NewExtension.lua
+```
+
+For ID, you can just randomly generate it.
