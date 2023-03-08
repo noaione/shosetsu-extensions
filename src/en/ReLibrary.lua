@@ -1,4 +1,4 @@
--- {"id":24971,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":24971,"ver":"0.1.4","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://re-library.com"
 
@@ -48,6 +48,11 @@ local function passageCleanup(v)
 		v:remove()
 		return
 	end
+    local text = v:text():lower()
+    if WPCommon.contains(text, "this chapter is provided") or WPCommon.contains(text, "please visit re:library") then
+        v:remove()
+        return
+    end
     local nextHeader = v:selectFirst("a")
     if nextHeader and WPCommon.contains(nextHeader:attr("href"), "patreon.com") then
         v:remove()
@@ -59,12 +64,39 @@ local function passageCleanup(v)
 	end
 end
 
+--- @param v Element
+local function reappendStyle(v)
+    local style = v:attr("style")
+    if WPCommon.contains(style, "text-align") then
+        -- extract the alignment, some obvious format:
+        -- text-align: center;
+        -- text-align: center
+        -- text-align:center;
+        -- text-align:center
+        -- there might also be other style, just ignore it
+        local alignment = style:match("text%-align%:%s*%w*%s*;?")
+        -- get the alignment
+        if alignment then
+            return alignment
+        end
+    end
+    return nil
+end
+
 --- @param paragraph Element
 local function cleanupChildStyle(paragraph)
 	map(paragraph:select("span"), function (v)
+        local reappend = reappendStyle(v)
 		v:removeAttr("style")
+        if reappend then
+            v:attr("style", reappend)
+        end
 	end)
+    local reappend = reappendStyle(paragraph)
 	paragraph:removeAttr("style")
+    if reappend then
+        paragraph:attr("style", reappend)
+    end
 end
 
 --- @param suButton Element
@@ -89,6 +121,46 @@ local function isIndex(elem)
 end
 
 --- @param content Element
+local function nukeNavigation(content)
+    local prevPageLink = content:selectFirst(".prevPageLink")
+    local nextPageLink = content:selectFirst(".nextPageLink")
+    if prevPageLink then
+        prevPageLink:remove()
+    end
+    if nextPageLink then
+        local indexLink = nextPageLink:nextElementSibling()
+        nextPageLink:remove()
+        if indexLink and isIndex(indexLink) then
+            indexLink:remove()
+        end
+    end
+end
+
+--- @param content Element
+local function countParagraph(content)
+    local c = 0
+    map(content:select("> p"), function (v)
+        c = c + 1
+    end)
+    return c
+end
+
+--- @param content Element
+local function findParagraphText(content)
+    -- find a <div> that contains more than 3 <p>
+    local divs = content:select("> div")
+    --- @type Element
+    local selectDiv = nil;
+    map(divs, function (v)
+        local pCount = countParagraph(v)
+        if pCount > 3 and selectDiv == nil then
+            selectDiv = v
+        end
+    end)
+    return selectDiv
+end
+
+--- @param content Element
 local function parsePageCommon(content)
 	WPCommon.cleanupElement(content)
 
@@ -102,35 +174,33 @@ local function parsePageCommon(content)
             suButton:remove()
         end
     end
-    local prevPageLink = content:selectFirst(".prevPageLink")
-    local nextPageLink = content:selectFirst(".nextPageLink")
-    if prevPageLink then
-        prevPageLink:remove()
-    end
-    if nextPageLink then
-        local indexLink = nextPageLink:nextElementSibling()
-        nextPageLink:remove()
-        if indexLink and isIndex(indexLink) then
-            indexLink:remove()
+    nukeNavigation(content)
+    nukeNavigation(content)
+
+    local pSpan = content:selectFirst("> p > span")
+    if pSpan then
+        local pSpanId = pSpan:attr("id")
+        if WPCommon.contains(pSpanId, "more-") then
+            pSpan:parent():remove()
         end
     end
+
+    -- minimum of 3 paragraph required to be marked as "content"
+    if countParagraph(content) < 3 then
+        local contentParagraph = findParagraphText(content)
+        if contentParagraph then
+            content = contentParagraph
+        else
+            return Document("Failed to parse page, please report to https://github.com/noaione/shosetsu-extensions")
+        end
+    end
+
+    -- sometimes, the actual content is located in a <div>
 
 	map(content:select("> p"), passageCleanup)
 	map(content:select("> div"), passageCleanup)
 	map(content:select("p"), cleanupChildStyle)
 
-    local prevPageLink = content:selectFirst(".prevPageLink")
-    local nextPageLink = content:selectFirst(".nextPageLink")
-    if prevPageLink then
-        prevPageLink:remove()
-    end
-    if nextPageLink then
-        local indexLink = nextPageLink:nextElementSibling()
-        nextPageLink:remove()
-        if indexLink and isIndex(indexLink) then
-            indexLink:remove()
-        end
-    end
     return content
 end
 
