@@ -267,9 +267,10 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ReLibrary.png",
       "id": 24971,
       "lang": "en",
-      "ver": "0.1.0",
+      "ver": "0.1.1",
       "libVer": "1.0.0",
-      "md5": ""
+      "md5": "",
+      "disableTest": true
     }
   ]
 }

@@ -1,4 +1,4 @@
--- {"id":24971,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":24971,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://re-library.com"
 
@@ -177,8 +177,6 @@ local function parsePageOneshot(url)
 		local title = postTitle:text()
 		content:child(0):before("<h2>" .. title .. "</h2><hr/>")
 	end
-    print(content)
-
     return content
 end
 
