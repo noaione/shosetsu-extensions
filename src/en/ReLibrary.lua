@@ -1,4 +1,4 @@
--- {"id":24971,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":24971,"ver":"0.1.3","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://re-library.com"
 
@@ -48,6 +48,11 @@ local function passageCleanup(v)
 		v:remove()
 		return
 	end
+    local text = v:text():lower()
+    if WPCommon.contains(text, "this chapter is provided") or WPCommon.contains(text, "please visit re:library") then
+        v:remove()
+        return
+    end
     local nextHeader = v:selectFirst("a")
     if nextHeader and WPCommon.contains(nextHeader:attr("href"), "patreon.com") then
         v:remove()
