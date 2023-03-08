@@ -1,4 +1,4 @@
--- {"id":24971,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":24971,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://re-library.com"
 
@@ -75,6 +75,19 @@ local function isOneShotPage(suButton)
     return WPCommon.contains(suButtonText:lower(), "leave a comment")
 end
 
+--- @param elem Element
+local function isIndex(elem)
+    local childA = elem:selectFirst("a")
+    if not childA then return false end
+    local href = childA:attr("href")
+    if not href then return false end
+    local text = childA:text()
+    if WPCommon.contains(href, "re-library.com") and WPCommon.contains(text:lower(), "index") then
+        return true
+    end
+    return false
+end
+
 --- @param content Element
 local function parsePageCommon(content)
 	WPCommon.cleanupElement(content)
@@ -95,9 +108,9 @@ local function parsePageCommon(content)
         prevPageLink:remove()
     end
     if nextPageLink then
-        nextPageLink:remove()
         local indexLink = nextPageLink:nextElementSibling()
-        if indexLink then
+        nextPageLink:remove()
+        if indexLink and isIndex(indexLink) then
             indexLink:remove()
         end
     end
@@ -112,9 +125,9 @@ local function parsePageCommon(content)
         prevPageLink:remove()
     end
     if nextPageLink then
-        nextPageLink:remove()
         local indexLink = nextPageLink:nextElementSibling()
-        if indexLink then
+        nextPageLink:remove()
+        if indexLink and isIndex(indexLink) then
             indexLink:remove()
         end
     end
