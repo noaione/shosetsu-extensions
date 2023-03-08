@@ -44,7 +44,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: tests
     # Run only if pushed to dev branch
-    if: github.event == 'push'
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
