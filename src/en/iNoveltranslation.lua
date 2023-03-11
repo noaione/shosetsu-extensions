@@ -1,4 +1,4 @@
--- {"id":3239,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","dep":["MDLua>=1.0.0","dkjson>=1.0.1"]}
+-- {"id":3239,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["MDLua>=1.0.0","dkjson>=1.0.1"]}
 
 local mdRender = Require("MDLua").render
 local json = Require("dkjson");
@@ -54,6 +54,24 @@ local function getPassage(chapterURL)
 	return pageOfElem(chContent)
 end
 
+--- @param doc Document
+--- @return string
+local function parseDescription(doc)
+	local body = doc:selectFirst("body")
+	local desc = ""
+	map(body:children(), function (v)
+		local text = v:text()
+		if v:tagName():upper() == "BR" then
+			desc = desc .. "\n"
+		else
+			desc = desc .. text .. "\n"
+		end
+	end)
+	-- strip trailing newlines
+	desc = desc:gsub("\n+$", "")
+	return desc
+end
+
 local function getCoverOrFallback(coverMeta)
 	local cover = placeholderImage
 	if coverMeta ~= nil then
@@ -100,7 +118,7 @@ local function parseNovel(novelURL, loadChapters)
 	local novel = NovelInfo {
 		title = contents.title,
 		imageURL = getCoverOrFallback(contents.cover),
-		description = markdownToHTML(contents.description):selectFirst("body"),
+		description = parseDescription(markdownToHTML(contents.description):selectFirst("body")),
 	}
 	local authors = contents.author
 	local genres = contents.genres
