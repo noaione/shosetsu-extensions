@@ -286,6 +286,16 @@
       "libVer": "1.0.0",
       "md5": "",
       "disableTest": true
+    },
+    {
+      "name": "Hecate's Corner",
+      "fileName": "HecateCorner",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/HecateCorner.png",
+      "id": 213871,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": ""
     }
   ]
 }
