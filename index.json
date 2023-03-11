@@ -35,6 +35,10 @@
     {
       "name": "WPCommon",
       "ver": "1.0.0"
+    },
+    {
+      "name": "MDLua",
+      "ver": "1.0.0"
     }
   ],
   "scripts": [
@@ -268,6 +272,17 @@
       "id": 24971,
       "lang": "en",
       "ver": "0.1.4",
+      "libVer": "1.0.0",
+      "md5": "",
+      "disableTest": true
+    },
+    {
+      "name": "iNoveltranslation",
+      "fileName": "iNoveltranslation",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/iNovel.png",
+      "id": 3239,
+      "lang": "en",
+      "ver": "0.1.0",
       "libVer": "1.0.0",
       "md5": "",
       "disableTest": true
