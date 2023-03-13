@@ -233,6 +233,16 @@
       "md5": "551a80fbeed9223ffe6c2cec5fa61ec3"
     },
     {
+      "name": "RET Translations",
+      "fileName": "RETTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/RETTranslations.png",
+      "id": 18903,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "77eed03b7aa3c2af6fe94a56479db3ff"
+    },
+    {
       "name": "Light Novels Translations",
       "fileName": "LightNovelsTranslations",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/LightNovelsTranslations.png",
