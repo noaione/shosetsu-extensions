@@ -19,33 +19,33 @@ To add this repository to Shosetsu, follow this instructions:
 7. Install the extension you want
 
 ## Extensions
-|            Name           |                      URL                     |       Theme       | Tested? | Complete     | Notes                 |
-|:-------------------------:|:--------------------------------------------:|:-----------------:|:-------:|--------------|-----------------------|
-| bakapervert               | https://bakapervert.wordpress.com            | Wordpress         | Yes     | Yes          |                       |
-| Kuro Kurori's Lounge      | https://kurokurori.wordpress.com             | Wordpress         | Yes     | Yes          |                       |
-| Europa is a cool moon     | https://europaisacoolmoon.wordpress.com      | Wordpress         | Yes     | Yes          |                       |
-| Reigokai - Isekai Lunatic | https://isekailunatic.com                    | Wordpress         | Yes     | Yes          |                       |
-| bayabusco translation     | https://bayabuscotranslation.com             | Wordpress         | Yes     | Yes          |                       |
-| Experimental Translations | https://experimentaltranslations.com         | Wordpress         | Yes     | Yes          |                       |
-| ShiroKun's Translation    | https://shirokuns.com                        | Wordpress         | Yes     | Yes          |                       |
-| Shiru Sekai Translations  | https://shirusekaitranslations.wordpress.com | Wordpress         | Yes     | Yes          |                       |
-| Craneanime Translation    | https://translation.craneanime.xyz           | Wordpress         | Yes     | Yes          |                       |
-| Toasty Translations       | https://toastytranslations.com               | Wordpress         | Yes     | Yes          |                       |
-| Light Novels Translations | https://lightnovelstranslations.com          | Wordpress         | Maybe   | Yes          | Skipped CI testing    |
-| Hellping                  | https://hellping.org                         | Wordpress         | Yes     | Missing some | Use extra API mapping |
-| Skythewood                | https://skythewood.blogspot.com              | Blogspot          | Yes     | Yes          |                       |
-| Ainushi                   | https://www.ainushi.com                      | Wordpress         | Yes     | Yes          |                       |
-| CClaw Translations        | https://cclawtranslations.home.blog          | Wordpress         | Yes     | Yes          | Use extra API mapping |
-| Glucose Translations      | https://glucosetl.wordpress.com              | Wordpress         | Yes     | Yes          |                       |
-| SHM Translations          | https://www.shmtranslations.com              | Wordpress         | Kinda   | Maybe        | Some novel are broken |
-| AYA Translation           | https://yuriko-aya.cc                        | Wordpress         | Yes     | Yes          |                       |
-| Tintan                    | https://tintanton.wordpress.com              | Wordpress         | Yes     | Yes          |                       |
-| Re:Library                | https://re-library.com                       | Wordpress         | Yes     | Yes          |                       |
-| iNovel translations       | https://inoveltranslation.com                | Chakra UI/Next.js | Maybe   | Yes          | Skipped CI testing    |
-| Hecate's Corner           | https://hecatescorner.wordpress.com          | Wordpress         | Yes     | Yes          |                       |
-| RET Translations          | https://ret-translations.blogspot.com        | Blogspot          | Yes     | Yes          |                       |
-| Fans Translations         | https://fanstranslations.com                 | Madara            | Yes     | Yes          |                       |
-| Zetro Translations        | https://zetrotranslation.com                 | Madara            | Yes     | Yes          | Used fixed lib        |
+|            Name           |                      URL                     |       Theme       | Working? | Complete     | Notes                 |
+|:-------------------------:|:--------------------------------------------:|:-----------------:|:--------:|--------------|-----------------------|
+| bakapervert               | https://bakapervert.wordpress.com            | Wordpress         | Yes      | Yes          |                       |
+| Kuro Kurori's Lounge      | https://kurokurori.wordpress.com             | Wordpress         | Yes      | Yes          |                       |
+| Europa is a cool moon     | https://europaisacoolmoon.wordpress.com      | Wordpress         | Yes      | Yes          |                       |
+| Reigokai - Isekai Lunatic | https://isekailunatic.com                    | Wordpress         | Yes      | Yes          |                       |
+| bayabusco translation     | https://bayabuscotranslation.com             | Wordpress         | Yes      | Yes          |                       |
+| Experimental Translations | https://experimentaltranslations.com         | Wordpress         | Yes      | Yes          |                       |
+| ShiroKun's Translation    | https://shirokuns.com                        | Wordpress         | Yes      | Yes          |                       |
+| Shiru Sekai Translations  | https://shirusekaitranslations.wordpress.com | Wordpress         | Yes      | Yes          |                       |
+| Craneanime Translation    | https://translation.craneanime.xyz           | Wordpress         | Yes      | Yes          |                       |
+| Toasty Translations       | https://toastytranslations.com               | Wordpress         | Yes      | Yes          |                       |
+| Light Novels Translations | https://lightnovelstranslations.com          | Wordpress         | Maybe    | Yes          | Skipped CI testing    |
+| Hellping                  | https://hellping.org                         | Wordpress         | Yes      | Missing some | Use extra API mapping |
+| Skythewood                | https://skythewood.blogspot.com              | Blogspot          | Yes      | Yes          |                       |
+| Ainushi                   | https://www.ainushi.com                      | Wordpress         | Yes      | Yes          |                       |
+| CClaw Translations        | https://cclawtranslations.home.blog          | Wordpress         | Yes      | Yes          | Use extra API mapping |
+| Glucose Translations      | https://glucosetl.wordpress.com              | Wordpress         | Yes      | Yes          |                       |
+| SHM Translations          | https://www.shmtranslations.com              | Wordpress         | Kinda    | Maybe        | Some novel are broken |
+| AYA Translation           | https://yuriko-aya.cc                        | Wordpress         | Yes      | Yes          |                       |
+| Tintan                    | https://tintanton.wordpress.com              | Wordpress         | Yes      | Yes          |                       |
+| Re:Library                | https://re-library.com                       | Wordpress         | Yes      | Yes          |                       |
+| iNovel translations       | https://inoveltranslation.com                | Chakra UI/Next.js | Maybe    | Yes          | Skipped CI testing, broken Markdown conversion |
+| Hecate's Corner           | https://hecatescorner.wordpress.com          | Wordpress         | Yes      | Yes          |                       |
+| RET Translations          | https://ret-translations.blogspot.com        | Blogspot          | Yes      | Yes          |                       |
+| Fans Translations         | https://fanstranslations.com                 | Madara            | Yes      | Yes          |                       |
+| Zetro Translations        | https://zetrotranslation.com                 | Madara            | Yes      | Yes          | Used fixed lib        |
 
 Please note that I'm creating for the stuff I'm reading myself, if some pages does not work please open up a new Issue so I can look up how to solve it.
 
