@@ -306,6 +306,26 @@
       "ver": "0.1.0",
       "libVer": "1.0.0",
       "md5": ""
-    }
+    },
+    {
+      "name": "Brizzly Novel",
+      "fileName": "BrizzyNovel",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/BrizzlyNovel.png",
+      "id": 412380,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": ""
+    },,
+    {
+      "name": "Novel Multiverse",
+      "fileName": "NovelMultiverse",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/NovelMultiverse.png",
+      "id": 412381,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": ""
+    },
   ]
 }
