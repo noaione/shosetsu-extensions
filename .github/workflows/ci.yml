@@ -30,6 +30,9 @@ jobs:
         run: |
           wget -O extension-tester.jar \
             https://github.com/noaione/shosetsu-ext-tester/releases/download/v$EXTENSION_TESTER_VERSION/extension-tester.jar
+      - name: Validate extension/lib files
+        run: |
+          python3 ci/validate-index.py
       - name: Test all extensions
         run: |
           python3 ci/multi-test.py \

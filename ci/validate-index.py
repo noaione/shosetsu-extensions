@@ -1,5 +1,4 @@
 import json
-
 from sh_index import (calculate_md5, extract_relevant_information, get_lib_dir,
                       get_root_dir, get_src_dir, peek_json)
 
@@ -12,17 +11,13 @@ index_metadata = {
     "scripts": [],
 }
 
-print("Collecting libraries...")
+print("Checking libraries...")
 for library in LIB_DIR.glob("*.lua"):
     lib_data = peek_json(library)
-    index_metadata["libraries"].append({
-        "name": library.stem,
-        "ver": lib_data["ver"],
-    })
+    print("-- Valid library:", library.stem, f"(v{lib_data['ver']})")
 
-print("Collecting scripts/extensions...")
+print("Checking scripts/extensions...")
 for source in SOURCES_DIR.rglob("*.lua"):
-    print(f"-- Peeking {source}")
     src_data = peek_json(source)
     # Get name from lua file
     # Find the return string as the first
@@ -38,9 +33,8 @@ for source in SOURCES_DIR.rglob("*.lua"):
         "libVer": src_data["libVer"],
         "md5": calculate_md5(source),
     }
-    index_metadata["scripts"].append(schema)
+    print("-- Valid script:", schema["name"], f"(v{schema['ver']})")
 
-print("Writing generated files...")
-(ROOT_DIR / "final" / "index.json").write_text(
-    json.dumps(index_metadata, ensure_ascii=False, indent=2)
-)
+print("Checking dev index files...")
+json.loads((ROOT_DIR / "index.json").read_text())
+print("-- Valid index.json")
