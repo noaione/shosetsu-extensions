@@ -1,47 +1,287 @@
 {
   "libraries": [
     {
+      "name": "NovelFull",
+      "ver": "2.0.6"
+    },
+    {
       "name": "WPCommon",
       "ver": "1.0.0"
-    },
-    {
-      "name": "MDLua",
-      "ver": "1.0.0"
-    },
-    {
-      "name": "NaoAPI",
-      "ver": "1.0.1"
-    },
-    {
-      "name": "Madara",
-      "ver": "2.9.0"
     },
     {
       "name": "url",
       "ver": "1.0.0"
     },
     {
-      "name": "CommonCSS",
-      "ver": "1.0.1"
-    },
-    {
-      "name": "WWVolare",
-      "ver": "1.2.1"
+      "name": "Madara",
+      "ver": "2.9.0"
     },
     {
       "name": "247truyen",
       "ver": "1.1.2"
     },
     {
-      "name": "NovelFull",
-      "ver": "2.0.6"
+      "name": "WWVolare",
+      "ver": "1.2.1"
+    },
+    {
+      "name": "CommonCSS",
+      "ver": "1.0.1"
+    },
+    {
+      "name": "MDLua",
+      "ver": "1.0.0"
     },
     {
       "name": "dkjson",
       "ver": "1.0.1"
+    },
+    {
+      "name": "NaoAPI",
+      "ver": "1.0.1"
     }
   ],
   "scripts": [
+    {
+      "name": "Brizzly Novel",
+      "fileName": "BrizzyNovel",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/BrizzlyNovel.png",
+      "id": 412380,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "c1eda64c6d84fdee925eb71307b8331e"
+    },
+    {
+      "name": "Toasty Translations",
+      "fileName": "ToastyTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ToastyTL.png",
+      "id": 376796,
+      "lang": "en",
+      "ver": "0.2.0",
+      "libVer": "1.0.0",
+      "md5": "ede5249214aa8c5bce651f633077c04d"
+    },
+    {
+      "name": "Shiru Sekai Translations",
+      "fileName": "ShiruSekai",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ShiruSekai.png",
+      "id": 26015,
+      "lang": "en",
+      "ver": "0.2.0",
+      "libVer": "1.0.0",
+      "md5": "661a64725595204335f93e3cfcca8f1f"
+    },
+    {
+      "name": "RET Translations",
+      "fileName": "RETTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/RETTranslations.png",
+      "id": 18903,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "77eed03b7aa3c2af6fe94a56479db3ff"
+    },
+    {
+      "name": "Skythewood",
+      "fileName": "Skythewood",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Skythewood.png",
+      "id": 22903,
+      "lang": "en",
+      "ver": "0.2.0",
+      "libVer": "1.0.0",
+      "md5": "083297cb702e75ffbb9183f581cf4bc7"
+    },
+    {
+      "name": "Foxaholic 18+",
+      "fileName": "Foxaholic18",
+      "imageURL": "https://github.com/shosetsuorg/extensions/raw/dev/icons/Foxaholic.png",
+      "id": 69420,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "4a845b3f872bf6a8fb831bf67acd35ba"
+    },
+    {
+      "name": "CClaw Translations",
+      "fileName": "CClawTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/CClawTL.png",
+      "id": 24903,
+      "lang": "en",
+      "ver": "0.3.1",
+      "libVer": "1.0.0",
+      "md5": "9b3bce9f586200bad25637e18904718c"
+    },
+    {
+      "name": "Re:Library",
+      "fileName": "ReLibrary",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ReLibrary.png",
+      "id": 24971,
+      "lang": "en",
+      "ver": "0.1.4",
+      "libVer": "1.0.0",
+      "md5": "042cf7ed258e654112de2e69a0ce549a"
+    },
+    {
+      "name": "Reigokai - Isekai Lunatic",
+      "fileName": "Reigokai",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Reigokai.png",
+      "id": 221702,
+      "lang": "en",
+      "ver": "0.2.0",
+      "libVer": "1.0.0",
+      "md5": "92870048c9597ef8a89addcfda844808"
+    },
+    {
+      "name": "Europa is a cool moon",
+      "fileName": "EuropaMoon",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/EuropaMoon.png",
+      "id": 376794,
+      "lang": "en",
+      "ver": "0.2.0",
+      "libVer": "1.0.0",
+      "md5": "de0af92e894e6672d114ec4c977193e4"
+    },
+    {
+      "name": "iNoveltranslation",
+      "fileName": "iNoveltranslation",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/iNovel.png",
+      "id": 3239,
+      "lang": "en",
+      "ver": "0.1.1",
+      "libVer": "1.0.0",
+      "md5": "801e2f413f1e19192a0bc156c78377bf"
+    },
+    {
+      "name": "Hellping",
+      "fileName": "Hellping",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Hellping.png",
+      "id": 221740,
+      "lang": "en",
+      "ver": "0.2.1",
+      "libVer": "1.0.0",
+      "md5": "674e7d65609c32c97161dbe9f96d8b04"
+    },
+    {
+      "name": "Light Novels Translations",
+      "fileName": "LightNovelsTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/LightNovelsTranslations.png",
+      "id": 26375,
+      "lang": "en",
+      "ver": "0.2.0",
+      "libVer": "1.0.0",
+      "md5": "83482d1fe82c13c8b833e1142079904b"
+    },
+    {
+      "name": "SHM Translations",
+      "fileName": "SHMTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/SHMTranslations.png",
+      "id": 176796,
+      "lang": "en",
+      "ver": "0.1.5",
+      "libVer": "1.0.0",
+      "md5": "8c036889d4e2d9af3d970a3292b82517"
+    },
+    {
+      "name": "Fans Translations",
+      "fileName": "FansTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/FansTranslations.png",
+      "id": 40159,
+      "lang": "en",
+      "ver": "0.1.1",
+      "libVer": "1.0.0",
+      "md5": "d5b3175d6a97fdb1562a393757a6f45d"
+    },
+    {
+      "name": "Craneanime Translation",
+      "fileName": "Craneanime",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Craneanime.png",
+      "id": 221710,
+      "lang": "en",
+      "ver": "0.3.0",
+      "libVer": "1.0.0",
+      "md5": "a30b32470e9e757cc9ed5faae74b52e0"
+    },
+    {
+      "name": "Kuro Kurori's Lounge",
+      "fileName": "KuroKurori",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/KuroKurori.png",
+      "id": 309841,
+      "lang": "en",
+      "ver": "0.2.0",
+      "libVer": "1.0.0",
+      "md5": "7cd3e4d0e59696676d72075557ff1b82"
+    },
+    {
+      "name": "Zetro Translations",
+      "fileName": "ZetroTranslation",
+      "imageURL": "https://zetrotranslation.com/wp-content/uploads/2020/12/logo_red-e1607700845220.png",
+      "id": 428270,
+      "lang": "en",
+      "ver": "1.0.2",
+      "libVer": "1.0.0",
+      "md5": "4768e649aa105615df904c7072037761"
+    },
+    {
+      "name": "Novel Multiverse",
+      "fileName": "NovelMultiverse",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/NovelMultiverse.png",
+      "id": 412381,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "9419324945a35279cd7a4f2bf8379736"
+    },
+    {
+      "name": "Experimental Translations",
+      "fileName": "ExperimentalTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ExperimentalTL.png",
+      "id": 376754,
+      "lang": "en",
+      "ver": "0.2.0",
+      "libVer": "1.0.0",
+      "md5": "72f5cbf6e465219bee9bfede575f1a08"
+    },
+    {
+      "name": "Ainushi Translation",
+      "fileName": "Ainushi",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Ainushi.png",
+      "id": 22933,
+      "lang": "en",
+      "ver": "0.2.0",
+      "libVer": "1.0.0",
+      "md5": "043fb3967aa5d2e8a8e4a874c7f1d7cc"
+    },
+    {
+      "name": "ShiroKun's Translation",
+      "fileName": "ShiroKun",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ShiroKunTL.png",
+      "id": 26016,
+      "lang": "en",
+      "ver": "0.2.0",
+      "libVer": "1.0.0",
+      "md5": "551a80fbeed9223ffe6c2cec5fa61ec3"
+    },
+    {
+      "name": "AYA Translation",
+      "fileName": "AYATranslation",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/AyaTL.png",
+      "id": 24271,
+      "lang": "en",
+      "ver": "0.1.1",
+      "libVer": "1.0.0",
+      "md5": "f338da3675bdbe5fa95b508acd93c4c2"
+    },
+    {
+      "name": "Hecate's Corner",
+      "fileName": "HecateCorner",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/HecateCorner.png",
+      "id": 213871,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "918fc4ffe7cd25196e5e1be250da83e9"
+    },
     {
       "name": "bayabusco translation",
       "fileName": "bayabusco",
@@ -63,16 +303,6 @@
       "md5": "ce4225cec62145b292548139723f8452"
     },
     {
-      "name": "Foxaholic 18+",
-      "fileName": "Foxaholic18",
-      "imageURL": "https://github.com/shosetsuorg/extensions/raw/dev/icons/Foxaholic.png",
-      "id": 69420,
-      "lang": "en",
-      "ver": "0.1.0",
-      "libVer": "1.0.0",
-      "md5": "4a845b3f872bf6a8fb831bf67acd35ba"
-    },
-    {
       "name": "Glucose Translations",
       "fileName": "GlucoseTranslations",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/GlucoseTL.png",
@@ -83,96 +313,6 @@
       "md5": "d8aee213c437656666d7c69c46cf60d7"
     },
     {
-      "name": "CClaw Translations",
-      "fileName": "CClawTranslations",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/CClawTL.png",
-      "id": 24903,
-      "lang": "en",
-      "ver": "0.3.1",
-      "libVer": "1.0.0",
-      "md5": "9b3bce9f586200bad25637e18904718c"
-    },
-    {
-      "name": "Kuro Kurori's Lounge",
-      "fileName": "KuroKurori",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/KuroKurori.png",
-      "id": 309841,
-      "lang": "en",
-      "ver": "0.2.0",
-      "libVer": "1.0.0",
-      "md5": "7cd3e4d0e59696676d72075557ff1b82"
-    },
-    {
-      "name": "Skythewood",
-      "fileName": "Skythewood",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Skythewood.png",
-      "id": 22903,
-      "lang": "en",
-      "ver": "0.2.0",
-      "libVer": "1.0.0",
-      "md5": "083297cb702e75ffbb9183f581cf4bc7"
-    },
-    {
-      "name": "Craneanime Translation",
-      "fileName": "Craneanime",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Craneanime.png",
-      "id": 221710,
-      "lang": "en",
-      "ver": "0.3.0",
-      "libVer": "1.0.0",
-      "md5": "a30b32470e9e757cc9ed5faae74b52e0"
-    },
-    {
-      "name": "Fans Translations",
-      "fileName": "FansTranslations",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/FansTranslations.png",
-      "id": 40159,
-      "lang": "en",
-      "ver": "0.1.1",
-      "libVer": "1.0.0",
-      "md5": "d5b3175d6a97fdb1562a393757a6f45d"
-    },
-    {
-      "name": "SHM Translations",
-      "fileName": "SHMTranslations",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/SHMTranslations.png",
-      "id": 176796,
-      "lang": "en",
-      "ver": "0.1.5",
-      "libVer": "1.0.0",
-      "md5": "8c036889d4e2d9af3d970a3292b82517"
-    },
-    {
-      "name": "Europa is a cool moon",
-      "fileName": "EuropaMoon",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/EuropaMoon.png",
-      "id": 376794,
-      "lang": "en",
-      "ver": "0.2.0",
-      "libVer": "1.0.0",
-      "md5": "de0af92e894e6672d114ec4c977193e4"
-    },
-    {
-      "name": "Experimental Translations",
-      "fileName": "ExperimentalTranslations",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ExperimentalTL.png",
-      "id": 376754,
-      "lang": "en",
-      "ver": "0.2.0",
-      "libVer": "1.0.0",
-      "md5": "72f5cbf6e465219bee9bfede575f1a08"
-    },
-    {
-      "name": "Hecate's Corner",
-      "fileName": "HecateCorner",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/HecateCorner.png",
-      "id": 213871,
-      "lang": "en",
-      "ver": "0.1.0",
-      "libVer": "1.0.0",
-      "md5": "918fc4ffe7cd25196e5e1be250da83e9"
-    },
-    {
       "name": "Tintan",
       "fileName": "Tintan",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Tintan.png",
@@ -181,126 +321,6 @@
       "ver": "0.1.0",
       "libVer": "1.0.0",
       "md5": "f83a3dac7e15f5b64a02d2c651f2a922"
-    },
-    {
-      "name": "Shiru Sekai Translations",
-      "fileName": "ShiruSekai",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ShiruSekai.png",
-      "id": 26015,
-      "lang": "en",
-      "ver": "0.2.0",
-      "libVer": "1.0.0",
-      "md5": "661a64725595204335f93e3cfcca8f1f"
-    },
-    {
-      "name": "Reigokai - Isekai Lunatic",
-      "fileName": "Reigokai",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Reigokai.png",
-      "id": 221702,
-      "lang": "en",
-      "ver": "0.2.0",
-      "libVer": "1.0.0",
-      "md5": "92870048c9597ef8a89addcfda844808"
-    },
-    {
-      "name": "Re:Library",
-      "fileName": "ReLibrary",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ReLibrary.png",
-      "id": 24971,
-      "lang": "en",
-      "ver": "0.1.4",
-      "libVer": "1.0.0",
-      "md5": "042cf7ed258e654112de2e69a0ce549a"
-    },
-    {
-      "name": "iNoveltranslation",
-      "fileName": "iNoveltranslation",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/iNovel.png",
-      "id": 3239,
-      "lang": "en",
-      "ver": "0.1.1",
-      "libVer": "1.0.0",
-      "md5": "801e2f413f1e19192a0bc156c78377bf"
-    },
-    {
-      "name": "ShiroKun's Translation",
-      "fileName": "ShiroKun",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ShiroKunTL.png",
-      "id": 26016,
-      "lang": "en",
-      "ver": "0.2.0",
-      "libVer": "1.0.0",
-      "md5": "551a80fbeed9223ffe6c2cec5fa61ec3"
-    },
-    {
-      "name": "RET Translations",
-      "fileName": "RETTranslations",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/RETTranslations.png",
-      "id": 18903,
-      "lang": "en",
-      "ver": "0.1.0",
-      "libVer": "1.0.0",
-      "md5": "77eed03b7aa3c2af6fe94a56479db3ff"
-    },
-    {
-      "name": "Light Novels Translations",
-      "fileName": "LightNovelsTranslations",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/LightNovelsTranslations.png",
-      "id": 26375,
-      "lang": "en",
-      "ver": "0.2.0",
-      "libVer": "1.0.0",
-      "md5": "83482d1fe82c13c8b833e1142079904b"
-    },
-    {
-      "name": "Hellping",
-      "fileName": "Hellping",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Hellping.png",
-      "id": 221740,
-      "lang": "en",
-      "ver": "0.2.1",
-      "libVer": "1.0.0",
-      "md5": "674e7d65609c32c97161dbe9f96d8b04"
-    },
-    {
-      "name": "Ainushi Translation",
-      "fileName": "Ainushi",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Ainushi.png",
-      "id": 22933,
-      "lang": "en",
-      "ver": "0.2.0",
-      "libVer": "1.0.0",
-      "md5": "043fb3967aa5d2e8a8e4a874c7f1d7cc"
-    },
-    {
-      "name": "AYA Translation",
-      "fileName": "AYATranslation",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/AyaTL.png",
-      "id": 24271,
-      "lang": "en",
-      "ver": "0.1.1",
-      "libVer": "1.0.0",
-      "md5": "f338da3675bdbe5fa95b508acd93c4c2"
-    },
-    {
-      "name": "Toasty Translations",
-      "fileName": "ToastyTranslations",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ToastyTL.png",
-      "id": 376796,
-      "lang": "en",
-      "ver": "0.2.0",
-      "libVer": "1.0.0",
-      "md5": "ede5249214aa8c5bce651f633077c04d"
-    },
-    {
-      "name": "Zetro Translations",
-      "fileName": "ZetroTranslation",
-      "imageURL": "https://zetrotranslation.com/wp-content/uploads/2020/12/logo_red-e1607700845220.png",
-      "id": 428270,
-      "lang": "en",
-      "ver": "1.0.2",
-      "libVer": "1.0.0",
-      "md5": "4768e649aa105615df904c7072037761"
     }
   ]
 }

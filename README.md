@@ -46,6 +46,8 @@ To add this repository to Shosetsu, follow this instructions:
 | RET Translations          | https://ret-translations.blogspot.com        | Blogspot          | Yes      | Yes          |                       |
 | Fans Translations         | https://fanstranslations.com                 | Madara            | Yes      | Yes          |                       |
 | Zetro Translations        | https://zetrotranslation.com                 | Madara            | Yes      | Yes          | Used fixed lib        |
+| Brizzly Novel             | https://www.brizzynovel.com                  | Madara            | Yes      | Yes          |                       |
+| Novel Multiverse          | https://www.novelmultiverse.com              | Madara            | Yes      | Yes          |                       |
 
 Please note that I'm creating for the stuff I'm reading myself, if some pages does not work please open up a new Issue so I can look up how to solve it.
 
