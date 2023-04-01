@@ -11,19 +11,19 @@ NaoAPI._baseAPIUrl = nil -- change later
 --- @param str string
 --- @param pattern string
 local function contains(str, pattern)
-	return str:find(pattern, 0, true) and true or false
+    return str:find(pattern, 0, true) and true or false
 end
 
 function NaoAPI.getBaseURL()
-	if NaoAPI._baseAPIUrl == nil then
-		error("NaoAPI._baseAPIUrl is nil. Please set it with NaoAPI.setURL()")
-		return
-	end
-	-- check if has a trailing slash
-	if NaoAPI._baseAPIUrl:sub(-1) == "/" then
-		return NaoAPI._baseAPIUrl:sub(1, -2)
-	end
-	return NaoAPI._baseAPIUrl
+    if NaoAPI._baseAPIUrl == nil then
+        error("NaoAPI._baseAPIUrl is nil. Please set it with NaoAPI.setURL()")
+        return
+    end
+    -- check if has a trailing slash
+    if NaoAPI._baseAPIUrl:sub(-1) == "/" then
+        return NaoAPI._baseAPIUrl:sub(1, -2)
+    end
+    return NaoAPI._baseAPIUrl
 end
 
 
@@ -50,11 +50,11 @@ function NaoAPI.getListings()
     return map(contents.contents, function(v)
         return Novel {
             title = v.title,
-			imageURL = v.cover,
+            imageURL = v.cover,
             -- for custom handling
-			link = "/shosetsu-api/" .. v.id .. "/",
-			description = v.description,
-			authors = v.authors,
+            link = "/shosetsu-api/" .. v.id .. "/",
+            description = v.description,
+            authors = v.authors,
         }
     end)
 end
@@ -63,40 +63,40 @@ end
 --- @param url string
 --- @param loadChapters boolean
 function NaoAPI.parseNovel(url, loadChapters)
-	-- strip the shosetsu-api/ part
-	print(url)
+    -- strip the shosetsu-api/ part
+    print(url)
     if not contains(url, "/shosetsu-api/") then
         return nil
     end
     NaoAPI._checkAPIUrl()
-	local id = url:sub(14, -2)
-	local doc = GETDocument(NaoAPI.getBaseURL() .. id)
-	local jsonRes = json.decode(doc:text()).contents
-	local novel = jsonRes.novel
+    local id = url:sub(14, -2)
+    local doc = GETDocument(NaoAPI.getBaseURL() .. id)
+    local jsonRes = json.decode(doc:text()).contents
+    local novel = jsonRes.novel
 
-	local info = NovelInfo {
-		title = novel.title,
-		imageURL = novel.cover,
-		authors = novel.authors,
+    local info = NovelInfo {
+        title = novel.title,
+        imageURL = novel.cover,
+        authors = novel.authors,
     }
-	if novel.description ~= nil then
-		info:setDescription(novel.description)
-	end
-	if novel.status ~= nil then
-		info:setStatus(NovelStatus(novel.status))
-	end
+    if novel.description ~= nil then
+        info:setDescription(novel.description)
+    end
+    if novel.status ~= nil then
+        info:setStatus(NovelStatus(novel.status))
+    end
 
-	if loadChapters then
-		info:setChapters(AsList(map(jsonRes.chapters, function (v)
-			return NovelChapter {
-				order = v.order,
-				title = v.title,
-				link = "/" .. v.id,
-				-- release = v.release,
-			}
-		end)))
-	end
-	return info
+    if loadChapters then
+        info:setChapters(AsList(map(jsonRes.chapters, function (v)
+            return NovelChapter {
+                order = v.order,
+                title = v.title,
+                link = "/" .. v.id,
+                -- release = v.release,
+            }
+        end)))
+    end
+    return info
 end
 
 return NaoAPI
