@@ -31,8 +31,7 @@ To add this repository to Shosetsu, follow this instructions:
 | Shiru Sekai Translations  | https://shirusekaitranslations.wordpress.com | Wordpress         | Yes      | Yes          |                       |
 | Craneanime Translation    | https://translation.craneanime.xyz           | Wordpress         | Yes      | Yes          |                       |
 | Toasty Translations       | https://toastytranslations.com               | Wordpress         | Yes      | Yes          |                       |
-| Light Novels Translations | https://lightnovelstranslations.com          | Wordpress         | Maybe    | Yes          | Skipped CI testing    |
-| Hellping                  | https://hellping.org                         | Wordpress         | Yes      | Missing some | Use extra API mapping |
+| Light Novels Translations | https://lightnovelstranslations.com          | Wordpress         | Maybe    | Yes          | Skipped CI testing, Some novel are broken |
 | Skythewood                | https://skythewood.blogspot.com              | Blogspot          | Yes      | Yes          |                       |
 | Ainushi                   | https://www.ainushi.com                      | Wordpress         | Yes      | Yes          |                       |
 | CClaw Translations        | https://cclawtranslations.home.blog          | Wordpress         | Yes      | Yes          | Use extra API mapping |
@@ -41,7 +40,7 @@ To add this repository to Shosetsu, follow this instructions:
 | AYA Translation           | https://yuriko-aya.cc                        | Wordpress         | Yes      | Yes          |                       |
 | Tintan                    | https://tintanton.wordpress.com              | Wordpress         | Yes      | Yes          |                       |
 | Re:Library                | https://re-library.com                       | Wordpress         | Yes      | Yes          |                       |
-| iNovel translations       | https://inoveltranslation.com                | Chakra UI/Next.js | Maybe    | Yes          | Skipped CI testing, broken Markdown conversion |
+| iNovel translations       | https://inoveltranslation.com                | Chakra UI/Next.js | Maybe    | Yes          | Skipped CI testing, some broken Markdown conversion |
 | Hecate's Corner           | https://hecatescorner.wordpress.com          | Wordpress         | Yes      | Yes          |                       |
 | RET Translations          | https://ret-translations.blogspot.com        | Blogspot          | Yes      | Yes          |                       |
 | Fans Translations         | https://fanstranslations.com                 | Madara            | Yes      | Yes          |                       |
@@ -77,16 +76,18 @@ The following list is the novel I used for testing and it's working properly (it
     1. I'm Not Even An Otome Game Mob Character!
 11. Light Novels Translations
     1.  100 Things I Don't Know About My Senpai
-12. Hellping
-    1.  The Angel Next Door Spoils Me Rotten
 
 Above list should be working as intended when you open up the chapter, for Madara-based extension it should be working just fine.
 
 ### Specials Info
-1. Hellping<br />
-   This extension use a custom API made specifically for Shosetsu since the website design is so broken and hard to parse. See [`extras`](https://github.com/noaione/shosetsu-extensions/tree/dev/extras) folder for more info.
-2. CClaw Translations<br />
+1. CClaw Translations<br />
    Part of this extension use the custom API. See [`extras`](https://github.com/noaione/shosetsu-extensions/tree/dev/extras) folder for more info.
+
+### Deprecated
+
+|            Name           |                      URL                     |       Theme       | Notes                 |
+|:-------------------------:|:--------------------------------------------:|:-----------------:|-----------------------|
+| Hellping                  | https://hellping.org                         | Wordpress         | Website is dead       |
 
 ## Contributing
 

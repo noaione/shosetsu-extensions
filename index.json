@@ -175,16 +175,6 @@
       "disableTest": true
     },
     {
-      "name": "Hellping",
-      "fileName": "Hellping",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Hellping.png",
-      "id": 221740,
-      "lang": "en",
-      "ver": "0.2.1",
-      "libVer": "1.0.0",
-      "md5": ""
-    },
-    {
       "name": "Skythewood",
       "fileName": "Skythewood",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Skythewood.png",
