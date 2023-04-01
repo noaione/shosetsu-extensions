@@ -7,7 +7,7 @@ local WPCommon = {}
 --- @param str string
 --- @param pattern string
 local function contains(str, pattern)
-	return str:find(pattern, 0, true) and true or false
+    return str:find(pattern, 0, true) and true or false
 end
 
 WPCommon.contains = contains

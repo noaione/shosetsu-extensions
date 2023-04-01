@@ -6,19 +6,19 @@ local WPCommon = Require("WPCommon")
 --- @param url string
 --- @return string
 local function shrinkURL(url)
-	return url:gsub("^.-lightnovelstranslations.com", "")
+    return url:gsub("^.-lightnovelstranslations.com", "")
 end
 
 --- @param url string
 --- @return string
 local function expandURL(url)
-	return baseURL .. url
+    return baseURL .. url
 end
 
 --- @param elem Element
 local function cleanupPassages(elem)
-	local isRemoved = WPCommon.cleanupElement(elem)
-	if isRemoved then return end
+    local isRemoved = WPCommon.cleanupElement(elem)
+    if isRemoved then return end
     local style = elem:attr("style")
     local className = elem:attr("class")
     local isAlignCenter = style and style:find("text-align", 0, true) and style:find("center", 0, true) and true or false
@@ -43,15 +43,15 @@ local function parsePassage(url)
     -- remove chapter nav
     map(content:select("div#textbox"), function (v) v:remove() end)
 
-	map(p:select("p"), cleanupPassages)
+    map(p:select("p"), cleanupPassages)
     map(p:select("div"), cleanupPassages)
 
-	-- add title
-	local chTitle = content:selectFirst(".entry-title")
-	if chTitle then
-		local title = chTitle:text()
-		p:child(0):before("<h2>" .. title .. "</h2>")
-	end
+    -- add title
+    local chTitle = content:selectFirst(".entry-title")
+    if chTitle then
+        local title = chTitle:text()
+        p:child(0):before("<h2>" .. title .. "</h2>")
+    end
 
     return p
 end
@@ -94,8 +94,8 @@ local function parseListings(data)
     for _, v in ipairs(otherNovels) do
         table.insert(novels, v)
     end
-	-- sort result
-	-- table.sort(novels, function (a, b) return a and a.title < b and b.title end)
+    -- sort result
+    -- table.sort(novels, function (a, b) return a and a.title < b and b.title end)
     return novels
 end
 
@@ -120,49 +120,49 @@ end
 --- @param url string
 --- @return string
 local function cleanImgUrl(url)
-	local found = url:find("?resize=")
+    local found = url:find("?resize=")
     if found == nil then return url end
-	return url:sub(0, found - 1)
+    return url:sub(0, found - 1)
 end
 
 return {
-	id = 26375,
-	name = "Light Novels Translations",
-	baseURL = baseURL,
-	imageURL = "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/LightNovelsTranslations.png",
-	hasSearch = false,
-	chapterType = ChapterType.HTML,
+    id = 26375,
+    name = "Light Novels Translations",
+    baseURL = baseURL,
+    imageURL = "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/LightNovelsTranslations.png",
+    hasSearch = false,
+    chapterType = ChapterType.HTML,
 
-	-- Must have at least one value
-	listings = {
-		Listing("Novels", false, parseListings)
-	},
+    -- Must have at least one value
+    listings = {
+        Listing("Novels", false, parseListings)
+    },
 
-	getPassage = function(chapterURL)
-		return pageOfElem(parsePassage(chapterURL))
-	end,
+    getPassage = function(chapterURL)
+        return pageOfElem(parsePassage(chapterURL))
+    end,
 
-	parseNovel = function(novelURL, loadChapters)
-		local doc = GETDocument(baseURL .. novelURL)
-		local entry = doc:selectFirst("div#content"):selectFirst("div")
+    parseNovel = function(novelURL, loadChapters)
+        local doc = GETDocument(baseURL .. novelURL)
+        local entry = doc:selectFirst("div#content"):selectFirst("div")
 
-		local info = NovelInfo {
-			title = entry:selectFirst(".entry-title"):text(),
-		}
+        local info = NovelInfo {
+            title = entry:selectFirst(".entry-title"):text(),
+        }
         local content = entry:selectFirst(".entry-content")
 
-		local imageTarget = content:selectFirst("img")
-		if imageTarget then
-			info:setImageURL(cleanImgUrl(imageTarget:attr("src")))
-		end
+        local imageTarget = content:selectFirst("img")
+        if imageTarget then
+            info:setImageURL(cleanImgUrl(imageTarget:attr("src")))
+        end
 
-		if loadChapters then
-			info:setChapters(parseChaptersListing(content))
-		end
+        if loadChapters then
+            info:setChapters(parseChaptersListing(content))
+        end
 
-		return info
-	end,
+        return info
+    end,
 
-	shrinkURL = shrinkURL,
-	expandURL = expandURL
+    shrinkURL = shrinkURL,
+    expandURL = expandURL
 }
