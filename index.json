@@ -153,16 +153,6 @@
       "md5": "801e2f413f1e19192a0bc156c78377bf"
     },
     {
-      "name": "Hellping",
-      "fileName": "Hellping",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Hellping.png",
-      "id": 221740,
-      "lang": "en",
-      "ver": "0.2.1",
-      "libVer": "1.0.0",
-      "md5": "674e7d65609c32c97161dbe9f96d8b04"
-    },
-    {
       "name": "Light Novels Translations",
       "fileName": "LightNovelsTranslations",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/LightNovelsTranslations.png",
