@@ -1,4 +1,4 @@
--- {"id":26375,"ver":"0.3.0","libVer":"1.0.0","author":"N4O"}
+-- {"id":26375,"ver":"0.3.1","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://lightnovelstranslations.com"
 local settings = {}
@@ -144,7 +144,7 @@ local function parseListing(doc)
 
     local _novels = {}
     map(wrapReadListStory:select("> .read_list-story-item"), function (v)
-        local imgThumb = v:selectFirst(".item-thumb"):selectFirst("img")
+        local imgThumb = v:selectFirst(".item_thumb"):selectFirst("img")
         local wrapInner = v:selectFirst(".wrap_item_content")
         local titleElem = wrapInner:selectFirst(".read_list-story-item--title"):selectFirst("a")
 
