@@ -1,4 +1,4 @@
--- {"id":26375,"ver":"0.3.2","libVer":"1.0.0","author":"N4O"}
+-- {"id":26375,"ver":"0.3.3","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://lightnovelstranslations.com"
 local settings = {}
@@ -73,7 +73,7 @@ local function contains(str, pattern)
 end
 
 local function createSearchString(tbl)
-    local query = tbl[QUERY]
+    -- local query = tbl[QUERY]
     local page = tbl[PAGE]
     local sortBy = tbl[SORT_BY_FILTER_KEY]
     local typeBy = tbl[NOVEL_TYPE_FITLER_KEY]
@@ -118,22 +118,22 @@ end
 ---@return string A link to the biggest image of the image_element.
 --- Taken from Madara.lua
 local function getImgSrc(image_element)
-	-- Check data-srcset:
-	local srcset = image_element:attr("srcset")
-	if srcset ~= "" then
-		-- Get the largest image.
-		local max_size, max_url = 0, ""
-		for url, size in srcset:gmatch("(http.-) (%d+)w") do
-			if tonumber(size) > max_size then
-				max_size = tonumber(size)
-				max_url = url
-			end
-		end
-		return max_url
-	end
+    -- Check srcset:
+    local srcset = image_element:attr("srcset")
+    if srcset ~= "" then
+        -- Get the largest image.
+        local max_size, max_url = 0, ""
+        for url, size in srcset:gmatch("(http.-) (%d+)w") do
+            if tonumber(size) > max_size then
+                max_size = tonumber(size)
+                max_url = url
+            end
+        end
+        return max_url
+    end
 
-	-- Default to src (the most likely place to be loaded via script):
-	return image_element:attr("src")
+    -- Default to src (the most likely place to be loaded via script):
+    return image_element:attr("src")
 end
 
 --- @param doc Document
@@ -161,13 +161,14 @@ local function parseListing(doc)
 end
 
 --- @param data table
---- @param inc int
 --- @return Novel[]
 local function latestNovel(data)
     local doc = GETDocument(baseURL .. "/read/page/" .. data[PAGE] .. "/")
     return parseListing(doc)
 end
 
+--- @param data table
+--- @return Novel[]
 local function doSearch(data)
     local urlReq = createSearchString(data)
     local searchString = data[QUERY]
@@ -206,6 +207,9 @@ local function doSearch(data)
     return parseListing(doc)
 end
 
+--- @param data table
+--- @param loadChapters boolean
+--- @return NovelInfo
 local function getAndParseNovel(novelUrl, loadChapters)
     local doc = GETDocument(expandURL(novelUrl))
 
@@ -284,6 +288,8 @@ local function getAndParseNovel(novelUrl, loadChapters)
     return novel
 end
 
+--- @param chapterUrl string
+--- @return any
 local function parsePassages(chapterUrl)
     local doc = GETDocument(expandURL(chapterUrl))
 
@@ -305,7 +311,7 @@ local function parsePassages(chapterUrl)
             v:remove()
         end
     end)
-    return pageOfElements(chapterContainer)
+    return pageOfElem(chapterContainer)
 end
 
 return {
@@ -328,10 +334,10 @@ return {
         DropdownFilter(SORT_BY_FILTER_KEY, "Sort By", SORT_BY_FILTER_EXT),
         DropdownFilter(NOVEL_TYPE_FITLER_KEY, "Novel Type", NOVEL_TYPE_FITLER_EXT),
         DropdownFilter(NOVEL_STATUS_FILTER_KEY, "Novel Status", NOVEL_STATUS_FILTER_EXT),
-		FilterGroup("Content Warning", {
-			TriStateFilter(CW_GORE_KEY, "Gore"),
-			TriStateFilter(CW_SEXUAL_CONTENT_KEY, "Sexual Content"),
-		}),
+        FilterGroup("Content Warning", {
+            TriStateFilter(CW_GORE_KEY, "Gore"),
+            TriStateFilter(CW_SEXUAL_CONTENT_KEY, "Sexual Content"),
+        }),
         FilterGroup("Genres", map(GENRES, function (v)
             local key, value = v:match("^(.-):%s*(.-)$")
             return TriStateFilter(tonumber(value), key)
