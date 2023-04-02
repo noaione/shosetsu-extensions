@@ -1,4 +1,4 @@
--- {"id":26375,"ver":"0.3.1","libVer":"1.0.0","author":"N4O"}
+-- {"id":26375,"ver":"0.3.2","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://lightnovelstranslations.com"
 local settings = {}
@@ -163,10 +163,8 @@ end
 --- @param data table
 --- @param inc int
 --- @return Novel[]
-local function latestNovel(data, inc)
-    local _novels = {}
-    inc = inc or 1
-    local doc = GETDocument(baseURL .. "/read/page/" .. inc .. "/")
+local function latestNovel(data)
+    local doc = GETDocument(baseURL .. "/read/page/" .. data[PAGE] .. "/")
     return parseListing(doc)
 end
 
