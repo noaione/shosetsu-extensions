@@ -53,6 +53,16 @@
       "md5": "3bd401352b3d07cc1861156b3ad6e0c3"
     },
     {
+      "name": "Machine Sliced Bread",
+      "fileName": "MachineSlicedBread",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/MachineSlicedBread.png",
+      "id": 811702,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "3a662360f12edb4253add9c2d5af4cf8"
+    },
+    {
       "name": "Toasty Translations",
       "fileName": "ToastyTranslations",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ToastyTL.png",
