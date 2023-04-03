@@ -1,4 +1,4 @@
--- {"id":811702,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":811702,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://machineslicedbread.xyz"
 local WPCommon = Require("WPCommon")
@@ -40,6 +40,10 @@ local function getPassage(chapterURL)
             end
         end
     end)
+    local textBoxA = p:selectFirst("#textbox")
+    if textBoxA then textBoxA:remove() end
+    local textBoxB = p:selectFirst("#textbox")
+    if textBoxB then textBoxB:remove() end
 
     local entryTitle = doc:selectFirst(".entry-title")
     if entryTitle then
@@ -111,6 +115,16 @@ local function parseNovel(novelURL)
         end
     end)
     map(entryContent:select("li a"), function (v)
+        local result = iterNovelChapter(v)
+        if result then
+            _Chapters[#_Chapters + 1] = NovelChapter {
+                title = result.t,
+                link = result.u,
+                order = #_Chapters + 1,
+            }
+        end
+    end)
+    map(entryContent:select("div a"), function (v)
         local result = iterNovelChapter(v)
         if result then
             _Chapters[#_Chapters + 1] = NovelChapter {
