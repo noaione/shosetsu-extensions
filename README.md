@@ -31,7 +31,7 @@ To add this repository to Shosetsu, follow this instructions:
 | Shiru Sekai Translations  | https://shirusekaitranslations.wordpress.com | Wordpress         | Yes      | Yes          |                       |
 | Craneanime Translation    | https://translation.craneanime.xyz           | Wordpress         | Yes      | Yes          |                       |
 | Toasty Translations       | https://toastytranslations.com               | Wordpress         | Yes      | Yes          |                       |
-| Light Novels Translations | https://lightnovelstranslations.com          | Wordpress         | Kinda    | Maybe        | Skipped CI testing, Some novel are broken |
+| Light Novels Translations | https://lightnovelstranslations.com          | WooCommerce/WP    | Kinda    | Maybe        | Web update, need test |
 | Skythewood                | https://skythewood.blogspot.com              | Blogspot          | Yes      | Yes          |                       |
 | Ainushi                   | https://www.ainushi.com                      | Wordpress         | Yes      | Yes          |                       |
 | CClaw Translations        | https://cclawtranslations.home.blog          | Wordpress         | Yes      | Yes          | Use extra API mapping |

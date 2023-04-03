@@ -158,9 +158,9 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/LightNovelsTranslations.png",
       "id": 26375,
       "lang": "en",
-      "ver": "0.2.0",
+      "ver": "0.3.3",
       "libVer": "1.0.0",
-      "md5": "ae54ea3d11a665dd068f414d430ec2b1"
+      "md5": "e958ece0c0893ffc3237b7fbefa5d638"
     },
     {
       "name": "SHM Translations",
@@ -168,9 +168,9 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/SHMTranslations.png",
       "id": 176796,
       "lang": "en",
-      "ver": "0.1.5",
+      "ver": "0.1.6",
       "libVer": "1.0.0",
-      "md5": "ed202e2c4a2f3e60a274db2f26f96190"
+      "md5": "459e48d5f9e5f4680cfe5b28f8e6701f"
     },
     {
       "name": "Fans Translations",

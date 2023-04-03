@@ -1,4 +1,4 @@
--- {"id":176796,"ver":"0.1.5","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":176796,"ver":"0.1.6","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://www.shmtranslations.com"
 local WPCommon = Require("WPCommon")
@@ -6,7 +6,16 @@ local WPCommon = Require("WPCommon")
 --- @param url string
 --- @return string
 local function shrinkURL(url)
-    return url:gsub("^.-shmtranslations%.com", "")
+    -- remove www
+    url = url:gsub("www%.", "")
+    -- remove SHMtranslations.com
+    -- sometimes the SHM are capitalizaed and not
+    url = url:gsub("SHMtranslations%.com", "")
+    url = url:gsub("SHMTranslations%.com", "")
+    url = url:gsub("shmtranslations%.com", "")
+    -- remove https://
+    url = url:gsub("https?://", "")
+    return url
 end
 
 --- @param url string
@@ -78,6 +87,31 @@ local function parsePage(url)
     return p
 end
 
+local function parseListings()
+    local doc = GETDocument(baseURL)
+    local firstBlock = doc:selectFirst("div.wp-site-blocks")
+    
+    local _novels = {}
+    map(firstBlock:select("> .wp-block-query"), function (block)
+        map(block:select("ul.wp-block-post-template > li.wp-block-post"), function (post)
+            local titleBlock = post:selectFirst("a")
+            local title = titleBlock:text()
+            local url = shrinkURL(titleBlock:attr("href"))
+            print(url)
+            local _novel = Novel {
+                title = title,
+                link = url
+            }
+            local imgBlock = post:selectFirst("img")
+            if imgBlock then
+                _novel:setImageURL(imgBlock:attr("src"))
+            end
+            _novels[#_novels + 1] = _novel
+        end)
+    end)
+    return _novels
+end
+
 local extraCss = [[
 .has-text-align-center {
     text-align: center;
@@ -100,21 +134,7 @@ return {
 
     -- Must have at least one value
     listings = {
-        Listing("Novels", false, function(data)
-            local doc = GETDocument(baseURL)
-            -- desktop version
-            return map(flatten(mapNotNil(doc:selectFirst("#modal-1-content ul"):children(), function (v)
-                local linky = v:selectFirst("a")
-                local linkText = linky:text()
-                return (linkText:find("Ongoing") or linkText:find("Completed")) and
-                    map(v:select("ul li a"), function (ev) return ev end)
-            end)), function (v)
-                return Novel {
-                    title = v:text(),
-                    link = shrinkURL(v:attr("href"))
-                }
-            end)
-        end)
+        Listing("Novels", false, parseListings)
     },
 
     getPassage = function(chapterURL)
