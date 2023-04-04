@@ -246,6 +246,9 @@ do
     ---@class TextFilter
     local TextFilter = {}
 
+    ---@class PasswordFilter
+    local PasswordFilter = {}
+
     ---@class SwitchFilter
     local SwitchFilter = {}
 
@@ -254,6 +257,9 @@ do
 
     ---@class DropdownFilter
     local DropdownFilter = {}
+
+    ---@class FilterList
+    local FilterList = {}
 
     ---@class FilterGroup
     local FilterGroup = {}
@@ -357,6 +363,15 @@ do
     ---@param chapters ArrayList
     ---@return void
     function NovelInfo:setChapters(chapters) return end
+
+    ---@class ChapterType
+    local ChapterType = {}
+
+    ---@type ChapterType
+    ChapterType.STRING = {}
+
+    ---@type ChapterType
+    ChapterType.HTML = {}
 end
 
 -- ShosetsuLib
@@ -424,13 +439,6 @@ do
         ---@param f function @Function to wrap
         ---@return function @Wrapper
         function wrap(o, f) return end
-
-        --- Create a HTML string representation from a element data.
-        --- @param elem Element Element to convert
-        --- @param removeStyleAttr boolean Remove style attribute from element, default false
-        --- @param customStyle string Custom style to add to element, default empty string
-        --- @param keepScripts boolean Keep script tags, default false
-        function pageOfElem(elem, removeStyleAttr, customStyle, keepScripts) return end
     end
 
     -- ArrayList
@@ -494,6 +502,11 @@ do
         function RequestDocument(req) return end
 
         --- Obtains a document from a url, using a GET request.
+        ---
+        --- No javascript is executed, you get the raw HTML.
+        --- If the site loads extra in with JS,
+        ---  you need to perform the post requests yourself.
+        ---
         ---@param url string
         ---@return Document
         function GETDocument(url) return end
@@ -534,6 +547,10 @@ do
         ---@param name string
         ---return TextFilter
         function TextFilter(id, name) return end
+
+        ---@param name string
+        ---return PasswordFilter
+        function PasswordFilter(id, name) return end
 
         ---@param name string
         ---return SwitchFilter
