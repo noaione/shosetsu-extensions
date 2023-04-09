@@ -1,4 +1,4 @@
--- {"id":13640,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","repo":"","dep":["WPCommon>=1.0.0"]}
+-- {"id":13640,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","repo":"","dep":["WPCommon>=1.0.0"]}
 
 local WPCommon = Require("WPCommon")
 
@@ -219,6 +219,15 @@ local function goUpParent(currentEntry)
     return currentEntry
 end
 
+--- @param currentEntry string
+local function isInvalidChapterPrepend(textContent)
+    if WPCommon.contains(textContent:lower(), "prolog") then return true end
+    if WPCommon.contains(textContent:lower(), "epilog") then return true end
+    if WPCommon.contains(textContent:lower(), "illustration") then return true end
+    if WPCommon.contains(textContent:lower(), "afterword") then return true end
+    return false
+end
+
 --- Load info on a novel.
 ---
 --- Required.
@@ -273,7 +282,12 @@ local function parseNovel(novelURL)
         local chapterTitle = v:text()
         if not WPCommon.contains(chapterTitle:lower(), "chapter") then
             local prependTextCh = findChapterTitle(prependEl)
-            if prependTextCh ~= nil then
+            -- skip chapter prepend for the following:
+            -- - prologue
+            -- - epilogue
+            -- - illustration
+            -- - afterword
+            if prependTextCh ~= nil and not isInvalidChapterPrepend(chapterTitle) then
                 chapterTitle = prependTextCh .. " - " .. chapterTitle
             end
         end
