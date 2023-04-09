@@ -1,4 +1,4 @@
--- {"id":13640,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","repo":"","dep":["WPCommon>=1.0.0"]}
+-- {"id":13640,"ver":"0.1.3","libVer":"1.0.0","author":"N4O","repo":"","dep":["WPCommon>=1.0.0"]}
 
 local WPCommon = Require("WPCommon")
 
@@ -154,6 +154,21 @@ local function extractDescription(h3Start)
     return description
 end
 
+--- @param textEntry string
+--- @return string
+local function stripLeadingVolumeText(textEntry)
+    -- check if it contains volume
+    -- pattern: Volume XX Epilogue
+    -- just get the epilogue part for example, sometimes would include colon after the XX/number
+    local matchPattern = "volume %d+:? (.+)"
+    local match = textEntry:lower():match(matchPattern)
+    if match ~= nil then
+        -- capitalize the first letter
+        return match:gsub("^%l", string.upper)
+    end
+    return textEntry
+end
+
 --- @param currentEntry Element
 local function findChapterTitle(currentEntry)
     currentEntry = currentEntry:previousElementSibling()
@@ -164,6 +179,10 @@ local function findChapterTitle(currentEntry)
         end
         if WPCommon.contains(textContent, "chapter") then
             return currentEntry:text()
+        end
+        if WPCommon.contains(textContent, "epilog") or WPCommon.contains(textContent, "prolog") then
+            -- if yes, return
+            return stripLeadingVolumeText(currentEntry:text())
         end
         currentEntry = currentEntry:previousElementSibling()
     end
