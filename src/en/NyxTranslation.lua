@@ -1,4 +1,4 @@
--- {"id":13640,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","repo":"","dep":["WPCommon>=1.0.0"]}
+-- {"id":13640,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","repo":"","dep":["WPCommon>=1.0.0"]}
 
 local WPCommon = Require("WPCommon")
 
@@ -33,6 +33,14 @@ local function expandURL(url)
     -- Read [shrinkURL] documentation in regards to what you should do.
     -- Hint, this is the opposite.
     return baseURL .. url
+end
+
+--- @param url string
+local function rewriteUrl(url)
+    if WPCommon.contains(url, "nyxtranslation.home.blog") then
+        return url:gsub("nyxtranslation.home.blog", "nyx-translation.com")
+    end
+    return url
 end
 
 --- @return Novel[]
@@ -162,6 +170,55 @@ local function findChapterTitle(currentEntry)
     return nil
 end
 
+
+--- @param list string[]
+--- @param str string
+--- @return boolean
+local function isStringInList(list, str)
+    for _, value in pairs(list) do
+        if value == str then
+            return true
+        end
+    end
+    return false
+end
+
+--- @param currentEntry Element
+--- @param foundVolumeTitle string[]
+local function findVolumeTitle(currentEntry, foundVolumeTitle)
+    currentEntry = currentEntry:previousElementSibling()
+    while currentEntry ~= nil do
+        local textContent = currentEntry:text():lower()
+        if WPCommon.contains(textContent, "table of content") then
+            break
+        end
+        if WPCommon.contains(textContent, "volume") then
+            local volumeTitle = currentEntry:text()
+            -- strip volume title only to "Volume X" part
+            local volumeTitle = volumeTitle:match("Volume %d+")
+            local volumeTitle = volumeTitle:gsub("Volume ", "Vol. ")
+            if not isStringInList(foundVolumeTitle, currentEntry) then
+                foundVolumeTitle[#foundVolumeTitle + 1] = volumeTitle
+                return volumeTitle
+            end
+        end
+        currentEntry = currentEntry:previousElementSibling()
+    end
+    return nil
+end
+
+--- @param currentEntry Element
+local function goUpParent(currentEntry)
+    local parent = currentEntry:parent()
+    if parent ~= nil then
+        if parent:tagName() == "strong" or parent:tagName() == "b" or parent:tagName() == "span" then
+            return goUpParent(parent)
+        end
+        return parent
+    end
+    return currentEntry
+end
+
 --- Load info on a novel.
 ---
 --- Required.
@@ -176,8 +233,10 @@ local function parseNovel(novelURL)
     local jpPostFlair = entryContent:selectFirst(".jp-post-flair")
     if jpPostFlair then jpPostFlair:remove() end
 
+    local novelTitle = document:selectFirst(".entry-title"):text()
+
     local novelInfo = NovelInfo {
-        title = document:selectFirst(".entry-title"):text(),
+        title = novelTitle,
     }
     local imgComponent = entryContent:selectFirst("img")
     if imgComponent then
@@ -196,17 +255,30 @@ local function parseNovel(novelURL)
     end
 
     local _chapters = {}
+    local _foundVolumeTitles = {}
     map(entryContent:select("a"), function (v)
-        local url = v:attr("href")
+        local url = rewriteUrl(v:attr("href"))
         if not WPCommon.contains(url, "nyx-translation.com") then return end
+        if WPCommon.contains(url, "?share=") then return end
+        local prependEl = goUpParent(v)
+
+        local volumeTextPrepend = ""
+        if WPCommon.contains(novelTitle:lower(), "(ln)") then
+            local volumeText = findVolumeTitle(prependEl, _foundVolumeTitles)
+            if volumeText ~= nil then
+                volumeTextPrepend = volumeText .. " "
+            end
+        end
 
         local chapterTitle = v:text()
         if not WPCommon.contains(chapterTitle:lower(), "chapter") then
-            local prependTextCh = findChapterTitle(v)
+            local prependTextCh = findChapterTitle(prependEl)
             if prependTextCh ~= nil then
                 chapterTitle = prependTextCh .. " - " .. chapterTitle
             end
         end
+        chapterTitle = chapterTitle:gsub("Chapter ", "Ch. ")
+        chapterTitle = volumeTextPrepend .. chapterTitle
 
         _chapters[#_chapters + 1] = NovelChapter {
             link = shrinkURL(url),
