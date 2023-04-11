@@ -1,4 +1,4 @@
--- {"id":22903,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":22903,"ver":"0.2.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://skythewood.blogspot.com"
 local WPCommon = Require("WPCommon") -- this is actually blogspot, but whatever
@@ -15,12 +15,32 @@ local function expandURL(url)
     return baseURL .. url
 end
 
+--- @param content Element
+local function cleanupPassages(content)
+    local links = content:select("a")
+    local detectedAsToc = false
+    map(links, function (v)
+        local t = v:text()
+        if WPCommon.contains(t:upper(), "MAIN PAGE") then
+            detectedAsToc = true
+        end
+    end)
+
+    if detectedAsToc then
+        content:remove()
+        return
+    end
+end
+
 local function parsePage(url)
     local doc = GETDocument(expandURL(url))
     local postBody = doc:selectFirst("div#main > div > .blog-posts > .date-outer > .date-posts > .post-outer > .post")
     local content = postBody:selectFirst(".post-body")
 
-    WPCommon.cleanupPassages(content:children(), false)
+    -- WPCommon.cleanupPassages(content:children(), false)
+    map(content:select("div"), cleanupPassages)
+    map(content:select("p"), cleanupPassages)
+    map(content:select("span"), cleanupPassages)
 
     -- add title
     local postTitle = postBody:selectFirst(".post-title")
