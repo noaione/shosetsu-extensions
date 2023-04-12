@@ -1,8 +1,9 @@
--- {"id":24971,"ver":"0.1.4","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":24971,"ver":"0.1.5","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://re-library.com"
 
 local WPCommon = Require("WPCommon")
+local reportRepo = "https://github.com/noaione/shosetsu-extensions"
 
 --- @param url string
 --- @return string
@@ -191,7 +192,7 @@ local function parsePageCommon(content)
         if contentParagraph then
             content = contentParagraph
         else
-            return Document("Failed to parse page, please report to https://github.com/noaione/shosetsu-extensions")
+            error("Failed to parse page, please report chapter/title to " .. reportRepo)
         end
     end
 
@@ -250,7 +251,7 @@ local function parsePageOneshot(url)
 
     local tempContent = findOneshotParagraphNode(baseContent:child(0))
     if not tempContent then
-        return Document("Failed to parse oneshot page, please report to https://github.com/noaione/shosetsu-extensions")
+        error("Failed to parse oneshot page, please report chapter/title to " .. reportRepo)
     end
     local content = parsePageCommon(tempContent)
 
