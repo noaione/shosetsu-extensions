@@ -338,6 +338,17 @@
       "libVer": "1.0.0",
       "md5": "",
       "disableTest": true
+    },
+    {
+      "name": "Femme Fables",
+      "fileName": "FemmeFables",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/FemmeFables.png",
+      "id": 335754,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "",
+      "disableTest": true
     }
   ]
 }
