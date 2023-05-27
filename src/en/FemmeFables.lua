@@ -1,4 +1,4 @@
--- {"id":335754,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":335754,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://femmefables.wordpress.com"
 local WPCommon = Require("WPCommon")
@@ -94,7 +94,7 @@ return {
             title = baseArticles:selectFirst(".entry-title"):text(),
         }
 
-        local imageTarget = content:selectFirst(".featured-media > img")
+        local imageTarget = doc:selectFirst(".featured-media > img")
         if imageTarget then
             info:setImageURL(imageTarget:attr("src"))
         end
