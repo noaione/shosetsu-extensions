@@ -1,4 +1,4 @@
--- {"id":335754,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":335754,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://femmefables.wordpress.com"
 local WPCommon = Require("WPCommon")
@@ -22,6 +22,11 @@ local function parsePage(url)
 
     WPCommon.cleanupElement(p)
 
+    local wordads = content:selectFirst(".wordads-ad-wrapper")
+    if wordads then
+        wordads:remove()
+    end
+
     local allElements = p:select("> p")
     map(allElements, function (v)
         local isRemoved = WPCommon.cleanupElement(v)
@@ -34,6 +39,14 @@ local function parsePage(url)
             return
         end
     end)
+
+    local postTitle = content:selectFirst(".post-title")
+    if postTitle then
+        local postTitleText = postTitle:text()
+        if postTitleText then
+            p:prepend("<h2>" .. postTitleText .. "</h2><hr/>")
+        end
+    end
 
     return p
 end
