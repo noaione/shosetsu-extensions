@@ -1,4 +1,4 @@
--- {"id":335754,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":335754,"ver":"0.1.3","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://femmefables.wordpress.com"
 local WPCommon = Require("WPCommon")
@@ -29,14 +29,16 @@ local function parsePage(url)
 
     local allElements = p:select("> p")
     map(allElements, function (v)
-        local isRemoved = WPCommon.cleanupElement(v)
-        if isRemoved then return end
-        local isToC = WPCommon.isTocRelated(v:text())
-        local aCount = v:select("a"):size()
-        local isValidToC = isToC and aCount > 0 and true or false
-        if isValidToC then
-            v:remove()
-            return
+        local textContent = v:text()
+        if textContent:len() > 100 then
+            -- let's actually check the inner <a> tag
+            map(allElements:select("a"), function (alink)
+                local ahref = alink:attr("href")
+                if ahref:find("femmefables.wordpress.com", 0, true) then
+                    alink:remove()
+                    return
+                end
+            end)
         end
     end)
 
