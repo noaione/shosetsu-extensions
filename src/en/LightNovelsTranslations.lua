@@ -1,4 +1,4 @@
--- {"id":26375,"ver":"0.3.3","libVer":"1.0.0","author":"N4O"}
+-- {"id":26375,"ver":"0.3.4","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://lightnovelstranslations.com"
 local settings = {}
@@ -62,8 +62,8 @@ local function expandURL(url)
     return baseURL .. url
 end
 
-local function startsWith(str, start)
-    return str:sub(1, #start) == start
+local function startsWith(data, start)
+    return data:sub(1, #start) == start
 end
 
 --- @param str string
@@ -113,6 +113,22 @@ local function createSearchString(tbl)
     return url
 end
 
+---@param srcSetStr string
+---@return string|nil
+local function getImgSrcSet(srcSetStr)
+    -- Get the largest image.
+    local max_size, max_url = 0, ""
+    for url, size in srcSetStr:gmatch("(http.-) (%d+)w") do
+        if tonumber(size) > max_size then
+            max_size = tonumber(size)
+            max_url = url
+        end
+    end
+    if max_url ~= "" then
+        return max_url
+    end
+    return nil
+end
 
 ---@param image_element Element An img element of which the biggest image shall be selected.
 ---@return string A link to the biggest image of the image_element.
@@ -121,15 +137,19 @@ local function getImgSrc(image_element)
     -- Check srcset:
     local srcset = image_element:attr("srcset")
     if srcset ~= "" then
-        -- Get the largest image.
-        local max_size, max_url = 0, ""
-        for url, size in srcset:gmatch("(http.-) (%d+)w") do
-            if tonumber(size) > max_size then
-                max_size = tonumber(size)
-                max_url = url
-            end
+        local srcSetBig = getImgSrcSet(srcset)
+        if srcSetBig then
+            return srcSetBig
         end
-        return max_url
+    end
+
+    -- Check data-lazy-srcset: (unloaded lazyload)
+    local dataLazySet = image_element:attr("data-lazy-srcset")
+    if dataLazySet ~= "" then
+        local srcSetBig = getImgSrcSet(dataLazySet)
+        if srcSetBig then
+            return srcSetBig
+        end
     end
 
     -- Default to src (the most likely place to be loaded via script):
@@ -253,10 +273,10 @@ local function getAndParseNovel(novelUrl, loadChapters)
         if startsWith(text, "Author:") then
             novelAuthors[#novelAuthors + 1] = text:sub(8)
         end
-        if startsWith("Translator:") then
+        if startsWith(text, "Translator:") then
             novelTags[#novelTags + 1] = text
         end
-        if startsWith("Editor:") then
+        if startsWith(text, "Editor:") then
             novelTags[#novelTags + 1] = text
         end
     end)
@@ -268,7 +288,7 @@ local function getAndParseNovel(novelUrl, loadChapters)
         local docChapter = GETDocument(expandURL(novelUrl) .. "?tab=table_contents")
         local chapterList = docChapter:selectFirst(".novel_list_chapter_content")
         local _loadedChapters = {}
-        map(chapterList:select("> .novel_list_chapter_content"), function (v)
+        map(chapterList:select("> .accordition_item"), function (v)
             map(v:select(".accordition_item_content > ul > .chapter-item"), function (vv)
                 local className = vv:attr("class")
                 if not contains(className, "unlock") then -- locked chapter bye bye
