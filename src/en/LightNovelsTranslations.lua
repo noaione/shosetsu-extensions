@@ -1,4 +1,4 @@
--- {"id":26375,"ver":"0.3.4","libVer":"1.0.0","author":"N4O"}
+-- {"id":26375,"ver":"0.3.5","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://lightnovelstranslations.com"
 local settings = {}
@@ -12,6 +12,21 @@ local NOVEL_STATUS_FILTER_KEY = 4
 local CW_GORE_KEY = 5
 local CW_SEXUAL_CONTENT_KEY = 6
 
+-- To update, paste the following code in Firefox's console while on the search page:
+--
+-- term_items = temp0.querySelectorAll(".term_item")
+-- parsed_items = []
+-- for (let i = 0; i < term_items.length; i++) {
+--     term = term_items[i];
+--     labelInfo = term.querySelector("label")
+--     inputInfo = labelInfo.querySelector("input")
+--     parsed_items.push(`${labelInfo.textContent}: ${inputInfo.value}`)
+-- }
+-- '"' + parsed_items.join(`\",\n\"`) + '"'
+--
+-- The temp0 can be fetched by right-clicking d-flex part of the Genre wrapper
+-- and Selecting "Show in Console"
+-- This is just a quick and dirty way to quickly update the genres.
 local GENRES = {
     "Action: 121",
     "Adventure: 122",
@@ -29,6 +44,7 @@ local GENRES = {
     "Horror: 156",
     "LitRPG: 157",
     "Magic: 159",
+    "Martial Arts: 214",
     "Mecha: 160",
     "Mystery: 161",
     "Non-Human Lead: 162",
@@ -41,6 +57,7 @@ local GENRES = {
     "Ruling Class: 169",
     "School Life: 127",
     "Science Fiction: 170",
+    "Shounen: 215",
     "Slice of Life: 172",
     "Sports: 171",
     "Strategy: 168",
