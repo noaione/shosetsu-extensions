@@ -1,4 +1,4 @@
--- {"id":26375,"ver":"0.3.5","libVer":"1.0.0","author":"N4O"}
+-- {"id":26375,"ver":"0.3.6","libVer":"1.0.0","author":"N4O"}
 
 local baseURL = "https://lightnovelstranslations.com"
 local settings = {}
@@ -234,7 +234,7 @@ local function doSearch(data)
     end
     builder:add("submit", "")
 
-    doc = RequestDocument(
+    local doc = RequestDocument(
         POST(
             urlReq,
             nil,
