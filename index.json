@@ -349,6 +349,16 @@
       "libVer": "1.0.0",
       "md5": "",
       "disableTest": true
+    },
+    {
+      "name": "Hiraeth Translation",
+      "fileName": "HiraethTranslation",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Hiraeth.png",
+      "id": 43148,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": ""
     }
   ]
 }
