@@ -117,6 +117,16 @@
       "md5": "a592c469e4ccdda5b5e4ad9e0bfce933"
     },
     {
+      "name": "Hiraeth Translations",
+      "fileName": "HiraethTranslation",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Hiraeth.png",
+      "id": 43148,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "efe51e76bc31a38a84d38e4e5b4c5da4"
+    },
+    {
       "name": "Machine Sliced Bread",
       "fileName": "MachineSlicedBread",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/MachineSlicedBread.png",
