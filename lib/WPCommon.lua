@@ -1,4 +1,4 @@
--- {"ver":"1.0.0","author":"N4O"}
+-- {"ver":"1.0.1","author":"N4O"}
 
 -- A common function collection for WordPress based websites.
 
@@ -56,7 +56,8 @@ function WPCommon.cleanupElement(element)
     local patreonBtn = contains(className, "patreon")
     local postNav = contains(className, "wp-post-nav")
     local wpuLikeBtn = contains(className, "wpulike")
-    if patreonBtn or postNav or wpuLikeBtn then
+    local shareDaddy = contains(className, "sharedaddy")
+    if patreonBtn or postNav or wpuLikeBtn or shareDaddy then
         element:remove()
         return true
     end

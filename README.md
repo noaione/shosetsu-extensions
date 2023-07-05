@@ -51,6 +51,7 @@ To add this repository to Shosetsu, follow this instructions:
 | Nyx Translation           | https://nyx-translation.com                  | Wordpress         | Maybe    | Yes          | Skipped CI testing    |
 | Femme Fables              | https://femmefables.wordpress.com            | Wordpress         | Yes      | Yes          |                       |
 | Hiraeth Translation       | https://hiraethtranslation.com               | Madara            | Yes      | Yes          |                       |
+| Soafp Translations        | https://soafp.com                            | Wordpress         | Yes      | Yes          |                       |
 
 Please note that I'm creating for the stuff I'm reading myself, if some pages does not work please open up a new Issue so I can look up how to solve it.
 
