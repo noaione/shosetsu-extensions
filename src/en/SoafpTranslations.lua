@@ -1,4 +1,4 @@
--- {"id":19321,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.1"]}
+-- {"id":19321,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.1"]}
 
 local baseURL = "https://soafp.com"
 local settings = {}
@@ -282,6 +282,12 @@ local function parsePassages(chapterUrl)
 
         local class = v:attr("class")
         if WPCommon.contains(class, "wp-block-buttons") then
+            v:remove()
+            return
+        end
+
+        local textContent = v:text():lower()
+        if WPCommon.contains(textContent, "like loading...") then
             v:remove()
             return
         end
