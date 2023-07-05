@@ -1,6 +1,8 @@
 import argparse
 import asyncio
 import json
+import os
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -73,6 +75,12 @@ parser.add_argument(
     help="Ignore missing novels (useful for testing a lot of novels)"
 )
 args = parser.parse_args(namespace=ExtensionNamespace())
+
+commit_message = os.environ.get("COMMIT_MESSAGE", "").lower()
+
+if "skip test" in commit_message:
+    print("—  Skipping Test")
+    sys.exit(0)
 
 
 index_file = ROOT_DIR / "index.json"
@@ -158,6 +166,6 @@ if failed_to_run:
     print("—  Failed to test the following extensions:")
     for name in failed_to_run:
         print(f" ∟ {name}")
-    exit(1)
+    sys.exit(1)
 else:
     print("—  Finished Testing")
