@@ -2,7 +2,7 @@
   "libraries": [
     {
       "name": "WPCommon",
-      "ver": "1.0.0"
+      "ver": "1.0.1"
     },
     {
       "name": "WWVolare",
@@ -175,6 +175,16 @@
       "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": "be8f63e638e46e9cea6c42cc6b4b246a"
+    },
+    {
+      "name": "Soafp Translations",
+      "fileName": "SoafpTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Soafp.png",
+      "id": 19321,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "4bf09f637704e7e2c781dc3caead4889"
     },
     {
       "name": "Re:Library",
