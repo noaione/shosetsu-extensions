@@ -1,4 +1,4 @@
--- {"id":19321,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.1"]}
+-- {"id":19321,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.1"]}
 
 local baseURL = "https://soafp.com"
 local settings = {}
@@ -273,8 +273,18 @@ local function parsePassages(chapterUrl)
     local article = doc:selectFirst("article")
     local content = article:selectFirst(".entry-content")
 
+    local preBar = content:selectFirst(".pre-bar")
+    if preBar then preBar:remove() end
+
     map(content:children(), function (v)
-        WPCommon.cleanupElement(v)
+        local deleted = WPCommon.cleanupElement(v)
+        if deleted then return end
+
+        local class = v:attr("class")
+        if WPCommon.contains(class, "wp-block-buttons") then
+            v:remove()
+            return
+        end
     end)
 
     -- add title
