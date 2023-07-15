@@ -20,7 +20,7 @@ do
 
     ---@param index int
     ---@param value any
-    ---@return
+    ---@return void
     function Array:set(index, value) return end
 
     ---@class ArrayList : Array
@@ -264,10 +264,10 @@ do
     ---@class FilterGroup
     local FilterGroup = {}
 
-    ---@class
+    ---@class GenreGroup
     local GenreGroup = {}
 
-    ---@class
+    ---@class GenreCheckBoxFilter
     local GenreCheckBoxFilter = {}
 
 end

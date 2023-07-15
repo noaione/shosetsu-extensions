@@ -2,6 +2,7 @@ import argparse
 import asyncio
 import json
 import os
+import subprocess as sp
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -92,6 +93,23 @@ scripts = index_metadata["scripts"]
 scripts.sort(key=lambda x: x["fileName"])
 extension_jar = ROOT_DIR / "extension-tester.jar"
 
+GITHUB_SHA = os.environ.get("GITHUB_SHA", os.environ.get("CI_COMMIT_SHA", "HEAD~1"))
+GIT_DIFFS = sp.check_output(
+    ["git", "diff-tree", "--no-commit-id", "--name-only", "-r", GITHUB_SHA]
+).decode("utf-8").split("\n")
+
+CHANGED_LUA = [x.replace("\\", "/") for x in GIT_DIFFS if x.endswith(".lua") and x.startswith("src")]
+
+active_scripts = []
+for script in scripts:
+    build_link = f"src/{script['lang']}/{script['fileName']}.lua"
+    if build_link in CHANGED_LUA:
+        active_scripts.append(script)
+
+if not active_scripts:
+    print("—  No changed Scripts to Test")
+    sys.exit(0)
+
 
 @dataclass
 class RunReesult:
@@ -157,7 +175,7 @@ print("—  Starting Test")
 loop = asyncio.get_event_loop()
 tasks = [
     test_extension(script)
-    for script in scripts
+    for script in active_scripts
 ]
 results = loop.run_until_complete(asyncio.gather(*tasks))
 failed_to_run = [result.name for result in results if result is not None and not result.success]

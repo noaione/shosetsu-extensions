@@ -9,10 +9,10 @@ on:
       - dev
 
 env:
-  EXTENSION_TESTER_VERSION: '0.1.1-nao2'
+  EXTENSION_TESTER_VERSION: '1.1.2-nao1'
 
 jobs:
-  tests:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -33,7 +33,26 @@ jobs:
       - name: Validate extension/lib files
         run: |
           python3 ci/validate-index.py
-      - name: Test all extensions
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+      - name: Download test tools
+        run: |
+          wget -O extension-tester.jar \
+            https://github.com/noaione/shosetsu-ext-tester/releases/download/v$EXTENSION_TESTER_VERSION/extension-tester.jar
+      - name: Test extensions
         env:
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
