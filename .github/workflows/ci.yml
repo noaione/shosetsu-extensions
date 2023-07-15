@@ -64,9 +64,9 @@ jobs:
             --test-all-novels \
             --ignore-missing
 
-  build:
+  dist:
     runs-on: ubuntu-latest
-    needs: tests
+    needs: [verify, tests]
     # Run only if pushed to dev branch
     steps:
       - name: Checkout repo
