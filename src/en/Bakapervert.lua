@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":1331219,"ver":"1.2.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://bakapervert.wordpress.com"
 local WPCommon = Require("WPCommon")
@@ -33,15 +33,26 @@ local function propagateToDocument(doc)
     return GETDocument(expandURL(shrinkURL(fisrtLink)))
 end
 
+--- @param document Document
+--- @return Element
+local function selectContent(document)
+    local divContent = document:selectFirst("#content div")
+    if divContent ~= nil then
+        return divContent
+    end
+    local articleContent = document:selectFirst("#content article")
+    return articleContent
+end
+
 local function parsePage(url)
     local doc = GETDocument(expandURL(url))
-    local content = doc:selectFirst("#content div")
+    local content = selectContent(doc)
     local p = content:selectFirst(".entry-content")
 
     -- check if p is null
     if p == nil then
         doc = propagateToDocument(doc)
-        content = doc:selectFirst("#content div")
+        content = selectContent(doc)
         p = content:selectFirst(".entry-content")
     end
 
@@ -55,6 +66,74 @@ local function parsePage(url)
     WPCommon.cleanupPassages(allElements, false)
 
     return p
+end
+
+--- @param document Document
+--- @return NovelInfo
+local function novelParserDesktop(document)
+    local content = document:selectFirst("#content div")
+
+    local info = NovelInfo {
+        title = content:selectFirst(".entry-title"):text(),
+    }
+
+    local imageTarget = content:selectFirst("img")
+    if imageTarget then
+        info:setImageURL(imageTarget:attr("src"))
+    end
+
+    if loadChapters then
+        info:setChapters(AsList(mapNotNil(content:selectFirst(".entry-content"):select("p a"), function (v, i)
+            local chUrl = v:attr("href")
+            return (chUrl:find("bakapervert.wordpress.com", 0, true)) and
+                NovelChapter {
+                    order = i,
+                    title = v:text(),
+                    link = shrinkURL(chUrl)
+                }
+        end)))
+    end
+
+    return info
+end
+
+--- @param document Document
+--- @return NovelInfo
+local function novelParserMobile(document)
+    local content = document:selectFirst("#content article")
+    local info = NovelInfo {
+        title = content:selectFirst(".entry-title"):text(),
+    }
+
+    local imageTarget = content:selectFirst("img")
+    if imageTarget then
+        info:setImageURL(imageTarget:attr("src"))
+    end
+
+    if loadChapters then
+        info:setChapters(AsList(mapNotNil(content:selectFirst(".entry-content"):select("p a"), function (v, i)
+            local chUrl = v:attr("href")
+            return (chUrl:find("bakapervert.wordpress.com", 0, true)) and
+                NovelChapter {
+                    order = i,
+                    title = v:text(),
+                    link = shrinkURL(chUrl)
+                }
+        end)))
+    end
+
+    return info
+end
+
+
+local function novelParserCommon(novelURL, loadChapters)
+    local doc = GETDocument(baseURL .. novelURL)
+    local bodyClassName = doc:selectFirst("body"):attr("class")
+    if WPCommon.contains(bodyClassName, "mobile-theme") then
+        return novelParserMobile(doc)
+    else
+        return novelParserDesktop(doc)
+    end
 end
 
 return {
@@ -86,33 +165,7 @@ return {
         return pageOfElem(parsePage(chapterURL))
     end,
 
-    parseNovel = function(novelURL, loadChapters)
-        local doc = GETDocument(baseURL .. novelURL)
-        local content = doc:selectFirst("#content div")
-
-        local info = NovelInfo {
-            title = content:selectFirst(".entry-title"):text(),
-        }
-
-        local imageTarget = content:selectFirst("img")
-        if imageTarget then
-            info:setImageURL(imageTarget:attr("src"))
-        end
-
-        if loadChapters then
-            info:setChapters(AsList(mapNotNil(content:selectFirst(".entry-content"):select("p a"), function (v, i)
-                local chUrl = v:attr("href")
-                return (chUrl:find("bakapervert.wordpress.com", 0, true)) and
-                    NovelChapter {
-                        order = i,
-                        title = v:text(),
-                        link = shrinkURL(chUrl)
-                    }
-            end)))
-        end
-
-        return info
-    end,
+    parseNovel = novelParserCommon,
 
     shrinkURL = shrinkURL,
     expandURL = expandURL
