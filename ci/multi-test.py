@@ -94,6 +94,7 @@ scripts.sort(key=lambda x: x["fileName"])
 extension_jar = ROOT_DIR / "extension-tester.jar"
 
 GITHUB_SHA = os.environ.get("GITHUB_SHA", os.environ.get("CI_COMMIT_SHA", "HEAD~1"))
+print(f"—  Testing {GITHUB_SHA}")
 GIT_DIFFS = sp.check_output(
     ["git", "diff-tree", "--no-commit-id", "--name-only", "-r", GITHUB_SHA]
 ).decode("utf-8").split("\n")

@@ -55,6 +55,7 @@ jobs:
       - name: Test extensions
         env:
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          CI_COMMIT_SHA: ${{ github.sha }}
         run: |
           python3 ci/multi-test.py \
             --print-listings \
