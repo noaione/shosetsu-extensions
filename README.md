@@ -6,7 +6,7 @@ It was originally a fork of the upstream repo but since they moved to GitLab, I 
 
 You can report any problem in the Issues tab, you can also try to request an extension (Depends on how hard it is to implement).
 
-You can also try to contact me via Discord: **N4O#8868**
+You can also try to contact me via Discord: **@noaione**
 
 ## Adding to Shosetsu
 To add this repository to Shosetsu, follow this instructions:
