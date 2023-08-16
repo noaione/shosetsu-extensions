@@ -1,4 +1,4 @@
--- {"id":1331219,"ver":"1.2.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":1331219,"ver":"1.2.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://bakapervert.wordpress.com"
 local WPCommon = Require("WPCommon")
@@ -70,7 +70,7 @@ end
 
 --- @param document Document
 --- @return NovelInfo
-local function novelParserDesktop(document)
+local function novelParserDesktop(document, loadChapters)
     local content = document:selectFirst("#content div")
 
     local info = NovelInfo {
@@ -99,7 +99,7 @@ end
 
 --- @param document Document
 --- @return NovelInfo
-local function novelParserMobile(document)
+local function novelParserMobile(document, loadChapters)
     local content = document:selectFirst("#content article")
     local info = NovelInfo {
         title = content:selectFirst(".entry-title"):text(),
@@ -130,9 +130,41 @@ local function novelParserCommon(novelURL, loadChapters)
     local doc = GETDocument(baseURL .. novelURL)
     local bodyClassName = doc:selectFirst("body"):attr("class")
     if WPCommon.contains(bodyClassName, "mobile-theme") then
-        return novelParserMobile(doc)
+        return novelParserMobile(doc, loadChapters)
     else
-        return novelParserDesktop(doc)
+        return novelParserDesktop(doc, loadChapters)
+    end
+end
+
+--- @param elem Element
+local function novelListingParseCommon(elem)
+    local _listings = {}
+    
+    map(elem:select("#menu-menu-1 > li"), function (menu)
+        local header = menu:selectFirst("> a")
+        local headerText = header:text()
+        if WPCommon.contains(headerText:lower(), "projects") then
+            map(menu:select("> .sub-menu > li"), function (itemData)
+                local link = itemData:selectFirst("> a")
+
+                _listings[#_listings + 1] = Novel {
+                    title = link:text(),
+                    link = shrinkURL(link:attr("href"))
+                }
+            end)
+        end
+    end)
+
+    return _listings
+end
+
+local function novelListingCommon()
+    local doc = GETDocument(baseURL)
+    local bodyClassName = doc:selectFirst("body"):attr("class")
+    if WPCommon.contains(bodyClassName, "mobile-theme") then
+        return novelListingParseCommon(doc:selectFirst("nav#access > .menu-menu-1-container"))
+    else
+        return novelListingParseCommon(doc:selectFirst("div#access > .menu-header"))
     end
 end
 
@@ -146,19 +178,7 @@ return {
 
     -- Must have at least one value
     listings = {
-        Listing("Novels", false, function(data)
-            local doc = GETDocument(baseURL)
-            return map(flatten(mapNotNil(doc:selectFirst("div#access ul"):children(), function(v)
-                local text = v:selectFirst("a"):text()
-                return (text:find("Projects", 0, true)) and
-                        map(v:selectFirst("ul.sub-menu"):select("> li > a"), function(v) return v end)
-            end)), function(v)
-                return Novel {
-                    title = v:text(),
-                    link = shrinkURL(v:attr("href"))
-                }
-            end)
-        end)
+        Listing("Novels", false, novelListingCommon)
     },
 
     getPassage = function(chapterURL)
