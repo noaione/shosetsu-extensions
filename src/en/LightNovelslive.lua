@@ -13,14 +13,6 @@ local paginatingHardLimit = 9
 --- @type int
 local id = 12376124
 
---- Name of extension to display to the user.
---- Should match index.
----
---- Required.
----
---- @type string
-local name = "LightNovels.live"
-
 --- Base URL of the extension. Used to open web view in Shosetsu.
 ---
 --- Required.
@@ -201,7 +193,7 @@ end
 return {
     -- Required
     id = id,
-    name = name,
+    name = "LightNovels.live",
     baseURL = baseURL,
     listings = {
         Listing("Latest", true, function (data)
