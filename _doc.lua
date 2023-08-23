@@ -60,6 +60,9 @@ do
     function Element:text() return end
 
     ---@return string
+    function Element:html() return end
+
+    ---@return string
     function Element:id() return end
 
     ---@return Elements
@@ -113,6 +116,9 @@ do
 
     ---@return string
     function Elements:text() return end
+
+    ---@return string
+    function Elements:html() return end
 
     ---@class Node
     local Node = {}
