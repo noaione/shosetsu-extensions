@@ -26,7 +26,7 @@
     },
     {
       "name": "Madara",
-      "ver": "2.9.0"
+      "ver": "2.9.1"
     },
     {
       "name": "NaoAPI",
@@ -88,7 +88,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/FansTranslations.png",
       "id": 40159,
       "lang": "en",
-      "ver": "0.1.1",
+      "ver": "0.1.2",
       "libVer": "1.0.0",
       "md5": ""
     },

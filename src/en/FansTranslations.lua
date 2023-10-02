@@ -1,4 +1,4 @@
--- {"id":40159,"ver":"0.1.1","libVer":"1.0.0","author":"noaione","dep":["Madara>=2.9.0"]}
+-- {"id":40159,"ver":"0.1.2","libVer":"1.0.0","author":"noaione","dep":["Madara>=2.9.1"]}
 
 return Require("Madara")("https://fanstranslations.com", {
     id = 40159,
