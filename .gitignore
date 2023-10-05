@@ -17,3 +17,4 @@ yarn.lock
 pnpm-lock.yaml
 final/
 __pycache__
+hs_err*.log

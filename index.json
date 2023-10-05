@@ -380,6 +380,17 @@
       "libVer": "1.0.0",
       "md5": "",
       "disableTest": true
+    },
+    {
+      "name": "Wiwimply Translation",
+      "fileName": "WiwimplyTranslation",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Wiwimply.png",
+      "id": 1238794,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "",
+      "disableTest": true
     }
   ]
 }
