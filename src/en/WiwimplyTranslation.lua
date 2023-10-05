@@ -1,4 +1,4 @@
--- {"id":1238794,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":1238794,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local WPCommon = Require("WPCommon");
 local baseURL = "https://wiwiply.com"
@@ -129,7 +129,13 @@ end
 local function parsePassages(chapterUrl)
     local doc = GETDocument(expandURL(chapterUrl))
 
-    local chapterContainer = doc:selectFirst(".halChap--kontenInner ")
+    local section = doc:selectFirst(".halChap--konten")
+
+    local chapterContainer = section:selectFirst(".halChap--kontenInner")
+    local cookieBanner = section:selectFirst(".requiredCookiesBarrier")
+    if cookieBanner then
+        error("This chapter is locked.")
+    end
 
     map(chapterContainer:select(".chptr-ad"), function (v)
         v:remove()
