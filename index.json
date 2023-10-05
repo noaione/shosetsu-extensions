@@ -207,6 +207,16 @@
       "md5": "8829f623f63b6d61da8f02a2a6aaa3db"
     },
     {
+      "name": "Wiwimply Translation",
+      "fileName": "WiwimplyTranslation",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Wiwimply.png",
+      "id": 1238794,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "2c70a8f482b1d4aa5a86db6272a2f624"
+    },
+    {
       "name": "Hiraeth Translations",
       "fileName": "HiraethTranslation",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Hiraeth.png",

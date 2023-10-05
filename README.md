@@ -52,7 +52,8 @@ To add this repository to Shosetsu, follow this instructions:
 | Femme Fables                    | https://femmefables.wordpress.com            | Wordpress         | Yes      | Yes          |                       |
 | Hiraeth Translation             | https://hiraethtranslation.com               | Madara            | Yes      | Yes          |                       |
 | Soafp Translations              | https://soafp.com                            | Wordpress         | Yes      | Yes          |                       |
-| LightNovels.me/LightNovels.live | https://lightnovels.me                       | Custom/Next.js    | Yes      | Mayb         | Skipped CI testing, has a hard pagination limit |
+| LightNovels.me/LightNovels.live | https://lightnovels.me                       | Custom/Next.js    | Yes      | Maybe        | Skipped CI testing, has a hard pagination limit |
+| Wiwimply Translation            | https://wiwiply.com                          | Custom?/          | Yes      | Maybe        |                       |
 
 Please note that I'm creating for the stuff I'm reading myself, if some pages does not work please open up a new Issue so I can look up how to solve it.
 
