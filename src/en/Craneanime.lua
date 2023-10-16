@@ -1,4 +1,4 @@
--- {"id":221710,"ver":"0.3.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":221710,"ver":"0.3.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://translation.craneanime.xyz"
 local WPCommon = Require("WPCommon")
@@ -63,7 +63,7 @@ return {
         local doc = GETDocument(baseURL .. novelURL)
         local innerWrap = doc:selectFirst("#main article")
 
-        local title = innerWrap:selectFirst(".entry-title")
+        local title = doc:selectFirst("#inner-wrap"):selectFirst(".entry-title")
 
         local info = NovelInfo {
             title = title:text(),
