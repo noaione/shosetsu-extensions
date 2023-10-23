@@ -101,7 +101,8 @@ Above list should be working as intended when you open up the chapter, for Madar
 
 ## Common Problems
 
-1. Text is missing
+1. **Text is missing**
+
 Might be because my text stripping decided to strip out the rest of the text because it is wrapped weirdly, please report this and wait for the fix.<br />
 After that install the new version and enable `True Delete` to delete the broken chapter and refresh.
 
