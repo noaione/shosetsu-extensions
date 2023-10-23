@@ -33,6 +33,10 @@
       "ver": "1.0.3"
     },
     {
+      "name": "Bixbox",
+      "ver": "1.0.0"
+    },
+    {
       "name": "CommonCSS",
       "ver": "1.0.1"
     },
@@ -252,9 +256,9 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/KnoxT.png",
       "id": 954053,
       "lang": "en",
-      "ver": "0.1.0",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
-      "md5": "0662a94e4164b5632b6d8ce86b056fee"
+      "md5": "2992b9ebf0de934adcfb9bfc70a335de"
     },
     {
       "name": "Reigokai - Isekai Lunatic",
@@ -325,6 +329,16 @@
       "ver": "0.1.6",
       "libVer": "1.0.0",
       "md5": "459e48d5f9e5f4680cfe5b28f8e6701f"
+    },
+    {
+      "name": "Awebstories",
+      "fileName": "Awebstories",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Awebstories.png",
+      "id": 954054,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "718001977db3e48a5f79073f023e7910"
     },
     {
       "name": "RET Translations",
