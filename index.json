@@ -402,6 +402,17 @@
       "libVer": "1.0.0",
       "md5": "",
       "disableTest": true
+    },
+    {
+      "name": "KnoxT",
+      "fileName": "KnoxT",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/KnoxT.png",
+      "id": 954053,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "",
+      "disableTest": true
     }
   ]
 }
