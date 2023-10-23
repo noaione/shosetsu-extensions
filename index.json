@@ -147,6 +147,16 @@
       "md5": "1732e8eff6295a1ecb55d3572882b046"
     },
     {
+      "name": "Galaxy Translations",
+      "fileName": "GalaxyTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/GalaxyTL.png",
+      "id": 4212306,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "b0f230b722cad9df7b10e3636ba2c87a"
+    },
+    {
       "name": "Fans Translations",
       "fileName": "FansTranslations",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/FansTranslations.png",
@@ -235,6 +245,16 @@
       "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": "eac0f27b822868a7d93f31e40590631d"
+    },
+    {
+      "name": "KnoxT",
+      "fileName": "KnoxT",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/KnoxT.png",
+      "id": 954053,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "0662a94e4164b5632b6d8ce86b056fee"
     },
     {
       "name": "Reigokai - Isekai Lunatic",
