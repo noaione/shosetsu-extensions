@@ -30,7 +30,7 @@
     },
     {
       "name": "WPCommon",
-      "ver": "1.0.2"
+      "ver": "1.0.3"
     },
     {
       "name": "CommonCSS",
@@ -92,9 +92,9 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ReLibrary.png",
       "id": 24971,
       "lang": "en",
-      "ver": "0.1.5",
+      "ver": "0.1.6",
       "libVer": "1.0.0",
-      "md5": "65b00a42b4025a07345fa9f827232042"
+      "md5": "e0495df323cac259c60f363fe9b4deb0"
     },
     {
       "name": "AYA Translation",

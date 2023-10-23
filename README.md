@@ -6,7 +6,7 @@ It was originally a fork of the upstream repo but since they moved to GitLab, I 
 
 You can report any problem in the Issues tab, you can also try to request an extension (Depends on how hard it is to implement).
 
-You can also try to contact me via Discord: **@noaione**
+You can also try to contact me via Discord: **@noaione** (Please send me a message immediately so it goes to my `Message Requests`)
 
 ## Adding to Shosetsu
 To add this repository to Shosetsu, follow this instructions:
@@ -95,6 +95,14 @@ Above list should be working as intended when you open up the chapter, for Madar
 |            Name           |                      URL                     |       Theme       | Notes                 |
 |:-------------------------:|:--------------------------------------------:|:-----------------:|-----------------------|
 | Hellping                  | https://hellping.org                         | Wordpress         | Website is dead       |
+
+## Common Problems
+
+1. Text is missing
+Might be because my text stripping decided to strip out the rest of the text because it is wrapped weirdly, please report this and wait for the fix.<br />
+After that install the new version and enable `True Delete` to delete the broken chapter and refresh.
+
+I try my best to ensure that not all text got stripped out and only intrusive one is.
 
 ## Contributing
 
