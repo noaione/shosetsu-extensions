@@ -1,4 +1,4 @@
--- {"ver":"1.0.1","author":"N4O"}
+-- {"ver":"1.0.2","author":"N4O"}
 
 -- A common function collection for WordPress based websites.
 
@@ -80,5 +80,52 @@ function WPCommon.cleanupPassages(elements, tocCenter)
         end
     end)
 end
+
+--- Split a string by a separator into a table.
+--- https://stackoverflow.com/a/7615129
+--- @param inputStr string
+--- @param sep string
+--- @return table
+local function splitString(inputStr, sep)
+    if sep == nil then
+            sep = "%s"
+    end
+    local t = {}
+    for str in string.gmatch(inputStr, "([^"..sep.."]+)") do
+            table.insert(t, str)
+    end
+    return t
+end
+
+
+--- @param styleData string
+--- @return table
+function WPCommon.createStyleMap(styleData)
+    -- replace "; " with ";"
+    styleData = styleData:gsub("; ", ";")
+    -- split by ";"
+    local styleDataSplit = splitString(styleData, ";")
+    local styleDataMap = {}
+    for _, v in ipairs(styleDataSplit) do
+        -- manual split, find ":" first occurence
+        local firstColon = v:find(":", 0, true)
+        local key = v:sub(0, firstColon - 1)
+        local value = v:sub(firstColon + 1)
+        -- strip leading and trailing spaces
+        key = key:gsub("^%s*(.-)%s*$", "%1")
+        value = value:gsub("^%s*(.-)%s*$", "%1")
+        styleDataMap[key] = value
+    end
+    return styleDataMap
+end
+
+--- @param styleData string
+--- @param key string
+--- @return string|nil
+function WPCommon.getSpecificStyleAttribute(styleData, key)
+    local styleDataMap = WPCommon.createStyleMap(styleData)
+    return styleDataMap[key]
+end
+
 
 return WPCommon;

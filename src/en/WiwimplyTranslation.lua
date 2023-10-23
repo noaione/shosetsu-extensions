@@ -1,8 +1,13 @@
--- {"id":1238794,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":1238794,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
 
 local WPCommon = Require("WPCommon");
 local baseURL = "https://wiwiply.com"
 local defaultCover = "https://wiwiply.com/aset/gambar/coverNopel/CoverDefault.webp"
+
+
+local function startsWith(data, start)
+    return data:sub(1, #start) == start
+end
 
 --- @param url string
 --- @return string
@@ -13,11 +18,36 @@ end
 --- @param url string
 --- @return string
 local function expandURL(url)
-    return baseURL .. url
+    if startsWith(url, "/") then
+        return baseURL .. url
+    end
+    return baseURL .. "/" .. url
 end
 
-local function startsWith(data, start)
-    return data:sub(1, #start) == start
+--- @param el Element
+--- @return string
+local function getImageUrl(el)
+    local kotakGambar = el:selectFirst(".akTN__kotakGambar")
+    if kotakGambar then
+        -- image is injected to child div background-image style
+        local child = kotakGambar:child(0)
+        if child then
+            local bgStyle = child:attr("style")
+            local bgUrl = WPCommon.getSpecificStyleAttribute(bgStyle, "background-image")
+            if bgUrl then
+                -- remove url()
+                bgUrl = bgUrl:gsub("url%(", ""):gsub("%)", "")
+                -- strip leading/trailing quotes
+                bgUrl = bgUrl:gsub("^['\"]*(.-)['\"]*$", "%1")
+                if startsWith(bgUrl, "http") then
+                    return bgUrl
+                end
+                return expandURL(bgUrl)
+            end
+        end
+    end
+
+    return defaultCover
 end
 
 --- @param doc Document
@@ -25,11 +55,11 @@ end
 local function parseListing()
     local doc = GETDocument(baseURL)
     local areaNovel = doc:selectFirst(".arealistNovel")
-    local section = areaNovel:selectFirst("> .areaCarouselList")
+    -- local section = areaNovel:selectFirst("> .areaCarouselList")
+    local topChoice = areaNovel:selectFirst("#topchoice")
 
     local _novels = {}
-    map(section:select(".nopelpel"), function (v)
-
+    map(topChoice:select("> .nopelpel"), function (v)
         local title = v:selectFirst(".topchoice"):text()
         local link = shrinkURL(v:attr("href"))
 
@@ -37,7 +67,7 @@ local function parseListing()
             title = title,
             link = link,
         }
-        novel:setImageURL(defaultCover)
+        novel:setImageURL(getImageUrl(v))
         _novels[#_novels + 1] = novel
     end)
     return _novels
@@ -72,8 +102,9 @@ local function getAndParseNovel(novelUrl, loadChapters)
         local title = sect:selectFirst(".title"):text()
         if WPCommon.contains(title, "Summary") then
             -- replace <br> with \n
-            local pClass = sect:selectFirst("p"):text():gsub("<br>", "\n")
-            novel:setDescription(pClass)
+            local textClass = sect:selectFirst("main") or sect:selectFirst("p")
+            local textData = textClass:text():gsub("<br>", "\n")
+            novel:setDescription(textData)
         elseif WPCommon.contains(title, "Genre") then
             novel:setGenres(map(sect:select(".genreTagWrap > a"), function (vvv)
                 return vvv:text()
@@ -165,7 +196,7 @@ return {
 
     -- Must have at least one value
     listings = {
-        Listing("Novels", true, parseListing)
+        Listing("Novels", false, parseListing)
     },
 
     getPassage = parsePassages,

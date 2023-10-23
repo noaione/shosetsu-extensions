@@ -1,4 +1,4 @@
--- {"id":412381,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.0"]}
+-- {"id":412381,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.0"]}
 
 return Require("Madara")("https://www.novelmultiverse.com", {
     id = 412381,
@@ -8,9 +8,9 @@ return Require("Madara")("https://www.novelmultiverse.com", {
     -- defaults values
     latestNovelSel = "div.page-listing-item",
     ajaxUsesFormData = true,
+    chaptersScriptLoaded = false,
 
-    -- There are paid chapters, we can ignore it
-    chaptersListSelector= "li.wp-manga-chapter.free-chap",
+    chaptersListSelector = "li.wp-manga-chapter",
 
     genres = {
         "Action",
