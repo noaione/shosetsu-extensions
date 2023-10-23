@@ -1,4 +1,4 @@
--- {"id":376794,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":376794,"ver":"0.2.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://europaisacoolmoon.wordpress.com"
 local WPCommon = Require("WPCommon")
@@ -25,6 +25,26 @@ local function parsePage(url)
     return p
 end
 
+local function parseNovelListing()
+    local doc = GETDocument(baseURL)
+    local menuPrimary = doc:selectFirst("ul#menu-primary") or doc:selectFirst("ul#menu-main")
+
+    local _novels = {}
+    map(menuPrimary:children(), function(v)
+        local linkEl = v:selectFirst("a")
+        local link = linkEl:attr("href")
+        local text = linkEl:text()
+        if not WPCommon.contains(link, "/home/") then return end
+
+        _novels[#_novels + 1] = Novel {
+            title = text,
+            link = shrinkURL(link)
+        }
+    end)
+
+    return _novels
+end
+
 return {
     id = 376794,
     name = "Europa is a cool moon",
@@ -35,20 +55,7 @@ return {
 
     -- Must have at least one value
     listings = {
-        Listing("Novels", false, function(data)
-            local doc = GETDocument(baseURL)
-            -- desktop version
-            return map(flatten(mapNotNil(doc:selectFirst("ul#menu-primary"):children(), function (v)
-                local linky = v:selectFirst("a")
-                return (linky:attr("href"):find("/home/")) and
-                    map(v:select("a"), function (ev) return ev end)
-            end)), function (v)
-                return Novel {
-                    title = v:text(),
-                    link = shrinkURL(v:attr("href"))
-                }
-            end)
-        end)
+        Listing("Novels", false, parseNovelListing)
     },
 
     getPassage = function(chapterURL)
