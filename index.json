@@ -39,6 +39,10 @@
     {
       "name": "MDLua",
       "ver": "1.0.0"
+    },
+    {
+      "name": "Bixbox",
+      "ver": "1.0.0"
     }
   ],
   "scripts": [
@@ -408,6 +412,17 @@
       "fileName": "KnoxT",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/KnoxT.png",
       "id": 954053,
+      "lang": "en",
+      "ver": "0.2.0",
+      "libVer": "1.0.0",
+      "md5": "",
+      "disableTest": true
+    },
+    {
+      "name": "Awebstories",
+      "fileName": "Awebstories",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Awebstories.png",
+      "id": 954054,
       "lang": "en",
       "ver": "0.1.0",
       "libVer": "1.0.0",

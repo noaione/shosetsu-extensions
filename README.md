@@ -55,7 +55,8 @@ To add this repository to Shosetsu, follow this instructions:
 | LightNovels.me/LightNovels.live | https://lightnovels.me                       | Custom/Next.js    | Yes      | Maybe        | Skipped CI testing, has a hard pagination limit |
 | Wiwimply Translation            | https://wiwiply.com                          | Custom?/Wordpress | Yes      | Maybe        |                       |
 | Galaxy Translations             | https://galaxytranslations97.com             | Madara            | Yes      | Yes          |                       |
-| KnoxT                           | https://knoxt.space                          | LightNovel        | Yes      | Maybe        | Skipped CI testing    |
+| KnoxT                           | https://knoxt.space                          | Bixbox            | Yes      | Maybe        | Skipped CI testing    |
+| Awebstories                     | https://awebstories.com                      | Bixbox            | Yes      | Maybe        | Skipped CI testing    |
 
 Please note that I'm creating for the stuff I'm reading myself, if some pages does not work please open up a new Issue so I can look up how to solve it.
 
