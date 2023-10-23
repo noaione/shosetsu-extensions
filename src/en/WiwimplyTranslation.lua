@@ -1,4 +1,4 @@
--- {"id":1238794,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
+-- {"id":1238794,"ver":"0.1.3","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
 
 local WPCommon = Require("WPCommon");
 local baseURL = "https://wiwiply.com"
@@ -82,12 +82,25 @@ local function getAndParseNovel(novelUrl, loadChapters)
     local sectionHead = doc:selectFirst(".novelD__Area")
     local title = sectionHead:selectFirst(".nDjudul__title"):text()
 
-
     local novel = NovelInfo {
         title = title,
         language = "English"
     }
-    novel:setImageURL(defaultCover)
+
+    local bgContainer = sectionHead:selectFirst(".novelD__cover")
+    local bgUrl = defaultCover
+    if bgContainer then
+        local imgContainer = bgContainer:selectFirst("img")
+        if imgContainer then
+            local imgUrl = imgContainer:attr("src")
+            if startsWith(imgUrl, "http") then
+                bgUrl = imgUrl
+            else
+                bgUrl = expandURL(imgUrl)
+            end
+        end
+    end
+    novel:setImageURL(bgUrl)
 
     local novelStatus = sectionHead:selectFirst(".nDjudul__other"):selectFirst("strong > span"):text()
     if novelStatus == "Completed" then
