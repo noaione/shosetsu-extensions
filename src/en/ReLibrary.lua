@@ -1,4 +1,4 @@
--- {"id":24971,"ver":"0.1.5","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":24971,"ver":"0.1.6","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
 
 local baseURL = "https://re-library.com"
 
@@ -68,18 +68,13 @@ end
 --- @param v Element
 local function reappendStyle(v)
     local style = v:attr("style")
-    if WPCommon.contains(style, "text-align") then
-        -- extract the alignment, some obvious format:
-        -- text-align: center;
-        -- text-align: center
-        -- text-align:center;
-        -- text-align:center
-        -- there might also be other style, just ignore it
-        local alignment = style:match("text%-align%:%s*%w*%s*;?")
-        -- get the alignment
-        if alignment then
-            return alignment
-        end
+    local alignment = WPCommon.getSpecificStyleAttribute(style, "text-align")
+    local newStyle = ""
+    if alignment then
+        newStyle = newStyle .. "text-align: " .. alignment .. ";"
+    end
+    if newStyle ~= "" then
+        return newStyle
     end
     return nil
 end
@@ -305,6 +300,42 @@ local function getSynopsis(elem)
     return synopsis:gsub("\n+$", "")
 end
 
+---@param image_element Element An img element of which the biggest image shall be selected.
+---@return string A link to the biggest image of the image_element.
+local function img_src(image_element)
+	-- Different extensions have the image(s) saved in different attributes. Not even uniformly for one extension.
+	-- Partially this comes down to script loading the pictures. Therefore, scour for a picture in the default HTML page.
+
+	-- Check data-srcset:
+	local srcset = image_element:attr("data-srcset")
+	if srcset ~= "" then
+		-- Get the largest image.
+		local max_size, max_url = 0, ""
+		for url, size in srcset:gmatch("(http.-) (%d+)w") do
+			if tonumber(size) > max_size then
+				max_size = tonumber(size)
+				max_url = url
+			end
+		end
+		return max_url
+	end
+
+	-- Check data-src:
+	srcset = image_element:attr("data-src")
+	if srcset ~= "" then
+		return srcset
+	end
+
+	-- Check data-lazy-src:
+	srcset = image_element:attr("data-lazy-src")
+	if srcset ~= "" then
+		return srcset
+	end
+
+	-- Default to src (the most likely place to be loaded via script):
+	return image_element:attr("src")
+end
+
 --- @param doc Document
 --- @param loadChapters boolean
 local function parseNovelInfo(doc, novelUrl, loadChapters)
@@ -318,9 +349,12 @@ local function parseNovelInfo(doc, novelUrl, loadChapters)
     }
     local entryContent = sectionMain:selectFirst(".entry-content")
     local tableRounded = sectionMain:selectFirst(".entry-content > table.rounded")
-    local imgCover = tableRounded:selectFirst("img")
+    local imgCover = tableRounded:selectFirst("img.rounded")
     if imgCover then
-        info:setImageURL(imgCover:attr("src"))
+        -- check multiple srcset
+        local imgSrc = img_src(imgCover)
+        print(imgSrc)
+        info:setImageURL(imgSrc)
     end
     local synopsis = entryContent:selectFirst("#synopsis")
     if synopsis then

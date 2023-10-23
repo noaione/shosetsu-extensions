@@ -1,4 +1,4 @@
--- {"ver":"1.0.2","author":"N4O"}
+-- {"ver":"1.0.3","author":"N4O"}
 
 -- A common function collection for WordPress based websites.
 
@@ -101,6 +101,7 @@ end
 --- @param styleData string
 --- @return table
 function WPCommon.createStyleMap(styleData)
+    if styleData:len() == 0 then return {} end
     -- replace "; " with ";"
     styleData = styleData:gsub("; ", ";")
     -- split by ";"
