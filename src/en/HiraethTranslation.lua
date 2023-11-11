@@ -1,4 +1,4 @@
--- {"id":43148,"ver":"0.1.3","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.2"]}
+-- {"id":43148,"ver":"0.1.3.1","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.2"]}
 
 local function extractSrcSet(srcset)
     -- Get the largest image.
@@ -94,6 +94,7 @@ return Require("Madara")("https://hiraethtranslation.com", {
         --- check all image element, rewrite it to remove lazyload
         map(htmlContent:select("img"), function (imgEl)
             -- check first, if :src is data:image/svg+xml
+            print("Hiraeth Test", imgEl)
             if imgEl:attr("src"):find("data:image/svg+xml") then
                 print("Replacing image", imgEl)
                 local imgSrc = extractLazyLoadedImage(imgEl)
