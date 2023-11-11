@@ -1,4 +1,4 @@
--- {"id":43148,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.2"]}
+-- {"id":43148,"ver":"0.1.3","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.2"]}
 
 local function extractSrcSet(srcset)
     -- Get the largest image.
@@ -21,17 +21,8 @@ local function extractLazyLoadedImage(image_element)
 	-- Different extensions have the image(s) saved in different attributes. Not even uniformly for one extension.
 	-- Partially this comes down to script loading the pictures. Therefore, scour for a picture in the default HTML page.
 
-	-- Check data-srcset:
-	local srcset = image_element:attr("data-srcset")
-	if srcset ~= "" then
-		local dssSrc = extractSrcSet(srcset)
-        if dssSrc ~= nil then
-            return dssSrc
-        end
-	end
-
     -- check data-lazy-srcset
-    srcset = image_element:attr("data-lazy-srcset")
+    local srcset = image_element:attr("data-lazy-srcset")
     if srcset ~= "" then
         local dssSrc = extractSrcSet(srcset)
         if dssSrc ~= nil then
@@ -39,10 +30,13 @@ local function extractLazyLoadedImage(image_element)
         end
     end
 
-	-- Check data-src:
-	srcset = image_element:attr("data-src")
+	-- Check data-srcset:
+	srcset = image_element:attr("data-srcset")
 	if srcset ~= "" then
-		return srcset
+		local dssSrc = extractSrcSet(srcset)
+        if dssSrc ~= nil then
+            return dssSrc
+        end
 	end
 
 	-- Check data-lazy-src:
@@ -50,6 +44,12 @@ local function extractLazyLoadedImage(image_element)
 	if srcset ~= "" then
 		return srcset
 	end
+
+    -- Check data-src:
+    srcset = image_element:attr("data-src")
+    if srcset ~= "" then
+        return srcset
+    end
 
 	-- Do not use src, as it's a blank svg
 	return nil
@@ -93,9 +93,14 @@ return Require("Madara")("https://hiraethtranslation.com", {
     postProcessPassage = function (htmlContent)
         --- check all image element, rewrite it to remove lazyload
         map(htmlContent:select("img"), function (imgEl)
-            local imgSrc = extractLazyLoadedImage(imgEl)
-            if imgSrc then
-                imgEl:attr("src", imgSrc)
+            -- check first, if :src is data:image/svg+xml
+            if imgEl:attr("src"):find("data:image/svg+xml") then
+                print("Replacing image", imgEl)
+                local imgSrc = extractLazyLoadedImage(imgEl)
+                if imgSrc then
+                    imgEl:attr("src", imgSrc)
+                    print("Replaced image", imgEl)
+                end
             end
         end)
     end
