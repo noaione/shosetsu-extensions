@@ -1,4 +1,4 @@
--- {"ver":"2.9.1","author":"TechnoJo4","dep":["url"]}
+-- {"ver":"2.9.2","author":"TechnoJo4","dep":["url"]}
 
 local encode = Require("url").encode
 local text = function(v)
@@ -39,6 +39,10 @@ local defaults = {
 
 	--- Some sites require custom CSS to exist, such as RTL support
 	customStyle = "",
+
+	--- Some postprocessing for passages, executed before returning pageOfElem
+	--- @type function|nil
+	postProcessPassage = nil,
 }
 
 local ORDER_BY_FILTER_EXT = { "Relevance", "Latest", "A-Z", "Rating", "Trending", "Most Views", "New" }
@@ -152,6 +156,11 @@ function defaults:getPassage(url)
 			end
 		end)
 	end)
+
+	-- Post processing
+	if self.postProcessPassage then
+		self.postProcessPassage(htmlElement)
+	end
 
 	return pageOfElem(htmlElement, true, self.customStyle)
 end
