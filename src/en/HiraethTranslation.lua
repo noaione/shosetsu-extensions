@@ -1,4 +1,4 @@
--- {"id":43148,"ver":"0.1.3.1","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.2"]}
+-- {"id":43148,"ver":"0.1.4","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.2"]}
 
 local function extractSrcSet(srcset)
     -- Get the largest image.
