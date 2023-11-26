@@ -1,4 +1,4 @@
--- {"id":43148,"ver":"0.1.3.1","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.2"]}
+-- {"id":43148,"ver":"0.1.5","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.2"]}
 
 local function extractSrcSet(srcset)
     -- Get the largest image.
@@ -55,6 +55,12 @@ local function extractLazyLoadedImage(image_element)
 	return nil
 end
 
+--- @param str string
+--- @param pattern string
+local function contains(str, pattern)
+    return str:find(pattern, 0, true) and true or false
+end
+
 return Require("Madara")("https://hiraethtranslation.com", {
     id = 43148,
     name = "Hiraeth Translations",
@@ -102,6 +108,16 @@ return Require("Madara")("https://hiraethtranslation.com", {
                     imgEl:attr("src", imgSrc)
                     print("Replaced image", imgEl)
                 end
+            end
+        end)
+
+        map(htmlContent:select("script"), function (scriptEl)
+            scriptEl:remove()
+        end)
+
+        map(htmlContent:select("div.code-block"), function (divEl)
+            if contains(divEl:text(), "hiraethtranslation.com") then
+                divEl:remove()
             end
         end)
     end
