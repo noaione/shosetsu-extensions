@@ -42,7 +42,7 @@
     },
     {
       "name": "Bixbox",
-      "ver": "1.0.0"
+      "ver": "1.1.0"
     }
   ],
   "scripts": [
@@ -413,7 +413,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/KnoxT.png",
       "id": 954053,
       "lang": "en",
-      "ver": "0.2.0",
+      "ver": "0.3.0",
       "libVer": "1.0.0",
       "md5": "",
       "disableTest": true
@@ -424,7 +424,7 @@
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Awebstories.png",
       "id": 954054,
       "lang": "en",
-      "ver": "0.1.0",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": "",
       "disableTest": true
