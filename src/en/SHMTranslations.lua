@@ -1,4 +1,4 @@
--- {"id":176796,"ver":"0.1.6","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":176796,"ver":"0.1.7","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://www.shmtranslations.com"
 local WPCommon = Require("WPCommon")
@@ -7,11 +7,8 @@ local WPCommon = Require("WPCommon")
 --- @return string
 local function shrinkURL(url)
     -- remove www
-    url = url:gsub("www%.", "")
-    -- remove SHMtranslations.com
-    -- sometimes the SHM are capitalizaed and not
-    url = url:gsub("SHMtranslations%.com", "")
-    url = url:gsub("SHMTranslations%.com", "")
+    url = url:gsub("www%.", ""):lower()
+    -- remove shmtranslations.com
     url = url:gsub("shmtranslations%.com", "")
     -- remove https://
     url = url:gsub("https?://", "")
@@ -148,6 +145,13 @@ return {
         local info = NovelInfo {
             title = baseArticles:selectFirst(".wp-block-heading"):text(),
         }
+        if WPCommon.contains(novelURL, "/ongoing/") then
+            info:setStatus(NovelStatus.PUBLISHING)
+        elseif WPCommon.contains(novelURL, "/completed/") then
+            info:setStatus(NovelStatus.COMPLETED)
+        elseif WPCommon.contains(novelURL, "/dropped/") then
+            info:setStatus(NovelStatus.PAUSED)
+        end
 
         local imageTarget = baseArticles:selectFirst("img")
         if imageTarget then
@@ -173,7 +177,7 @@ return {
                 local accordContent = accord:selectFirst(".wp-block-ub-content-toggle-accordion-content-wrap")
                 if accordContent then
                     map(accordContent:select("a"), function (v)
-                        local href = v:attr("href")
+                        local href = v:attr("href"):lower()
                         if not WPCommon.contains(href, "shmtranslations.com") then
                             return
                         end
