@@ -1,4 +1,4 @@
--- {"id":1238794,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
+-- {"id":1238794,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
 
 local WPCommon = Require("WPCommon");
 local baseURL = "https://www.isotls.com"
@@ -107,6 +107,15 @@ local function parsePassages(chapterUrl)
         end
         if WPCommon.contains(className, "reportline") then
             v:remove()
+            return
+        end
+        if WPCommon.contains(className, "universal-js") then
+            v:remove()
+            return
+        end
+        if WPCommon.contains(className, "ez-clear") then
+            v:remove()
+            return
         end
     end)
 
