@@ -428,6 +428,16 @@
       "libVer": "1.0.0",
       "md5": "",
       "disableTest": true
+    },
+    {
+      "name": "ISO Translations",
+      "fileName": "ISOTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ISOTranslations.png",
+      "id": 954055,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": ""
     }
   ]
 }
