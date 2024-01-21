@@ -11,7 +11,7 @@ You can also try to contact me via Discord: **@noaione** (Please send me a messa
 <!-- REPO-BRANCH-INFO -->
 
 > [!NOTE]
-> The following is an auto generated branch from dev branch, if you like to get the latest (and maybe more version) please use dev branch.
+> The following is an auto generated branch from dev branch, if you like to get the latest (and maybe more broken) version please use dev branch.
 
 ## Adding to Shosetsu
 To add this repository to Shosetsu, follow this instructions:
