@@ -84,7 +84,7 @@ jobs:
           cp -r src/* final/src/
           cp -r lib/* final/lib/
           cp README.md final/
-          sed -i 's/<!-- REPO-BRANCH-INFO -->/<!-- REPO-BRANCH-INFO -->\n\n> [!NOTE]\n> The following is an auto generated branch from dev branch, if you like to get the latest (and maybe more version) please use dev branch./g' final/README.md
+          sed -i 's/<!-- REPO-BRANCH-INFO -->/<!-- REPO-BRANCH-INFO -->\n\n> [!NOTE]\n> The following is an auto generated branch from dev branch, if you like to get the latest (and maybe more broken) version please use dev branch./g' final/README.md
       - name: Generate index files
         run: |
           python3 ci/generate-index.py
