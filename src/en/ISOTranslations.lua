@@ -1,4 +1,4 @@
--- {"id":1238794,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
+-- {"id":954055,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
 
 local WPCommon = Require("WPCommon");
 local baseURL = "https://www.isotls.com"

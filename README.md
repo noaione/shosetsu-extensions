@@ -58,6 +58,7 @@ To add this repository to Shosetsu, follow this instructions:
 | KnoxT                           | https://knoxt.space                          | Bixbox            | Yes      | Maybe        | Skipped CI testing    |
 | Awebstories                     | https://awebstories.com                      | Bixbox            | Yes      | Maybe        | Skipped CI testing    |
 | ISO Translation                 | https://www.isotls.com                       | Custom?/Wordpress | Yes      | Maybe        |                       |
+| Tiger Translations              | https://tigertranslations.org                | Wordpress         | Yes      | Maybe        |                       |
 
 Please note that I'm creating for the stuff I'm reading myself, if some pages does not work please open up a new Issue so I can look up how to solve it.
 

@@ -261,6 +261,16 @@
       "md5": "a5e73bc5a372f9e3c14db02589647a0f"
     },
     {
+      "name": "Tiger Translations",
+      "fileName": "TigerTranslations",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/TigerTranslations.png",
+      "id": 954056,
+      "lang": "en",
+      "ver": "0.1.0",
+      "libVer": "1.0.0",
+      "md5": "86e8e34c3aa502b979ae89eb64522f06"
+    },
+    {
       "name": "Nyx Translation",
       "fileName": "NyxTranslation",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/NyxTranslation.png",
@@ -354,11 +364,11 @@
       "name": "ISO Translations",
       "fileName": "ISOTranslations",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/ISOTranslations.png",
-      "id": 1238794,
+      "id": 954055,
       "lang": "en",
-      "ver": "0.1.1",
+      "ver": "0.1.2",
       "libVer": "1.0.0",
-      "md5": "43f755e9663f530f639f24fa71b7636c"
+      "md5": "e7b894bf4709f46ac4732e4933252c70"
     },
     {
       "name": "Light Novels Translations",
