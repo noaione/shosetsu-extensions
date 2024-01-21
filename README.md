@@ -8,6 +8,11 @@ You can report any problem in the Issues tab, you can also try to request an ext
 
 You can also try to contact me via Discord: **@noaione** (Please send me a message immediately so it goes to my `Message Requests`)
 
+<!-- REPO-BRANCH-INFO -->
+
+> [!NOTE]
+> The following is an auto generated branch from dev branch, if you like to get the latest (and maybe more version) please use dev branch.
+
 ## Adding to Shosetsu
 To add this repository to Shosetsu, follow this instructions:
 1. Open More
