@@ -1,4 +1,4 @@
--- {"id":954056,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
+-- {"id":954056,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
 
 local WPCommon = Require("WPCommon");
 local baseURL = "https://tigertranslations.org"
@@ -129,6 +129,10 @@ local function parsePassages(chapterUrl)
                 deletedAlready = true
             end
         end)
+    end)
+
+    map(contents:select("> div"), function (div)
+        WPCommon.cleanupElement(div)
     end)
 
     local title = section:selectFirst(".entry-title")
