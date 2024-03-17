@@ -386,12 +386,12 @@
       "disableTest": true
     },
     {
-      "name": "Wiwimply Translation",
-      "fileName": "WiwimplyTranslation",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Wiwimply.png",
+      "name": "NovelPlex",
+      "fileName": "NovelPlex",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/NovelPlex.png",
       "id": 1238794,
       "lang": "en",
-      "ver": "0.1.3",
+      "ver": "0.2.0",
       "libVer": "1.0.0",
       "md5": "",
       "disableTest": true

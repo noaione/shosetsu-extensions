@@ -1,8 +1,8 @@
--- {"id":1238794,"ver":"0.1.3","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
+-- {"id":1238794,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
 
 local WPCommon = Require("WPCommon");
-local baseURL = "https://wiwiply.com"
-local defaultCover = "https://wiwiply.com/aset/gambar/coverNopel/CoverDefault.webp"
+local baseURL = "https://novelplex.com"
+local defaultCover = "https://novelplex.com/aset/gambar/coverNopel/CoverDefault.webp"
 
 
 local function startsWith(data, start)
@@ -12,7 +12,7 @@ end
 --- @param url string
 --- @return string
 local function shrinkURL(url)
-    return url:gsub("^.-wiwiply%.com", "")
+    return url:gsub("^.-novelplex%.com", "")
 end
 
 --- @param url string
@@ -198,10 +198,10 @@ end
 
 return {
     id = 1238794,
-    name = "Wiwimply Translation",
+    name = "NovelPlex",
     baseURL = baseURL,
 
-    imageURL = "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/Wiwimply.png",
+    imageURL = "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/NovelPlex.png",
     hasSearch = false,
     hasCloudFlare = false,
 
