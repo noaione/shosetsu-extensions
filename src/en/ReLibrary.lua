@@ -1,4 +1,4 @@
--- {"id":24971,"ver":"0.1.7","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
+-- {"id":24971,"ver":"0.1.8","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
 
 local baseURL = "https://re-library.com"
 
