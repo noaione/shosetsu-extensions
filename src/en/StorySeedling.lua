@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.0.5","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0"]}
+-- {"id":4302,"ver":"2.0.6","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -145,7 +145,7 @@ local function getPassage(chapterURL)
 	if notProse ~= nil then
 		notProse:remove()
 	end
-	return pageOfElem(chap, true)
+	return pageOfElem(proseData, true)
 end
 
 --- @param description Element
