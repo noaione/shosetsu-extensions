@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.0.1","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0"]}
+-- {"id":4302,"ver":"2.0.2","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -182,23 +182,23 @@ local function parseNovel(novelURL, loadChapters)
 
 	if loadChapters then
 		local baseSelector = chapterSelector:selectFirst('div[x-show.transition.in.opacity.duration.600]')
-		local _chapters = {}
-		map(baseSelector:select("a[up-deprecated]"), function(v, i)
+		local selectChapters = baseSelector:select("a[up-deprecated]")
+		local totalChapter = selectChapters:size()
+		local _chapters = mapNotNil(selectChapters, function(v)
+			totalChapter = totalChapter - 1
 			-- This is to ignore the premium chapter, those have a lock icon in their anchor.
 			local firstPremChapter = v:selectFirst("svg.feather-droplet")
-			if firstPremChapter ~= nil then return end
+			if firstPremChapter ~= nil then return nil end
 
 			local divBase = v:selectFirst("div")
-			local chapter = NovelChapter {
-				order = i,
+			return NovelChapter {
+				order = totalChapter,
 				title = divBase:selectFirst(".truncate"):text(),
 				link = shrinkURL(v:attr("href")),
 				release = divBase:selectFirst("small.text-xs"):text()
 			}
-			_chapters[#_chapters+1] = chapter
 		end)
 
-		-- reverse
 		local chapters = AsList(_chapters)
 		Reverse(chapters)
 
