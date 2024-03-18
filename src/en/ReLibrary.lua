@@ -345,6 +345,12 @@ local function img_src(image_element)
 		return srcset
 	end
 
+    -- check data-cfsrc
+    srcset = image_element:attr("data-cfsrc")
+    if srcset ~= "" then
+        return srcset
+    end
+
 	-- Default to src (the most likely place to be loaded via script):
 	return image_element:attr("src")
 end
@@ -364,10 +370,8 @@ local function parseNovelInfo(doc, novelUrl, loadChapters)
     local tableRounded = sectionMain:selectFirst(".entry-content > table.rounded")
     local imgCover = tableRounded:selectFirst("img.rounded") or entryContent:selectFirst("img.rounded")
     if imgCover then
-        print("imgCover-re:l", imgCover)
         -- check multiple srcset
         local imgSrc = img_src(imgCover)
-        print("src-re:l", imgSrc)
         info:setImageURL(imgSrc)
     end
     local synopsis = entryContent:selectFirst("#synopsis")
