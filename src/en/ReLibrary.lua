@@ -1,4 +1,4 @@
--- {"id":24971,"ver":"0.1.9","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
+-- {"id":24971,"ver":"0.1.10","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
 
 local baseURL = "https://re-library.com"
 
@@ -356,6 +356,23 @@ local function img_src(image_element)
 	return image_element:attr("src")
 end
 
+--- @param tableRounded Element
+local function findNovelCategory(tableRounded)
+    local categories = {}
+    map(tableRounded:select("strong"), function (strong)
+        local text = strong:text()
+        if WPCommon.contains(text:lower(), "category:") then
+            -- get parent node
+            local parent = strong:parent()
+            -- get all a tags
+            map(parent:select("a"), function (a)
+                categories[#categories + 1] = a:text()
+            end)
+        end
+    end)
+    return categories
+end
+
 --- @param doc Document
 --- @param loadChapters boolean
 local function parseNovelInfo(doc, novelUrl, loadChapters)
@@ -378,6 +395,10 @@ local function parseNovelInfo(doc, novelUrl, loadChapters)
     local synopsis = entryContent:selectFirst("#synopsis")
     if synopsis then
         info:setDescription(getSynopsis(synopsis))
+    end
+    local categories = findNovelCategory(tableRounded)
+    if categories then
+        info:setGenres(AsList(categories))
     end
 
     if loadChapters then
