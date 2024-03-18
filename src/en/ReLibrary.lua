@@ -1,4 +1,4 @@
--- {"id":24971,"ver":"0.1.8","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
+-- {"id":24971,"ver":"0.1.9","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
 
 local baseURL = "https://re-library.com"
 
@@ -302,15 +302,16 @@ local function getSynopsis(elem)
     local nextElem = elem:nextElementSibling()
     -- next sibling su-box su-box-style-glass
     if nextElem:tagName() == "div" and WPCommon.contains(nextElem:attr("class"), "su-box") then
-        -- synopsis box, get clear content
         local boxContent = nextElem:selectFirst(".su-box-content")
-        -- get all node
-        map(boxContent:children(), function (v)
-            synopsis = synopsis .. v:text() .. "\n\n"
-        end)
+        local totalNodes = boxContent:childNodeSize()
+        for i = 0, totalNodes - 1 do
+            local node = boxContent:childNode(i)
+            local textData = node:text():gsub("^%s*(.-)%s*$", "%1")
+            synopsis = synopsis .. textData .. "\n"
+        end
     end
-    -- remove trailing newline
-    return synopsis:gsub("\n+$", "")
+    -- remove trailing newline and spaces
+    return synopsis:gsub("\n+$", ""):gsub("%s+$", "")
 end
 
 ---@param image_element Element An img element of which the biggest image shall be selected.
