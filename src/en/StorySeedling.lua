@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.0.3","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0"]}
+-- {"id":4302,"ver":"2.0.4","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -194,7 +194,7 @@ local function parseNovel(novelURL, loadChapters)
 			if firstPremChapter == nil then
 				local divBase = v:selectFirst("div")
 				_chapters[#_chapters + 1] = NovelChapter {
-					order = #_chapters + 1,
+					order = #_chapters,
 					title = divBase:selectFirst(".truncate"):text(),
 					link = shrinkURL(v:attr("href")),
 					release = divBase:selectFirst("small.text-xs"):text()
