@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.0.4","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0"]}
+-- {"id":4302,"ver":"2.0.5","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -76,12 +76,6 @@ local searchFilters = {
 	end))
 }
 
-local encode = Require("url").encode
-
-local text = function(v)
-	return v:text()
-end
-
 local function shrinkURL(url)
 	return url:gsub("^.-storyseedling%.com", "")
 end
@@ -133,12 +127,10 @@ end
 local function getPassage(chapterURL)
 	local chap = GETDocument(expandURL(rewriteChapterUrl(chapterURL))):selectFirst("main")
 
-	local title = chap:selectFirst("h1"):text()
-	chap = chap:selectFirst(".prose")
-	chap:child(0):before("<h1>" .. title .. "</h1>")
+	local proseData = chap:selectFirst(".prose")
 	-- Remove empty <p> tags
 	local toRemove = {}
-	chap:traverse(NodeVisitor(function(v)
+	proseData:traverse(NodeVisitor(function(v)
 		if v:tagName() == "p" and v:text() == "" then
 			toRemove[#toRemove+1] = v
 		end
@@ -148,6 +140,10 @@ local function getPassage(chapterURL)
 	end, nil, true))
 	for _,v in pairs(toRemove) do
 		v:remove()
+	end
+	local notProse = proseData:selectFirst("div.not-prose")
+	if notProse ~= nil then
+		notProse:remove()
 	end
 	return pageOfElem(chap, true)
 end
