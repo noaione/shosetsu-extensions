@@ -1,6 +1,10 @@
 {
   "libraries": [
     {
+      "name": "Multipartd",
+      "ver": "1.0.0"
+    },
+    {
       "name": "NaoAPI",
       "ver": "1.0.1"
     },
@@ -399,6 +403,16 @@
       "ver": "0.1.0",
       "libVer": "1.0.0",
       "md5": "de1c982aa8e960ab5833b4490ba8516a"
+    },
+    {
+      "name": "Story Seedling",
+      "fileName": "StorySeedling",
+      "imageURL": "https://github.com/shosetsuorg/extensions/raw/dev/icons/TravisTranslations.png",
+      "id": 4302,
+      "lang": "en",
+      "ver": "2.0.0",
+      "libVer": "1.0.0",
+      "md5": "73a875ab9539a9173a6b54fac70b7666"
     },
     {
       "name": "Galaxy Translations",
