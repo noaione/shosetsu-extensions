@@ -121,16 +121,6 @@
       "md5": "dc55e657b12ed9d2d39d36483d118866"
     },
     {
-      "name": "NovelPlex",
-      "fileName": "WiwimplyTranslation",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/NovelPlex.png",
-      "id": 1238794,
-      "lang": "en",
-      "ver": "0.2.0",
-      "libVer": "1.0.0",
-      "md5": "c0d21e056b91496a65c6060817baa494"
-    },
-    {
       "name": "Kuro Kurori's Lounge",
       "fileName": "KuroKurori",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/KuroKurori.png",
@@ -309,6 +299,16 @@
       "ver": "0.1.0",
       "libVer": "1.0.0",
       "md5": "eaf32cb1f3b8801c3344c8794c395470"
+    },
+    {
+      "name": "NovelPlex",
+      "fileName": "NovelPlex",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/NovelPlex.png",
+      "id": 1238794,
+      "lang": "en",
+      "ver": "0.2.0",
+      "libVer": "1.0.0",
+      "md5": "c0d21e056b91496a65c6060817baa494"
     },
     {
       "name": "Fans Translations",
