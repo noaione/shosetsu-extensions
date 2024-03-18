@@ -1,4 +1,4 @@
--- {"id":24971,"ver":"0.1.6","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
+-- {"id":24971,"ver":"0.1.7","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
 
 local baseURL = "https://re-library.com"
 
@@ -261,22 +261,35 @@ end
 
 --- @param doc Document
 local function parseListings(doc)
-    local tableMeta = doc:selectFirst(".entry-content > table")
+    local entryContent = doc:selectFirst(".entry-content")
 
-    --- @type Novel[]
     local _novels = {}
-    map(tableMeta:select("p a"), function (vv)
-        local url = vv:attr("href")
-        if not WPCommon.contains(url, "re-library.com") then end
-        -- strip leading "* " if exist
-        local title = vv:text()
-        title = title:gsub("^%*%s", "")
-        _novels[#_novels + 1] = Novel {
-            title = title,
-            link = shrinkURL(url),
+    map(entryContent:select("table"), function (table)
+        map(table:select("p a"), function (novel)
+            local url = novel:attr("href")
+            if not WPCommon.contains(url, "re-library.com") then end
+            -- strip leading "* " if exist
+            local title = novel:text()
+            title = title:gsub("^%*%s", "")
+            -- do not use Novel first since we want to sort by title
+            _novels[#_novels + 1] = {
+                title = title,
+                link = shrinkURL(url),
+            }
+        end)
+    end)
+
+    -- sort by title
+    table.sort(_novels, function (a, b)
+        return a.title < b.title
+    end)
+
+    return map(_novels, function (v)
+        return Novel {
+            title = v.title,
+            link = v.link,
         }
     end)
-    return _novels
 end
 
 --- @param elem Element
