@@ -363,6 +363,7 @@ local function parseNovelInfo(doc, novelUrl, loadChapters)
     local entryContent = sectionMain:selectFirst(".entry-content")
     local tableRounded = sectionMain:selectFirst(".entry-content > table.rounded")
     local imgCover = tableRounded:selectFirst("img.rounded")
+    print(doc:html())
     if imgCover then
         -- check multiple srcset
         local imgSrc = img_src(imgCover)
