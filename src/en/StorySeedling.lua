@@ -191,15 +191,15 @@ local function parseNovel(novelURL, loadChapters)
 			local v = selectChapters:get(i)
 			-- This is to ignore the premium chapter, those have a lock icon in their anchor.
 			local firstPremChapter = v:selectFirst("svg.feather-droplet")
-			if firstPremChapter ~= nil then return nil end
-
-			local divBase = v:selectFirst("div")
-			_chapters[_chapters] = NovelChapter {
-				order = i,
-				title = divBase:selectFirst(".truncate"):text(),
-				link = shrinkURL(v:attr("href")),
-				release = divBase:selectFirst("small.text-xs"):text()
-			}
+			if firstPremChapter == nil then
+				local divBase = v:selectFirst("div")
+				_chapters[#_chapters + 1] = NovelChapter {
+					order = #_chapters + 1,
+					title = divBase:selectFirst(".truncate"):text(),
+					link = shrinkURL(v:attr("href")),
+					release = divBase:selectFirst("small.text-xs"):text()
+				}
+			end
 		end
 
 		info:setChapters(AsList(_chapters))
