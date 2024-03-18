@@ -43,6 +43,10 @@
     {
       "name": "Bixbox",
       "ver": "1.1.0"
+    },
+    {
+      "name": "Multipartd",
+      "ver": "1.0.0"
     }
   ],
   "scripts": [
