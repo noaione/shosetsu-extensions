@@ -298,16 +298,16 @@ local function getSynopsis(elem)
         return ""
     end
     -- elem will be the #synopsis header.
-    -- get all the next <p> until it hit non-<p> element
     local synopsis = ""
     local nextElem = elem:nextElementSibling()
-    while nextElem do
-        if nextElem:tagName() == "p" then
-            synopsis = synopsis .. nextElem:text() .. "\n\n"
-        else
-            break
-        end
-        nextElem = nextElem:nextElementSibling()
+    -- next sibling su-box su-box-style-glass
+    if nextElem:tagName() == "div" and WPCommon.contains(nextElem:attr("class"), "su-box") then
+        -- synopsis box, get clear content
+        local boxContent = nextElem:selectFirst(".su-box-content")
+        -- get all node
+        map(boxContent:children(), function (v)
+            synopsis = synopsis .. v:text() .. "\n\n"
+        end)
     end
     -- remove trailing newline
     return synopsis:gsub("\n+$", "")
@@ -362,12 +362,12 @@ local function parseNovelInfo(doc, novelUrl, loadChapters)
     }
     local entryContent = sectionMain:selectFirst(".entry-content")
     local tableRounded = sectionMain:selectFirst(".entry-content > table.rounded")
-    local imgCover = tableRounded:selectFirst("img.rounded")
-    print(doc:html())
+    local imgCover = tableRounded:selectFirst("img.rounded") or entryContent:selectFirst("img.rounded")
     if imgCover then
+        print("imgCover-re:l", imgCover)
         -- check multiple srcset
         local imgSrc = img_src(imgCover)
-        print(imgSrc)
+        print("src-re:l", imgSrc)
         info:setImageURL(imgSrc)
     end
     local synopsis = entryContent:selectFirst("#synopsis")
