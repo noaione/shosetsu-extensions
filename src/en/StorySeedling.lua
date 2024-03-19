@@ -1,9 +1,11 @@
--- {"id":4302,"ver":"2.0.6","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0"]}
+-- {"id":4302,"ver":"2.0.7","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
 
 local baseURL = "https://storyseedling.com"
+
+local globalState = {}
 
 -- Filter Keys & Values
 local STATUS_FILTER = 2
@@ -214,10 +216,31 @@ local function parseListing(listing)
 	end)
 end
 
+local function getPostData()
+	if globalState.postData then
+		return globalState.postData
+	end
+
+	local webpage = GETDocument(expandURL("/browse/"))
+
+	local axLoad = webpage:selectFirst("div[ax-load]")
+	local xData = axLoad:attr("x-data")
+	-- browse('RANDOMDATAHERE'), get the random data
+	local randomData = xData:match("browse%('([^']+)'%)")
+
+	globalState.postData = randomData
+
+	return randomData
+end
+
 local function getSearch(data)
 	local query = data[QUERY]
 	local page = data[PAGE]
 	local orderBy = data[ORDER_BY_FILTER]
+
+	-- get the random data
+	local randomData = getPostData()
+	print("StorySeedling Random Data:", randomData)
 
 	-- build form
 	local formBuilder = Multipartd:new()
@@ -243,7 +266,7 @@ local function getSearch(data)
 		formBuilder:add("curpage", tostring(page))
 	end
 
-	formBuilder:add("post", "098dc92952")
+	formBuilder:add("post", randomData)
 	formBuilder:add("action", "fetch_browse")
 
 	-- for media type, cut off the first two dashes
