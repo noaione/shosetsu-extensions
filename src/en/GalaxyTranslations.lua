@@ -1,4 +1,4 @@
--- {"id":4212306,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.0"]}
+-- {"id":4212306,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.0"]}
 
 return Require("Madara")("https://galaxytranslations97.com", {
     id = 4212306,
@@ -12,9 +12,32 @@ return Require("Madara")("https://galaxytranslations97.com", {
     -- There are paid chapters, we can ignore it
     chaptersListSelector= "li.wp-manga-chapter.free-chap",
 
+    -- genres = {
+    --     "Chinese Novel",
+    --     "Japanese Novel",
+    --     "Korean Novel",
+    -- },
+
     genres = {
-        "Chinese Novel",
-        "Japanese Novel",
-        "Korean Novel",
-    }
+        "Action",
+        "Adventure",
+        "Comedy",
+        "Drama",
+        "Ecchi",
+        "Fantasy",
+        "Harem",
+        "Mecha",
+        "Romance",
+        "School Life",
+        "Sci-fi",
+        "Shoujo",
+        "Shounen",
+        "Shounen Ai",
+        "Slice of Life",
+        "Supernatural",
+        "Yaoi"
+    },
+
+    shrinkURLNovel = "manga",
+    novelListingURLPath = "manga",
 })
