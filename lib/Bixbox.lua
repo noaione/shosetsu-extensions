@@ -1,4 +1,4 @@
--- {"ver":"1.1.0","author":"N4O","dep":["WPCommon"]}
+-- {"ver":"1.1.1","author":"N4O","dep":["WPCommon"]}
 
 local encode = Require("url").encode
 local WPCommon = Require("WPCommon");
@@ -278,9 +278,11 @@ function defaults:parseNovel(novelUrl, loadChapters)
     end
 
     local genreMap = infoX:selectFirst(".genxed")
-    novel:setGenres(map(genreMap:children(), function (genre)
-        return genre:text()
-    end))
+    if genreMap then
+        novel:setGenres(map(genreMap:children(), function (genre)
+            return genre:text()
+        end))
+    end
 
     local infoPills = infoX:selectFirst(".spe")
     local _authors = {}
