@@ -1,4 +1,4 @@
--- {"id":954054,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["Bixbox>=1.1.0","WPCommon>=1.0.2"]}
+-- {"id":954054,"ver":"0.2.1","libVer":"1.0.0","author":"N4O","dep":["Bixbox>=1.1.1","WPCommon>=1.0.2"]}
 
 local WPCommon = Require("WPCommon")
 
