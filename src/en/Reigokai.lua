@@ -1,4 +1,4 @@
--- {"id":221702,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":221702,"ver":"0.2.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://isekailunatic.com"
 local WPCommon = Require("WPCommon")
@@ -35,6 +35,17 @@ local function cleanImgUrl(url)
     return url:sub(0, found - 1)
 end
 
+local function getTitleFromHead(doc)
+    -- get from header
+    local titleHead = doc:selectFirst("title")
+    if titleHead then
+        local actualTitle = titleHead:text()
+        -- remove `| Reigokai: Isekai TL` from title
+        return actualTitle:gsub(" | Reigokai: Isekai TL", "")
+    end
+    return "Unknown title"
+end
+
 --- @param doc Document
 --- @return string
 local function findNovelTitle(doc)
@@ -47,6 +58,11 @@ local function findNovelTitle(doc)
             local bgeEntryContent = articles:selectFirst(".bge-entry-content")
             if bgeEntryContent then
                 local cTitle = bgeEntryContent:selectFirst("h4") or bgeEntryContent:selectFirst("h3")
+                local tParentCls = cTitle:parent():attr("class")
+                local isShareButton = WPCommon.contains(cTitle:attr("class"), "sharedaddy") or WPCommon.contains(tParentCls, "sd-social")
+                if isShareButton then
+                    return getTitleFromHead(doc)
+                end
                 return cTitle:text()
             else
                 local entryContent = articles:selectFirst(".entry-content")
@@ -55,14 +71,7 @@ local function findNovelTitle(doc)
             end
         end
     end
-    -- get from header
-    local titleHead = doc:selectFirst("title")
-    if titleHead then
-        local actualTitle = titleHead:text()
-        -- remove `| Reigokai: Isekai TL` from title
-        return actualTitle:gsub("| Reigokai: Isekai TL", "")
-    end
-    return "Unknown title"
+    return getTitleFromHead(doc)
 end
 
 return {
