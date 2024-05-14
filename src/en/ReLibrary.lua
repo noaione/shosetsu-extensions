@@ -1,4 +1,4 @@
--- {"id":24971,"ver":"0.1.10","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
+-- {"id":24971,"ver":"0.1.11","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
 
 local baseURL = "https://re-library.com"
 
@@ -373,6 +373,29 @@ local function findNovelCategory(tableRounded)
     return categories
 end
 
+--- Collect chapters by the next siblings
+--- @param baseAccordion Element
+local function collectChapterFromNextSlot(baseAccordion)
+    local nextElement = baseAccordion:nextElementSibling()
+    -- while nextElement do
+    local chapters = {}
+    while nextElement do
+        if WPCommon.contains(nextElement:attr("class"), "su-spoiler") then
+            local contents = nextElement:selectFirst(".su-spoiler-content")
+            map(contents:select("li a"), function (vv)
+                chapters[#chapters + 1] = NovelChapter {
+                    order = #chapters + 1,
+                    title = vv:text(),
+                    link = shrinkURL(vv:attr("href")),
+                }
+            end)
+        end
+        nextElement = nextElement:nextElementSibling()
+    end
+
+    return chapters
+end
+
 --- @param doc Document
 --- @param loadChapters boolean
 local function parseNovelInfo(doc, novelUrl, loadChapters)
@@ -405,16 +428,21 @@ local function parseNovelInfo(doc, novelUrl, loadChapters)
         local chapters = {}
         local suAccordion = sectionMain:selectFirst(".su-accordion")
         if suAccordion then
-            map(suAccordion:select(".su-spoiler"), function (v)
-                local contents = v:selectFirst(".su-spoiler-content")
-                map(contents:select("li a"), function (vv)
-                    chapters[#chapters + 1] = NovelChapter {
-                        order = #chapters + 1,
-                        title = vv:text(),
-                        link = shrinkURL(vv:attr("href")),
-                    }
+            -- check if children empty, if yes find the next element
+            if suAccordion:children():size() == 0 then
+                chapters = collectChapterFromNextSlot(suAccordion)
+            else
+                map(suAccordion:select(".su-spoiler"), function (v)
+                    local contents = v:selectFirst(".su-spoiler-content")
+                    map(contents:select("li a"), function (vv)
+                        chapters[#chapters + 1] = NovelChapter {
+                            order = #chapters + 1,
+                            title = vv:text(),
+                            link = shrinkURL(vv:attr("href")),
+                        }
+                    end)
                 end)
-            end)
+            end
         elseif isOneShotPage(entryContent:selectFirst(".su-button")) then
             chapters[#chapters + 1] = NovelChapter {
                 order = #chapters + 1,
