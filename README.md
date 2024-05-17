@@ -55,7 +55,6 @@ To add this repository to Shosetsu, follow this instructions:
 | Hiraeth Translation             | https://hiraethtranslation.com               | Madara            | Yes      | Yes          |                       |
 | Soafp Translations              | https://soafp.com                            | Wordpress         | Yes      | Yes          |                       |
 | LightNovels.me/LightNovels.live | https://lightnovels.me                       | Custom/Next.js    | Yes      | Maybe        | Skipped CI testing, has a hard pagination limit |
-| NovelPlex                       | https://novelplex.com                        | Custom?/Wordpress | Yes      | Maybe        |                       |
 | Galaxy Translations             | https://galaxytranslations97.com             | Madara            | Yes      | Yes          |                       |
 | KnoxT                           | https://knoxt.space                          | Bixbox            | Yes      | Maybe        | Skipped CI testing    |
 | Awebstories                     | https://awebstories.com                      | Bixbox            | Yes      | Maybe        | Skipped CI testing    |
@@ -103,6 +102,7 @@ Above list should be working as intended when you open up the chapter, for Madar
 |            Name           |                      URL                     |       Theme       | Notes                 |
 |:-------------------------:|:--------------------------------------------:|:-----------------:|-----------------------|
 | Hellping                  | https://hellping.org                         | Wordpress         | Website is dead       |
+| NovelPlex                 | https://novelplex.com                        | Custom?/Wordpress | Locked behind login   |
 
 ## Common Problems
 
