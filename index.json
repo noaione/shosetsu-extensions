@@ -345,16 +345,6 @@
       "md5": "0967810f1e6a78a25a428c5c54765389"
     },
     {
-      "name": "NovelPlex",
-      "fileName": "NovelPlex",
-      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/NovelPlex.png",
-      "id": 1238794,
-      "lang": "en",
-      "ver": "0.2.0",
-      "libVer": "1.0.0",
-      "md5": "c0d21e056b91496a65c6060817baa494"
-    },
-    {
       "name": "SHM Translations",
       "fileName": "SHMTranslations",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/SHMTranslations.png",
