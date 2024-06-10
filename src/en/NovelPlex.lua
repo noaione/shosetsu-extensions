@@ -1,4 +1,4 @@
--- {"id":1238794,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
+-- {"id":1238794,"ver":"0.2.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
 
 local WPCommon = Require("WPCommon");
 local baseURL = "https://Novelplex.org"
