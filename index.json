@@ -390,6 +390,17 @@
       "disableTest": true
     },
     {
+      "name": "NovelPlex",
+      "fileName": "NovelPlex",
+      "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/NovelPlex.png",
+      "id": 1238794,
+      "lang": "en",
+      "ver": "0.2.0",
+      "libVer": "1.0.0",
+      "md5": "",
+      "disableTest": true
+    },
+    {
       "name": "Galaxy Translations",
       "fileName": "GalaxyTranslations",
       "imageURL": "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/GalaxyTL.png",

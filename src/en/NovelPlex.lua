@@ -1,8 +1,8 @@
 -- {"id":1238794,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
 
 local WPCommon = Require("WPCommon");
-local baseURL = "https://novelplex.com"
-local defaultCover = "https://novelplex.com/aset/gambar/coverNopel/CoverDefault.webp"
+local baseURL = "https://Novelplex.org"
+local defaultCover = "https://Novelplex.org/aset/gambar/coverNopel/CoverDefault.webp"
 
 
 local function startsWith(data, start)

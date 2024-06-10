@@ -61,6 +61,7 @@ To add this repository to Shosetsu, follow this instructions:
 | ISO Translation                 | https://www.isotls.com                       | Custom?/Wordpress | Yes      | Maybe        |                       |
 | Tiger Translations              | https://tigertranslations.org                | Wordpress         | Yes      | Maybe        |                       |
 | Story Seedling                  | https://storyseedling.com                    | Wordpress         | Yes      | Maybe        | Replace Travis TL     |
+| NovelPlex                       | https://Novelplex.org                        | Custom?/Wordpress | Yes      | Maybe        | Moved to .org domai   |
 
 Please note that I'm creating for the stuff I'm reading myself, if some pages does not work please open up a new Issue so I can look up how to solve it.
 
@@ -102,7 +103,7 @@ Above list should be working as intended when you open up the chapter, for Madar
 |            Name           |                      URL                     |       Theme       | Notes                 |
 |:-------------------------:|:--------------------------------------------:|:-----------------:|-----------------------|
 | Hellping                  | https://hellping.org                         | Wordpress         | Website is dead       |
-| NovelPlex                 | https://novelplex.com                        | Custom?/Wordpress | Locked behind login   |
+
 
 ## Common Problems
 
