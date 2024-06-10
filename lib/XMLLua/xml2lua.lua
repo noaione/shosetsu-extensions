@@ -1,6 +1,6 @@
 -- {"ver":"1.6.1","author":"manoelcampos"}
 
---- @module Module providing a non-validating XML stream parser in Lua.
+-- @module Module providing a non-validating XML stream parser in Lua.
 --
 --  Features:
 --  =========

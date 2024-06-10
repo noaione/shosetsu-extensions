@@ -1,6 +1,6 @@
 -- {"ver":"1.6.1","author":"manoelcampos"}
 
---- @module Class providing the actual XML parser.
+-- @module Class providing the actual XML parser.
 --  Available options are:
 --      * stripWS   
 --        Strip non-significant whitespace (leading/trailing) 
