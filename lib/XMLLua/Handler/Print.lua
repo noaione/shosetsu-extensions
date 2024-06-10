@@ -1,8 +1,8 @@
 -- {"ver":"1.6.1","author":"manoelcampos"}
 
----@module Handler to generate a simple event trace which 
---outputs messages to the terminal during the XML
---parsing, usually for debugging purposes.
+-- @module Handler to generate a simple event trace which 
+-- outputs messages to the terminal during the XML
+-- parsing, usually for debugging purposes.
 --
 --  License:
 --  ========

@@ -289,6 +289,11 @@ do
     ---@class NovelStatus
     local NovelStatus = {}
 
+    ---@class ChapterType
+    ---@field protected HTML int @Use HTML parsing for chapter contents
+    ---@field protected STRING int @Use standard string parsing for chapter contents
+    local ChapterType = {}
+
     ---@class Novel @Novel.Listing
     local Novel = {}
 
@@ -369,15 +374,6 @@ do
     ---@param chapters ArrayList
     ---@return void
     function NovelInfo:setChapters(chapters) return end
-
-    ---@class ChapterType
-    local ChapterType = {}
-
-    ---@type ChapterType
-    ChapterType.STRING = {}
-
-    ---@type ChapterType
-    ChapterType.HTML = {}
 end
 
 -- ShosetsuLib
@@ -445,6 +441,13 @@ do
         ---@param f function @Function to wrap
         ---@return function @Wrapper
         function wrap(o, f) return end
+
+        --- Flatten a table of tables into a single table.
+        ---@see ArrayList
+        ---@param o table @Target
+        ---@param f fun(v: any|Element): any
+        ---@return table
+        function flatten(o, f) return end
     end
 
     -- ArrayList
