@@ -12,7 +12,7 @@ end
 --- @param url string
 --- @return string
 local function shrinkURL(url)
-    return url:gsub("^.-novelplex%.com", "")
+    return url:gsub("^.-novelplex%.org", "")
 end
 
 --- @param url string
