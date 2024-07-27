@@ -1,6 +1,6 @@
--- {"id":4212306,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.0"]}
+-- {"id":4212306,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["Madara>=2.9.0"]}
 
-return Require("Madara")("https://galaxytranslations97.com", {
+return Require("Madara")("https://galaxytranslations10.com", {
     id = 4212306,
     name = "Galaxy Translations",
     imageURL = "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/GalaxyTL.png",

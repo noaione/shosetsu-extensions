@@ -83,7 +83,7 @@ function dom:endtag(tag)
     local prev = self._stack[#self._stack]
 
     if tag.name ~= prev._name then
-        error("XML Error - Unmatched Tag ["..s..":"..tag.name.."]\n")
+        error("XML Error - Unmatched Tag ["..self._stack..":"..tag.name.."]\n")
     end
 
     table.remove(self._stack)
