@@ -58,7 +58,7 @@ To add this repository to Shosetsu, follow this instructions:
 | Hiraeth Translation             | https://hiraethtranslation.com               | Madara            | Yes      | Yes          |                       |
 | Soafp Translations              | https://soafp.com                            | Wordpress         | Yes      | Yes          |                       |
 | LightNovels.me/LightNovels.live | https://lightnovels.me                       | Custom/Next.js    | Yes      | Maybe        | Skipped CI testing, has a hard pagination limit |
-| Galaxy Translations             | https://galaxytranslations97.com             | Madara            | Yes      | Yes          |                       |
+| Galaxy Translations             | https://galaxytranslations10.com             | Madara            | Yes      | Yes          |                       |
 | KnoxT                           | https://knoxt.space                          | Bixbox            | Yes      | Maybe        | Skipped CI testing    |
 | Awebstories                     | https://awebstories.com                      | Bixbox            | Yes      | Maybe        | Skipped CI testing    |
 | ISO Translation                 | https://www.isotls.com                       | Custom?/Wordpress | Yes      | Maybe        |                       |
