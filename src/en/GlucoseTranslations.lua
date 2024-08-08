@@ -1,4 +1,4 @@
--- {"id":28903,"ver":"0.1.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":28903,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
 
 local baseURL = "https://glucosetl.wordpress.com"
 
@@ -68,6 +68,60 @@ local function findImageNode(elem)
     return nil
 end
 
+--- @param elem Element|nil
+--- @return Element|nil
+local function findImageNodeAlt(elem)
+    local parent = elem:parent()
+    if parent == nil then
+        return nil
+    end
+
+    local childIndex = parent:elementSiblingIndex()
+    local parentTwo = parent:parent()
+    if parentTwo == nil then
+        return nil
+    end
+
+    local nextSib = parentTwo:nextElementSibling()
+    if nextSib == nil then
+        return nil
+    end
+
+    local demFigures = nextSib:select("figure")
+    if demFigures:size() == 0 then
+        return nil
+    end
+
+    local figures = demFigures:get(childIndex)
+    if figures then
+        local imgNode = figures:selectFirst("img")
+        if imgNode then
+            return imgNode
+        end
+    end
+    return nil
+end
+
+--- @param text string
+--- @return table
+local function stripAndExtractStatus(text)
+    -- The Neat and Pretty Girl at My New School Is a Childhood Friend of Mine Who I Thought Was a Boy (LN)
+    -- I Know That After School, The Saint is More Than Just Noble (Completed)
+    -- The Story of Two Engaged Childhood Friends Trying to Fall in Love (Sporadic)
+    -- The Detective Is Already Dead (Dropped)
+
+    -- Remove stuff with Completed, Sporadic, or Dropped
+    local status = text:match("%((.-)%)$")
+
+    if status then
+        if WPCommon.contains(status:lower(), "completed") or WPCommon.contains(status:lower(), "dropped") or WPCommon.contains(status:lower(), "sporadic") then
+            -- return title, status
+            return text:gsub(" %((.-)%)$", ""), status
+        end
+    end
+    return text, nil
+end
+
 --- @param doc Document
 local function parseListings(doc)
     local postBody = doc:selectFirst("main")
@@ -84,14 +138,24 @@ local function parseListings(doc)
             return nil
         end
 
+        local text, status = stripAndExtractStatus(v:text())
+        local url = shrinkURL(url)
+        if status then
+            url = url .. "#shosetsu-status=" .. status:lower()
+        end
         local _temp = Novel {
-            title = v:text(),
-            link = shrinkURL(url)
+            title = text,
+            link = url
         }
         local imgNode = findImageNode(_parent)
 
         if imgNode then
             _temp:setImageURL(imgNode:attr("src"))
+        else -- try another method
+            imgNode = findImageNodeAlt(_parent)
+            if imgNode then
+                _temp:setImageURL(imgNode:attr("src"))
+            end
         end
         return _temp
     end)
@@ -127,7 +191,8 @@ end
 
 --- @param doc Document
 --- @param loadChapters boolean
-local function parseNovelInfo(doc, loadChapters)
+--- @param novelUrl string
+local function parseNovelInfo(doc, loadChapters, novelUrl)
     local postBody = doc:selectFirst("div.wp-site-blocks")
     local content = postBody:selectFirst("main > .entry-content")
     local postTitle = postBody:selectFirst(".wp-block-post-title"):text()
@@ -136,11 +201,18 @@ local function parseNovelInfo(doc, loadChapters)
 
     local info = NovelInfo {
         title = postTitle,
+        status = NovelStatus.PUBLISHING,
     }
 
     local imageTarget = content:selectFirst("img")
     if imageTarget then
         info:setImageURL(imageTarget:attr("src"))
+    end
+
+    if WPCommon.contains("#shosetsu-status=completed") then
+        info:setStatus(NovelStatus.COMPLETED)
+    elseif WPCommon.contains("#shosetsu-status=dropped") then
+        info:setStatus(NovelStatus.PAUSED)
     end
 
     if loadChapters then
@@ -183,11 +255,8 @@ return {
 
     -- Must have at least one value
     listings = {
-        Listing("Ongoing", false, function ()
-            return parseListings(GETDocument("https://glucosetl.wordpress.com/ongoing-translations/"))
-        end),
-        Listing("Completed", false, function ()
-            return parseListings(GETDocument("https://glucosetl.wordpress.com/completed-translations/"))
+        Listing("Novels", false, function ()
+            return parseListings(GETDocument("https://glucosetl.wordpress.com/translations/"))
         end),
     },
 
@@ -197,7 +266,7 @@ return {
 
     parseNovel = function(novelURL, loadChapters)
         local doc = GETDocument(baseURL .. novelURL)
-        return parseNovelInfo(doc, loadChapters)
+        return parseNovelInfo(doc, loadChapters, novelURL)
     end,
 
     shrinkURL = shrinkURL,
