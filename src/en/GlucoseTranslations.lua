@@ -1,4 +1,4 @@
--- {"id":28903,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
+-- {"id":28903,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
 
 local baseURL = "https://glucosetl.wordpress.com"
 
@@ -209,9 +209,9 @@ local function parseNovelInfo(doc, loadChapters, novelUrl)
         info:setImageURL(imageTarget:attr("src"))
     end
 
-    if WPCommon.contains("#shosetsu-status=completed") then
+    if WPCommon.contains(novelUrl, "#shosetsu-status=completed") then
         info:setStatus(NovelStatus.COMPLETED)
-    elseif WPCommon.contains("#shosetsu-status=dropped") then
+    elseif WPCommon.contains(novelUrl, "#shosetsu-status=dropped") then
         info:setStatus(NovelStatus.PAUSED)
     end
 
