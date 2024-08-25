@@ -1,7 +1,8 @@
--- {"id":4302,"ver":"2.0.7","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0"]}
+-- {"id":4302,"ver":"2.0.8","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
+local WPCommon = Require("WPCommon");
 
 local baseURL = "https://storyseedling.com"
 
@@ -162,6 +163,58 @@ local function formatDescription(description)
     return synopsis:gsub("\n+$", ""):gsub("%s+$", "")
 end
 
+
+--- @param webpage Document
+local function getPostId(webpage)
+    local axLoad = webpage:selectFirst("div[ax-load]")
+    local xData = axLoad:attr("x-data")
+    -- toc('PostID'), get the post ID
+    return xData:match("toc%('([^']+)'%)")
+end
+
+
+--- @param novelId string
+--- @return table
+local function getChapterList(novelId)
+    -- build form
+    local formBuilder = Multipartd:new()
+    formBuilder:add("post", "undefined")
+    formBuilder:add("id", novelId)
+    formBuilder:add("action", "series_toc")
+
+    -- for media type, cut off the first two dashes
+    local headers = HeadersBuilder()
+    headers:add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/129.0")
+    headers:add("Origin", "https://storyseedling.com")
+    headers:add("Referer", "https://storyseedling.com/series" .. novelId)
+
+    local resp = Request(POST(
+        expandURL("/ajax"),
+        headers:build(),
+        RequestBody(formBuilder:build(), MediaType(formBuilder:getHeader()))
+    ))
+
+    -- json response
+    local body = resp:body():string()
+    local jsonData = json.decode(body)
+    return jsonData.data
+end
+
+local function getStatusFromText(text)
+    if WPCommon.contains(text, "Ongoing") then
+        return NovelStatus.PUBLISHING
+    elseif WPCommon.contains(text, "Completed") then
+        return NovelStatus.COMPLETED
+    elseif WPCommon.contains(text, "Dropped") then
+        return NovelStatus.PAUSED
+    elseif WPCommon.contains(text, "Hiatus") then
+        return NovelStatus.PAUSED
+    elseif WPCommon.contains(text, "Cancelled") then
+        return NovelStatus.PAUSED
+    end
+    return NovelStatus(-1)
+end
+
 local function parseNovel(novelURL, loadChapters)
     local doc = GETDocument(expandURL(rewriteSeriesUrl(novelURL)))
     local content = doc:selectFirst("main")
@@ -178,24 +231,32 @@ local function parseNovel(novelURL, loadChapters)
         genres = map(gridInInfo:select("a[up-deprecated]"), function(v) return v:text() end),
     }
 
+    -- <div class="flex items-center gap-2">
+    local firstGridInInfo = content:selectFirst(".lg\\:grid-in-info")
+    if firstGridInInfo then
+        local status = firstGridInInfo:selectFirst("div.items-center")
+        if status then
+            local statusDetail = status:selectFirst(".text-sm")
+            if statusDetail then
+                local statusText = statusDetail:text()
+                info:setStatus(getStatusFromText(statusText))
+            end
+        end
+    end
+
     if loadChapters then
-        local baseSelector = chapterSelector:selectFirst('div[x-show.transition.in.opacity.duration.600]')
-        local selectChapters = baseSelector:select("a[up-deprecated]")
-        local chapterSize = selectChapters:size()
-        -- Start from last chapter to first since website shows it in reverse order
-        -- This is to keep the order consistent with other sources
+        local novelId = getPostId(doc)
+        local chaptersList = getChapterList(novelId)
         local _chapters = {}
-        for i = chapterSize - 1, 0, -1 do
-            local v = selectChapters:get(i)
-            -- This is to ignore the premium chapter, those have a lock icon in their anchor.
-            local firstPremChapter = v:selectFirst("svg.feather-droplet")
-            if firstPremChapter == nil then
-                local divBase = v:selectFirst("div")
+        --- Chapter is ascending order 1 to N
+        for i = 1, #chaptersList do
+            local v = chaptersList[i]
+            if not v.is_locked then
                 _chapters[#_chapters + 1] = NovelChapter {
-                    order = #_chapters,
-                    title = divBase:selectFirst(".truncate"):text(),
-                    link = shrinkURL(v:attr("href")),
-                    release = divBase:selectFirst("small.text-xs"):text()
+                    order = i,
+                    title = v.title,
+                    link = shrinkURL(v.url),
+                    release = v.date
                 }
             end
         end
@@ -211,7 +272,7 @@ local function parseListing(listing)
         return Novel {
             title = v.title,
             link = shrinkURL(v.permalink),
-            imageURL = v.bigThumbnail,
+            imageURL = v.thumbnail,
         }
     end)
 end
@@ -271,7 +332,7 @@ local function getSearch(data)
 
     -- for media type, cut off the first two dashes
     local headers = HeadersBuilder()
-    headers:add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0")
+    headers:add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/129.0")
     headers:add("Origin", "https://storyseedling.com")
     headers:add("Referer", "https://storyseedling.com/browse")
 
