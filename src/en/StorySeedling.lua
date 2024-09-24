@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.0.8","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
+-- {"id":4302,"ver":"2.0.9","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -168,17 +168,19 @@ end
 local function getPostId(webpage)
     local axLoad = webpage:selectFirst("div[ax-load]")
     local xData = axLoad:attr("x-data")
-    -- toc('PostID'), get the post ID
-    return xData:match("toc%('([^']+)'%)")
+    -- toc('PostID', 'randomData'), get the post ID and random data
+    local postId, randomData = xData:match("toc%('([^']+)', '([^']+)'%)")
+    return postId, randomData
 end
 
 
 --- @param novelId string
+--- @param randomData string
 --- @return table
-local function getChapterList(novelId)
+local function getChapterList(novelId, randomData)
     -- build form
     local formBuilder = Multipartd:new()
-    formBuilder:add("post", "undefined")
+    formBuilder:add("post", randomData)
     formBuilder:add("id", novelId)
     formBuilder:add("action", "series_toc")
 
@@ -245,8 +247,9 @@ local function parseNovel(novelURL, loadChapters)
     end
 
     if loadChapters then
-        local novelId = getPostId(doc)
-        local chaptersList = getChapterList(novelId)
+        local novelId, randomData = getPostId(doc)
+        print("StorySeedling Random Series Data:", novelId, randomData)
+        local chaptersList = getChapterList(novelId, randomData)
         local _chapters = {}
         --- Chapter is ascending order 1 to N
         for i = 1, #chaptersList do
