@@ -29,7 +29,7 @@ To add this repository to Shosetsu, follow this instructions:
 | bakapervert                     | https://bakapervert.wordpress.com            | Wordpress         | Yes      | Yes          |                       |
 | Kuro Kurori's Lounge            | https://kurokurori.wordpress.com             | Wordpress         | Yes      | Yes          |                       |
 | Europa is a cool moon           | https://europaisacoolmoon.wordpress.com      | Wordpress         | Yes      | Yes          |                       |
-| Reigokai - Isekai Lunatic       | https://isekailunatic.com                    | Wordpress         | Yes      | Yes          |                       |
+| Reigokai - Isekai Lunatic       | https://reigokaitranslations.com             | Wordpress         | Yes      | Yes          |                       |
 | bayabusco translation           | https://bayabuscotranslation.com             | Wordpress         | Yes      | Yes          |                       |
 | Experimental Translations       | https://experimentaltranslations.com         | Wordpress         | Yes      | Yes          |                       |
 | ShiroKun's Translation          | https://shirokuns.com                        | Wordpress         | Yes      | Yes          |                       |

@@ -1,12 +1,13 @@
--- {"id":221702,"ver":"0.2.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":221702,"ver":"0.3.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
-local baseURL = "https://isekailunatic.com"
+local baseURL = "https://reigokaitranslations.com"
 local WPCommon = Require("WPCommon")
 
 --- @param url string
 --- @return string
 local function shrinkURL(url)
-    return url:gsub("^.-www%.isekailunatic%.com", ""):gsub("^.-isekailunatic%.com", "")
+    local base1Sub = url:gsub("^.-www%.reigokaitranslations%.com", ""):gsub("^.-reigokaitranslations%.com", "")
+    return base1Sub:gsub("^.-www%.isekailunatic%.com", ""):gsub("^.-isekailunatic%.com", "")
 end
 
 --- @param url string
@@ -117,15 +118,20 @@ return {
         end
 
         if loadChapters then
-            info:setChapters(AsList(mapNotNil(articles:selectFirst("div"):select("p a"), function (v, i)
+            local chapters = {}
+            local chaptersList = articles:selectFirst("div");
+            map(chaptersList:select("p a"), function (v)
                 local chUrl = v:attr("href")
-                return (chUrl:find("isekailunatic.com", 0, true) and v:children():size() < 1) and
-                    NovelChapter {
-                        order = i,
+                if WPCommon.contains(chUrl, "reigokaitranslations.com") or WPCommon.contains(chUrl, "isekailunatic.com") then
+                    local _temp = NovelChapter {
+                        order = #chapters + 1,
                         title = v:text(),
-                        link = shrinkURL(chUrl)
+                        link = shrinkURL(chUrl),
                     }
-            end)))
+                    chapters[#chapters + 1] = _temp
+                end
+            end)
+            info:setChapters(AsList(chapters))
         end
 
         return info
