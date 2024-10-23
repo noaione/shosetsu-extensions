@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.1.1","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
+-- {"id":4302,"ver":"2.1.2","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -216,6 +216,23 @@ local function caesarCipher(str, key)
     end))
 end
 
+local function isFuckingGarbage(text)
+    -- "Copyrighted sentence owned by Story Seedling", lol lmao even, kys.
+    if WPCommon.contains(cleanText:lower(), "storyseedling") then
+        return true
+    end
+    if WPCommon.contains(text:lower(), "story seedling") then
+        return true
+    end
+    if WPCommon.contains(text:lower(), "storyseedling.com") then
+        return true
+    end
+    if WPCommon.contains(text:lower(), "travis translation") then
+        return true
+    end
+    return false
+end
+
 local function getPassage(chapterURL)
     local chap = requestPassageInformation(chapterURL)
 
@@ -229,19 +246,31 @@ local function getPassage(chapterURL)
     local spanData = chap:select("span")
     map(spanData, function (v)
         local style = v:attr("class")
-        local text = v:text()
+        local rawText = v:text()
 
         -- clean space
-        text = text:gsub("^%s*(.-)%s*$", "%1")
+        local cleanText = rawText:gsub("^%s*(.-)%s*$", "%1")
         style = style:gsub("^%s*(.-)%s*$", "%1")
-        -- if text == style then
-        --     -- useless piece of shit
-        --     v:remove()
-        --     return
-        -- end
+        if cleanText == style then
+            -- useless piece of shit
+            v:remove()
+            return
+        end
+
+        if cleanText:lower() == "pbclevtugrq fragrapr bjarq ol fgbel frrqyvat" or "pbclevtugrq fragrapr bjarq ol fgbelfrrqyvat" then
+            v:remove()
+            return
+        end
+
+        -- check if starts with cls and 21 characters
+        if rawText:sub(1, 3) == "cls" and rawText:len() == 21 then
+            v:remove()
+            return
+        end
 
         -- unrot
-        v:text(caesarCipher(text, -13))
+        local unrot = caesarCipher(rawText, 13)
+        v:text(unrot)
     end)
 
     return pageOfElem(chap, true)
