@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.1.3","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
+-- {"id":4302,"ver":"2.1.4","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -207,13 +207,30 @@ local function asciiBase(s)
     return s:lower() == s and ('a'):byte() or ('A'):byte()
 end
 
+local minLower = 97
+local maxLower = 122
+local minUpper = 65
+local maxUpper = 90
+
 -- ROT13 is based on Caesar ciphering algorithm, using 13 as a key
--- https://github.com/kennyledet/Algorithm-Implementations/blob/master/ROT13_Cipher/Lua/Yonaba/rot13.lua
 local function caesarCipher(str, key)
-    return (str:gsub('%a', function(s)
-        local base = asciiBase(s)
-        return string.char(((s:byte() - base + key) % 26) + base)
-    end))
+    -- loop through all characters in the string
+    -- and apply ROT13
+    local merge = ""
+    for i = 1, #str do
+        local c = str:sub(i, i)
+        local b = c:byte()
+
+        -- check if alphabetic
+        if b >= minLower and b <= maxLower or b >= minUpper and b <= maxUpper then
+            local base = asciiBase(c)
+            -- apply ROT13
+            merge = merge .. string.char(((b - base + key) % 26) + base)
+        else
+            merge = merge .. c
+        end
+    end
+    return merge
 end
 
 local function isFuckingGarbage(text)
@@ -245,17 +262,10 @@ local function getPassage(chapterURL)
     -- unrot all <span> instance
     local spanData = chap:select("span")
     map(spanData, function (v)
-        local style = v:attr("class")
         local rawText = v:text()
 
         -- clean space
         local cleanText = rawText:gsub("^%s*(.-)%s*$", "%1")
-        style = style:gsub("^%s*(.-)%s*$", "%1")
-        if cleanText == style then
-            -- useless piece of shit
-            v:remove()
-            return
-        end
 
         if cleanText:lower() == "pbclevtugrq fragrapr bjarq ol fgbel frrqyvat" or cleanText:lower() == "pbclevtugrq fragrapr bjarq ol fgbelfrrqyvat" then
             v:remove()
