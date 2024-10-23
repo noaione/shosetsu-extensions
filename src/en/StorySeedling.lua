@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.0.9","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
+-- {"id":4302,"ver":"2.1.0","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -127,28 +127,127 @@ local function rewriteChapterUrl(chapterUrl)
     end   
 end
 
-local function getPassage(chapterURL)
-    local chap = GETDocument(expandURL(rewriteChapterUrl(chapterURL))):selectFirst("main")
+-- local function getPassage(chapterURL)
+--     local chap = GETDocument(expandURL(rewriteChapterUrl(chapterURL))):selectFirst("main")
 
-    local proseData = chap:selectFirst(".prose")
-    -- Remove empty <p> tags
-    local toRemove = {}
-    proseData:traverse(NodeVisitor(function(v)
-        if v:tagName() == "p" and v:text() == "" then
-            toRemove[#toRemove+1] = v
-        end
-        if v:hasAttr("border") then
-            v:removeAttr("border")
-        end
-    end, nil, true))
-    for _,v in pairs(toRemove) do
-        v:remove()
+--     local proseData = chap:selectFirst(".prose")
+--     -- Remove empty <p> tags
+--     local toRemove = {}
+--     proseData:traverse(NodeVisitor(function(v)
+--         if v:tagName() == "p" and v:text() == "" then
+--             toRemove[#toRemove+1] = v
+--         end
+--         if v:hasAttr("border") then
+--             v:removeAttr("border")
+--         end
+--     end, nil, true))
+--     for _,v in pairs(toRemove) do
+--         v:remove()
+--     end
+--     local notProse = proseData:selectFirst("div.not-prose")
+--     if notProse ~= nil then
+--         notProse:remove()
+--     end
+--     return pageOfElem(proseData, true)
+-- end
+
+--- @param webpage Document
+local function getsn(webpage)
+    local axLoad = webpage:selectFirst("div[ax-load]")
+    local xData = axLoad:attr("x-data")
+    local s, n = xData:match("loadChapter%('([^']+)', '([^']+)'%)")
+    return s, n
+end
+
+--- @param chapterUrl string
+--- @return Document
+local function requestPassageInformation(chapterUrl)
+    local chapterPage = expandURL(rewriteChapterUrl(chapterUrl))
+
+    local mainPage = GETDocument(chapterPage)
+
+    local s, n = getsn(mainPage)
+    print("StorySeedling Random Passage Data:", s, n)
+
+    local headers = HeadersBuilder()
+    headers:add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/129.0")
+    headers:add("Origin", "https://storyseedling.com")
+    headers:add("Referer", chapterPage)
+    headers:add("X-Nonce", n)
+
+    -- create table of JSON data
+    local jsonData = {
+        captcha_response = "",
+    }
+    local reqData = json.encode(jsonData);
+
+    local res = Request(POST(
+        chapterPage .. "/content",
+        headers:build(),
+        RequestBody(reqData, MediaType("application/json"))
+    ))
+
+    local htmlData = res:body():string()
+
+    if res:code() ~= 200 then
+        error("Status code is not 200, received " .. res:code());
     end
-    local notProse = proseData:selectFirst("div.not-prose")
-    if notProse ~= nil then
-        notProse:remove()
+
+    if res:headers():get("Content-Type"):sub(1, 16) == "application/json" then
+        error("Received JSON response instead of HTML, possible Captcha");
     end
-    return pageOfElem(proseData, true)
+
+    local doc = Document(htmlData)
+
+    return doc
+end
+
+--- @param str string
+--- @return string
+local function brainrot(str)
+    local result = ""
+    for i = 1, #str do
+        local c = str:sub(i, i)
+        local offset = ('a' <= c and 'z' or 'A') == 'a' and 97 or 65
+        if ('a' <= c and c <= 'z') or ('A' <= c and c <= 'Z') then
+            local new_char = string.char(((c:byte() - offset + 13) % 26) + offset)
+            result = result .. new_char
+        else
+            result = result .. c
+        end
+    end
+    return result
+end
+
+local function getPassage(chapterURL)
+    local chap = requestPassageInformation(chapterURL)
+
+    -- remove styles
+    local style = chap:selectFirst("style")
+    if style then
+        style:remove()
+    end
+
+    -- unrot all <span> instance
+    local spanData = chap:select("span")
+    map(spanData, function (v)
+        local style = v:attr("class")
+        local text = v:text()
+
+        -- clean space
+        text = text:gsub("^%s*(.-)%s*$", "%1")
+        style = style:gsub("^%s*(.-)%s*$", "%1")
+        if text == style then
+            -- useless piece of shit
+            v:remove()
+            return
+        end
+
+        -- unrot
+        v:text(brainrot(text))
+    end)
+
+    return pageOfElem(chap, true)
 end
 
 --- @param description Element
