@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.1.2","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
+-- {"id":4302,"ver":"2.1.3","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -218,7 +218,7 @@ end
 
 local function isFuckingGarbage(text)
     -- "Copyrighted sentence owned by Story Seedling", lol lmao even, kys.
-    if WPCommon.contains(cleanText:lower(), "storyseedling") then
+    if WPCommon.contains(text:lower(), "storyseedling") then
         return true
     end
     if WPCommon.contains(text:lower(), "story seedling") then
@@ -257,7 +257,7 @@ local function getPassage(chapterURL)
             return
         end
 
-        if cleanText:lower() == "pbclevtugrq fragrapr bjarq ol fgbel frrqyvat" or "pbclevtugrq fragrapr bjarq ol fgbelfrrqyvat" then
+        if cleanText:lower() == "pbclevtugrq fragrapr bjarq ol fgbel frrqyvat" or cleanText:lower() == "pbclevtugrq fragrapr bjarq ol fgbelfrrqyvat" then
             v:remove()
             return
         end
