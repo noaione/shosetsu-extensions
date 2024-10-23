@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.1.0","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
+-- {"id":4302,"ver":"2.1.1","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -202,21 +202,18 @@ local function requestPassageInformation(chapterUrl)
     return doc
 end
 
---- @param str string
---- @return string
-local function brainrot(str)
-    local result = ""
-    for i = 1, #str do
-        local c = str:sub(i, i)
-        local offset = ('a' <= c and 'z' or 'A') == 'a' and 97 or 65
-        if ('a' <= c and c <= 'z') or ('A' <= c and c <= 'Z') then
-            local new_char = string.char(((c:byte() - offset + 13) % 26) + offset)
-            result = result .. new_char
-        else
-            result = result .. c
-        end
-    end
-    return result
+-- Returns the ASCII bytecode of either 'a' or 'A'
+local function asciiBase(s)
+    return s:lower() == s and ('a'):byte() or ('A'):byte()
+end
+
+-- ROT13 is based on Caesar ciphering algorithm, using 13 as a key
+-- https://github.com/kennyledet/Algorithm-Implementations/blob/master/ROT13_Cipher/Lua/Yonaba/rot13.lua
+local function caesarCipher(str, key)
+    return (str:gsub('%a', function(s)
+        local base = asciiBase(s)
+        return string.char(((s:byte() - base + key) % 26) + base)
+    end))
 end
 
 local function getPassage(chapterURL)
@@ -237,14 +234,14 @@ local function getPassage(chapterURL)
         -- clean space
         text = text:gsub("^%s*(.-)%s*$", "%1")
         style = style:gsub("^%s*(.-)%s*$", "%1")
-        if text == style then
-            -- useless piece of shit
-            v:remove()
-            return
-        end
+        -- if text == style then
+        --     -- useless piece of shit
+        --     v:remove()
+        --     return
+        -- end
 
         -- unrot
-        v:text(brainrot(text))
+        v:text(caesarCipher(text, -13))
     end)
 
     return pageOfElem(chap, true)
