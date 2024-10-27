@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.1.5","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
+-- {"id":4302,"ver":"2.1.6","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -232,7 +232,7 @@ local function isFuckingGarbage(text)
 end
 
 local function getPassage(chapterURL)
-    local chap = requestPassageInformation(chapterURL)
+    local chap = requestPassageInformation("/series/77180/175")
 
     -- remove styles
     local style = chap:selectFirst("style")
@@ -240,28 +240,44 @@ local function getPassage(chapterURL)
         style:remove()
     end
 
-    -- unrot all <span> instance
-    local spanData = chap:select("span")
-    map(spanData, function (v)
-        local rawText = v:text()
+    -- unrot all <p> instance
+    local body = chap:body()
+    map(body:select("p"), function (p)
+        local toBeRemoved = {}
+        local firstOccurence = false
+        for i = 0, p:childNodeSize() - 1 do
+            local child = p:childNode(i)
+            local text = child:text()
 
-        -- clean space
-        local cleanText = rawText:gsub("^%s*(.-)%s*$", "%1")
+            if WPCommon.contains(text, "⽔⽯⽪⽭⽴ ⽔⽠⽠⽟⽧⽤⽩⽢") or WPCommon.contains(text, "⽮⽯⽪⽭⽴⽮⽠⽠⽟⽧⽤⽩⽢") then
+                -- useless
+                toBeRemoved[#toBeRemoved + 1] = child
+                -- continue loop
+                goto continue
+            end
 
-        if WPCommon.contains(cleanText, "⽔⽯⽪⽭⽴ ⽔⽠⽠⽟⽧⽤⽩⽢") or WPCommon.contains(cleanText, "⽮⽯⽪⽭⽴⽮⽠⽠⽟⽧⽤⽩⽢") then
-            -- useless
-            v:remove()
+            -- check if starts with cls and 21 characters
+            if text:sub(1, 3) == "cls" and text:len() == 21 then
+                toBeRemoved[#toBeRemoved + 1] = child
+                goto continue
+            end
+
+            local unrotted = wideCharLikeUnrot(text)
+            -- strip whitespace
+            unrotted = unrotted:gsub("^%s*(.-)%s*$", "%1")
+
+            if not firstOccurence then
+                firstOccurence = true
+                child:text(unrotted)
+            else
+                child:text(" " .. unrotted)
+            end
+
+            ::continue::
         end
-
-        -- check if starts with cls and 21 characters
-        if rawText:sub(1, 3) == "cls" and rawText:len() == 21 then
-            v:remove()
-            return
+        for i = #toBeRemoved, 1, -1 do
+            toBeRemoved[i]:remove()
         end
-
-        -- unrot
-        local unrot = wideCharLikeUnrot(rawText)
-        v:text(unrot)
     end)
 
     return pageOfElem(chap, true)
