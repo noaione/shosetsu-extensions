@@ -459,9 +459,10 @@
       "imageURL": "https://github.com/shosetsuorg/extensions/raw/dev/icons/TravisTranslations.png",
       "id": 4302,
       "lang": "en",
-      "ver": "2.1.6",
+      "ver": "2.1.7",
       "libVer": "1.0.0",
-      "md5": ""
+      "md5": "",
+      "disableTest": true
     }
   ]
 }

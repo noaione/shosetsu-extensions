@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.1.6","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
+-- {"id":4302,"ver":"2.1.7","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -232,7 +232,7 @@ local function isFuckingGarbage(text)
 end
 
 local function getPassage(chapterURL)
-    local chap = requestPassageInformation("/series/77180/175")
+    local chap = requestPassageInformation(chapterURL)
 
     -- remove styles
     local style = chap:selectFirst("style")
