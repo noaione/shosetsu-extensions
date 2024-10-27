@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.1.4","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
+-- {"id":4302,"ver":"2.1.5","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -127,30 +127,6 @@ local function rewriteChapterUrl(chapterUrl)
     end   
 end
 
--- local function getPassage(chapterURL)
---     local chap = GETDocument(expandURL(rewriteChapterUrl(chapterURL))):selectFirst("main")
-
---     local proseData = chap:selectFirst(".prose")
---     -- Remove empty <p> tags
---     local toRemove = {}
---     proseData:traverse(NodeVisitor(function(v)
---         if v:tagName() == "p" and v:text() == "" then
---             toRemove[#toRemove+1] = v
---         end
---         if v:hasAttr("border") then
---             v:removeAttr("border")
---         end
---     end, nil, true))
---     for _,v in pairs(toRemove) do
---         v:remove()
---     end
---     local notProse = proseData:selectFirst("div.not-prose")
---     if notProse ~= nil then
---         notProse:remove()
---     end
---     return pageOfElem(proseData, true)
--- end
-
 --- @param webpage Document
 local function getsn(webpage)
     local axLoad = webpage:selectFirst("div[ax-load]")
@@ -202,32 +178,37 @@ local function requestPassageInformation(chapterUrl)
     return doc
 end
 
--- Returns the ASCII bytecode of either 'a' or 'A'
-local function asciiBase(s)
-    return s:lower() == s and ('a'):byte() or ('A'):byte()
+local subLower = 12027
+local subUpper = 12033
+
+local minLower = 12124
+local maxLower = 12149
+local minUpper = 12098
+local maxUpper = 12123
+
+local function utf8ToCodepoint(char)
+    local byte1, byte2, byte3, byte4 = string.byte(char, 1, 4)
+    if not byte2 then return byte1 end
+    if not byte3 then return (byte1 - 0xC0) * 0x40 + (byte2 - 0x80) end
+    if not byte4 then return (byte1 - 0xE0) * 0x1000 + (byte2 - 0x80) * 0x40 + (byte3 - 0x80) end
+    return (byte1 - 0xF0) * 0x40000 + (byte2 - 0x80) * 0x1000 + (byte3 - 0x80) * 0x40 + (byte4 - 0x80)
 end
 
-local minLower = 97
-local maxLower = 122
-local minUpper = 65
-local maxUpper = 90
-
--- ROT13 is based on Caesar ciphering algorithm, using 13 as a key
-local function caesarCipher(str, key)
+local function wideCharLikeUnrot(utf8str)
     -- loop through all characters in the string
     -- and apply ROT13
     local merge = ""
-    for i = 1, #str do
-        local c = str:sub(i, i)
-        local b = c:byte()
-
-        -- check if alphabetic
-        if b >= minLower and b <= maxLower or b >= minUpper and b <= maxUpper then
-            local base = asciiBase(c)
-            -- apply ROT13
-            merge = merge .. string.char(((b - base + key) % 26) + base)
+    for char in utf8str:gmatch("[\0-\x7F\xC2-\xF4][\x80-\xBF]*") do
+        local codepoint = utf8ToCodepoint(char)
+        if codepoint >= minLower and codepoint <= maxLower then
+            -- subtract codepoint with subLower
+            merge = merge .. string.char(codepoint - subLower)
+        -- check if in upper range (minUpper and maxUpper)
+        elseif codepoint >= minUpper and codepoint <= maxUpper then
+            -- subtract codepoint with subUpper
+            merge = merge .. string.char(codepoint - subUpper)
         else
-            merge = merge .. c
+            merge = merge .. char
         end
     end
     return merge
@@ -267,9 +248,9 @@ local function getPassage(chapterURL)
         -- clean space
         local cleanText = rawText:gsub("^%s*(.-)%s*$", "%1")
 
-        if cleanText:lower() == "pbclevtugrq fragrapr bjarq ol fgbel frrqyvat" or cleanText:lower() == "pbclevtugrq fragrapr bjarq ol fgbelfrrqyvat" then
+        if WPCommon.contains(cleanText, "⽔⽯⽪⽭⽴ ⽔⽠⽠⽟⽧⽤⽩⽢") or WPCommon.contains(cleanText, "⽮⽯⽪⽭⽴⽮⽠⽠⽟⽧⽤⽩⽢") then
+            -- useless
             v:remove()
-            return
         end
 
         -- check if starts with cls and 21 characters
@@ -279,7 +260,7 @@ local function getPassage(chapterURL)
         end
 
         -- unrot
-        local unrot = caesarCipher(rawText, 13)
+        local unrot = wideCharLikeUnrot(rawText)
         v:text(unrot)
     end)
 
