@@ -1,13 +1,18 @@
--- {"id":28903,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
+-- {"id":28903,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
 
-local baseURL = "https://glucosetl.wordpress.com"
+local baseURL = "https://glucosetl.xyz"
 
 local WPCommon = Require("WPCommon")
+
+local function startsWith(data, start)
+    return data:sub(1, #start) == start
+end
+
 
 --- @param url string
 --- @return string
 local function shrinkURL(url)
-    return url:gsub("^.-glucosetl%.wordpress%.com", "")
+    return url:gsub("^.-glucosetl%.xyz", "")
 end
 
 --- @param url string
@@ -18,195 +23,112 @@ end
 
 local function parsePage(url)
     local doc = GETDocument(expandURL(url))
-    local postBody = doc:selectFirst("div.wp-site-blocks")
-    local content = postBody:selectFirst("main > .entry-content")
+    local postBody = doc:selectFirst("div.flex.gap-10 > div.items-center.bg-black")
 
-    WPCommon.cleanupElement(content)
+    -- add title
+    local postTitle = doc:selectFirst("div.flex.gap-10 > .text-2xl")
+    if postTitle then
+        local title = postTitle:text()
+        postBody:child(0):before("<h2>" .. title .. "</h2><hr/>")
+    end
 
-    map(content:children(), function (v)
-        if WPCommon.cleanupElement(v) then return end
-        local className = v:attr("class")
-        local tagName = v:tagName()
-        if tagName == "div" and WPCommon.contains(className, "wp-block-buttons") then
-            v:remove()
+    -- find all image source and replace sz=w1000 with sz=s0
+    map(postBody:select("img"), function (img)
+        local src = img:attr("src")
+        if src and WPCommon.contains(src, "sz=w1000") then
+            img:attr("src", src:gsub("sz=w1000", "sz=s0"))
         end
     end)
 
-    -- add title
-    local postTitle = postBody:selectFirst(".wp-block-post-title")
-    if postTitle then
-        local title = postTitle:text()
-        content:child(0):before("<h2>" .. title .. "</h2><hr/>")
-    end
-
-    return content
-end
-
---- @param elem Element|nil
---- @return Element|nil
-local function findImageNode(elem)
-    if not elem then
-        return nil
-    end
-
-    local nextSib = elem:nextElementSibling()
-    if nextSib then
-        local className = nextSib:attr("class")
-        if WPCommon.contains(className, "wp-block-image") then
-            local imgNode = nextSib:selectFirst("img")
-            if imgNode then
-                return imgNode
-            end
-        end
-        local tagName = nextSib:tagName()
-        if tagName == "h2" and WPCommon.contains(className, "wp-block-heading") then
-            -- we reach the next heading, stop!
-            return nil
-        end
-        return findImageNode(nextSib)
-    end
-    return nil
-end
-
---- @param elem Element|nil
---- @return Element|nil
-local function findImageNodeAlt(elem)
-    local parent = elem:parent()
-    if parent == nil then
-        return nil
-    end
-
-    local childIndex = parent:elementSiblingIndex()
-    local parentTwo = parent:parent()
-    if parentTwo == nil then
-        return nil
-    end
-
-    local nextSib = parentTwo:nextElementSibling()
-    if nextSib == nil then
-        return nil
-    end
-
-    local demFigures = nextSib:select("figure")
-    if demFigures:size() == 0 then
-        return nil
-    end
-
-    local figures = demFigures:get(childIndex)
-    if figures then
-        local imgNode = figures:selectFirst("img")
-        if imgNode then
-            return imgNode
-        end
-    end
-    return nil
-end
-
---- @param text string
---- @return table
-local function stripAndExtractStatus(text)
-    -- The Neat and Pretty Girl at My New School Is a Childhood Friend of Mine Who I Thought Was a Boy (LN)
-    -- I Know That After School, The Saint is More Than Just Noble (Completed)
-    -- The Story of Two Engaged Childhood Friends Trying to Fall in Love (Sporadic)
-    -- The Detective Is Already Dead (Dropped)
-
-    -- Remove stuff with Completed, Sporadic, or Dropped
-    local status = text:match("%((.-)%)$")
-
-    if status then
-        if WPCommon.contains(status:lower(), "completed") or WPCommon.contains(status:lower(), "dropped") or WPCommon.contains(status:lower(), "sporadic") then
-            -- return title, status
-            return text:gsub(" %((.-)%)$", ""), status
-        end
-    end
-    return text, nil
+    return postBody
 end
 
 --- @param doc Document
 local function parseListings(doc)
-    local postBody = doc:selectFirst("main")
-    local content = postBody:selectFirst(".entry-content")
-    WPCommon.cleanupElement(content)
+    local baseData = doc:selectFirst("div.simplebar-content")
+    local translationProbeBase = baseData:selectFirst("> .mx-2\\.5")
+    local translationProbe = translationProbeBase:selectFirst(".justify-center")
 
-    return mapNotNil(content:select("p a"), function (v)
-        local url = v:attr("href")
-        if not WPCommon.contains(url, "glucosetl.wordpress.com") then
-            return nil
-        end
-        local _parent = v:parent()
-        if not _parent then
-            return nil
-        end
+    local _listings = {}
+    map(translationProbe:select("a"), function (elem)
+        local href = elem:attr("href")
+        if startsWith(href, "/translations/") then
+            print("Found translation: " .. href)
+            local image = elem:selectFirst("img")
 
-        local text, status = stripAndExtractStatus(v:text())
-        local url = shrinkURL(url)
-        if status then
-            url = url .. "#shosetsu-status=" .. status:lower()
-        end
-        local _temp = Novel {
-            title = text,
-            link = url
-        }
-        local imgNode = findImageNode(_parent)
+            local groupElem = elem:select("div > div")
+            local title = groupElem:get(0):text()
+            local status = groupElem:get(2)
 
-        if imgNode then
-            _temp:setImageURL(imgNode:attr("src"))
-        else -- try another method
-            imgNode = findImageNodeAlt(_parent)
-            if imgNode then
-                _temp:setImageURL(imgNode:attr("src"))
+            local novel = Novel {
+                title = title,
+                link = shrinkURL(href),
+            }
+            if image and image:attr("src") then
+                novel:setImageURL(expandURL(image:attr("src")))
             end
-        end
-        return _temp
-    end)
-end
-
---- @param elem Element
---- @return string|nil
-local function findVolumeText(elem)
-    if not elem then
-        return nil
-    end
-
-    local prevSib = elem:previousElementSibling()
-    if prevSib then
-        local text = prevSib:text()
-        local tagName = prevSib:tagName()
-        if WPCommon.contains(tagName, "h") or tagName == "p" then
-            if WPCommon.contains(text, "Volume") then
-                -- for example: Volume 1
-                -- Volume 1 (some random shit)
-                -- we only want to get the volume number
-                local volume = text:match("Volume (%d+)")
-                if volume then
-                    return "Volume " .. volume
+            if status then
+                local statusText = status:text()
+                -- match the status text
+                local lowercaseStatus = statusText:lower()
+                if WPCommon.contains(lowercaseStatus, "completed") then
+                    novel:setLink(shrinkURL(href .. "#shosetsu-status=completed"))
+                elseif WPCommon.contains(lowercaseStatus, "ongoing") then
+                    novel:setLink(shrinkURL(href .. "#shosetsu-status=ongoing"))
+                elseif WPCommon.contains(lowercaseStatus, "dropped") then
+                    novel:setLink(shrinkURL(href .. "#shosetsu-status=dropped"))
                 end
             end
+
+            _listings[#_listings + 1] = novel
         end
-        return findVolumeText(prevSib)
-    end
-    return nil
+    end)
+    return _listings
 end
 
+--- @param volumeUrl string
+local function queryVolumeChapters(volumeUrl)
+    print("Requesting volumes: " .. volumeUrl)
+    local doc = GETDocument(expandURL(volumeUrl))
+
+    local _links = {}
+    map(doc:select("div.flex > a.link[target=\"_self\"]"), function (chapter)
+        local path = chapter:attr("href")
+        local volumeTitle = chapter:text()
+        -- combine volumeUrl with path
+        -- remove the first text before slash
+        local slashIndex = path:find("/", 2)
+
+        local fullPath = volumeUrl .. "/" .. path
+        if slashIndex then
+            fullPath = volumeUrl .. "/" .. path:sub(slashIndex + 1)
+        end
+
+        _links[#_links + 1] = {
+            title = volumeTitle,
+            link = shrinkURL(fullPath),
+        }
+    end)
+
+    print("Found " .. #_links .. " chapters in volume: " .. volumeUrl)
+    return _links
+end
 
 --- @param doc Document
 --- @param loadChapters boolean
 --- @param novelUrl string
 local function parseNovelInfo(doc, loadChapters, novelUrl)
-    local postBody = doc:selectFirst("div.wp-site-blocks")
-    local content = postBody:selectFirst("main > .entry-content")
-    local postTitle = postBody:selectFirst(".wp-block-post-title"):text()
-
-    WPCommon.cleanupElement(content)
+    local topArea = doc:selectFirst(".foreground.rounded-lg")
+    local title = topArea:selectFirst("div.text-4xl")
 
     local info = NovelInfo {
-        title = postTitle,
+        title = title:text(),
         status = NovelStatus.PUBLISHING,
     }
 
-    local imageTarget = content:selectFirst("img")
+    local imageTarget = topArea:selectFirst("img")
     if imageTarget then
-        info:setImageURL(imageTarget:attr("src"))
+        info:setImageURL(expandURL(imageTarget:attr("src")))
     end
 
     if WPCommon.contains(novelUrl, "#shosetsu-status=completed") then
@@ -216,30 +138,52 @@ local function parseNovelInfo(doc, loadChapters, novelUrl)
     end
 
     if loadChapters then
-        local chapters = {}
-        map(content:select("p a"), function (v)
+        local _chapters_temp = {}
+        map(doc:select("a.foreground.flex"), function (v)
             local url = v:attr("href")
-            if not WPCommon.contains(url, "glucosetl.wordpress.com") then
-                return nil
+            local volumeTitle = v:text()
+            if not startsWith(url, "/") then
+                url = '/translations/' .. url
             end
-            local tempText = v:text()
-            if WPCommon.contains(tempText, "PDF") then return nil end
-            -- we want to get the heading text
-            local _parent = v:parent()
-            if not _parent then
-                return nil
+
+            local allLinks = queryVolumeChapters(url)
+            -- if no links were found, skip
+            if #allLinks == 0 then
+                return
             end
-            local volText = findVolumeText(_parent)
-            if volText then
-                tempText = volText .. " " .. tempText
+
+            -- reverse the order of links
+            local reversedLinks = {}
+            for i = #allLinks, 1, -1 do
+                reversedLinks[#reversedLinks + 1] = allLinks[i]
             end
+
+            for _, link in ipairs(reversedLinks) do
+                local _temp = {
+                    title = volumeTitle .. ': ' .. link.title,
+                    link = link.link,
+                }
+                _chapters_temp[#_chapters_temp + 1] = _temp
+            end
+            -- local _temp = NovelChapter {
+            --     order = #chapters + 1,
+            --     title = tempText,
+            --     link = shrinkURL(url)
+            -- }
+            -- chapters[#chapters + 1] = _temp
+        end)
+
+        -- reverse the order of chapters
+        local chapters = {}
+        for i = #_chapters_temp, 1, -1 do
+            local temp = _chapters_temp[i]
             local _temp = NovelChapter {
                 order = #chapters + 1,
-                title = tempText,
-                link = shrinkURL(url)
+                title = temp.title,
+                link = temp.link,
             }
             chapters[#chapters + 1] = _temp
-        end)
+        end
         info:setChapters(AsList(chapters))
     end
     return info
@@ -256,7 +200,7 @@ return {
     -- Must have at least one value
     listings = {
         Listing("Novels", false, function ()
-            return parseListings(GETDocument("https://glucosetl.wordpress.com/translations/"))
+            return parseListings(GETDocument("https://glucosetl.xyz/translations"))
         end),
     },
 
