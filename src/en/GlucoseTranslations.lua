@@ -1,13 +1,13 @@
 -- {"id":28903,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
 
-local baseURL = "https://glucosetl.wordpress.com"
+local baseURL = "https://glucosetl.xyz"
 
 local WPCommon = Require("WPCommon")
 
 --- @param url string
 --- @return string
 local function shrinkURL(url)
-    return url:gsub("^.-glucosetl%.wordpress%.com", "")
+    return url:gsub("^.-glucosetl%.xyz", "")
 end
 
 --- @param url string
