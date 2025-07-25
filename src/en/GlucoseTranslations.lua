@@ -1,4 +1,4 @@
--- {"id":28903,"ver":"0.2.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
+-- {"id":28903,"ver":"0.2.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
 
 local baseURL = "https://glucosetl.xyz"
 
@@ -21,8 +21,33 @@ local function expandURL(url)
     return baseURL .. url
 end
 
+--- @param content Document
+--- @return boolean
+local function isAnubisPage(content)
+    local images = content:selectFirst("img")
+    ---@diagnostic disable-next-line: unnecessary-if
+    -- get the src attribute of the first image
+    if images and images:attr("src") then
+        local src = images:attr("src")
+        if WPCommon.contains(src, ".within-website") then
+            return true
+        end
+    end
+
+    local title = content:selectFirst("h1#title")
+    if title and WPCommon.contains(title:text(), "Making sure you're not a bot") then
+        return true
+    end
+    
+    return false
+end
+
 local function parsePage(url)
     local doc = GETDocument(expandURL(url))
+    if isAnubisPage(doc) then
+        -- throw error
+        error("Anubis bot protection detected. Please view the page in webview and wait for it to complete")
+    end
     local postBody = doc:selectFirst("div.flex.gap-10 > div.items-center.bg-black")
 
     -- add title
@@ -45,12 +70,13 @@ end
 
 --- @param doc Document
 local function parseListings(doc)
-    local baseData = doc:selectFirst("div.simplebar-content")
-    local translationProbeBase = baseData:selectFirst("> .mx-2\\.5")
-    local translationProbe = translationProbeBase:selectFirst(".justify-center")
+    if isAnubisPage(doc) then
+        -- throw error
+        error("Anubis bot protection detected. Please view the page in webview and wait for it to complete")
+    end
 
     local _listings = {}
-    map(translationProbe:select("a"), function (elem)
+    map(doc:select("a.foreground.justify-center"), function (elem)
         local href = elem:attr("href")
         if startsWith(href, "/translations/") then
             print("Found translation: " .. href)
@@ -92,7 +118,7 @@ local function queryVolumeChapters(volumeUrl)
     local doc = GETDocument(expandURL(volumeUrl))
 
     local _links = {}
-    map(doc:select("div.flex > a.link[target=\"_self\"]"), function (chapter)
+    map(doc:select(".foreground > .flex > div.flex > a.link[href]"), function (chapter)
         local path = chapter:attr("href")
         local volumeTitle = chapter:text()
         -- combine volumeUrl with path
@@ -118,7 +144,7 @@ end
 --- @param loadChapters boolean
 --- @param novelUrl string
 local function parseNovelInfo(doc, loadChapters, novelUrl)
-    local topArea = doc:selectFirst(".foreground.rounded-lg")
+    local topArea = doc:selectFirst(".container > .foreground.rounded-lg")
     local title = topArea:selectFirst("div.text-4xl")
 
     local info = NovelInfo {
@@ -210,6 +236,10 @@ return {
 
     parseNovel = function(novelURL, loadChapters)
         local doc = GETDocument(baseURL .. novelURL)
+        if isAnubisPage(doc) then
+            -- throw error
+            error("Anubis bot protection detected. Please view the page in webview and wait for it to complete")
+        end
         return parseNovelInfo(doc, loadChapters, novelURL)
     end,
 
