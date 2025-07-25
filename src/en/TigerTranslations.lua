@@ -1,4 +1,4 @@
--- {"id":954056,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
+-- {"id":954056,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.2"]}
 
 local WPCommon = Require("WPCommon");
 local baseURL = "https://tigertranslations.org"
@@ -42,7 +42,7 @@ local function parseListing()
     local doc = GETDocument(baseURL)
 
     local _novels = {}
-    map(doc:select("#nav > li"), function (v)
+    map(doc:select("#primary-menu > li"), function (v)
         local targetA = v:selectFirst("a")
         local link = shrinkURL(targetA:attr("href"))
         local title = targetA:text()
@@ -62,7 +62,7 @@ end
 local function getAndParseNovel(novelUrl, loadChapters)
     local doc = GETDocument(expandURL(novelUrl))
 
-    local content = doc:selectFirst(".the-content")
+    local content = doc:selectFirst(".entry-content")
 
     local novel = NovelInfo {
         title = doc:selectFirst("h1.entry-title"):text(),
@@ -100,7 +100,7 @@ local function parsePassages(chapterUrl)
 
     local section = doc:selectFirst("article")
 
-    local contents = section:selectFirst(".the-content")
+    local contents = section:selectFirst(".entry-content")
     map(contents:select("> p"), function (v)
         local classId = v:attr("id")
         if WPCommon.contains(classId, "quads") then
