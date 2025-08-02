@@ -1,4 +1,4 @@
--- {"id":811702,"ver":"0.1.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":811702,"ver":"0.1.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://machineslicedbread.xyz"
 local WPCommon = Require("WPCommon")
@@ -204,6 +204,7 @@ return {
     id = 811702,
     name = "Machine Sliced Bread",
     baseURL = baseURL,
+    chapterType = ChapterType.HTML,
 
     -- Optional values to change
     imageURL = "https://github.com/noaione/shosetsu-extensions/raw/dev/icons/MachineSlicedBread.png",
