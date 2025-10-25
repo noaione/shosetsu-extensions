@@ -71,6 +71,8 @@ jobs:
     needs: [verify, tests]
     # Do not run on PRs
     if: github.event_name == 'push'
+    permissions:
+      contents: write
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -95,5 +97,5 @@ jobs:
           BRANCH: repo
           REPO: self
           FOLDER: final
-          GITHUB_TOKEN: ${{ secrets.DEPLOY_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MESSAGE: "📈 Automatic deployment from noaione/shosetsu-extensions@{long-sha}"
