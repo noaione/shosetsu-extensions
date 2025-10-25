@@ -1,4 +1,4 @@
--- {"id":221702,"ver":"0.3.0","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":221702,"ver":"0.3.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://reigokaitranslations.com"
 local WPCommon = Require("WPCommon")
@@ -75,6 +75,40 @@ local function findNovelTitle(doc)
     return getTitleFromHead(doc)
 end
 
+--- @param doc Document
+local function findListingFromDocument(doc)
+    local primaryMenu = doc:selectFirst("ul#primary-menu")
+
+    local _listings = {}
+    map(primaryMenu:children(), function (v)
+        local firstNovel = v:selectFirst("a")
+
+        if firstNovel then
+            local text = WPCommon firstNovel:text()
+            if (text:find("Active Project", 0, true) or text == "Novels") then
+                map(v:selectFirst("ul.sub-menu"):select("> li > a"), function (v)
+                    _listings[#_listings + 1] = Novel {
+                        title = v:text(),
+                        link = shrinkURL(v:attr("href"))
+                    }
+                end)
+            else 
+                -- check if link contains reigokaitranslations.com
+                local link = firstNovel:attr("href")
+                if WPCommon.contains(link, "reigokaitranslations.com") then
+                    -- likely a single novel link
+                    _listings[#_listings + 1] = Novel {
+                        title = firstNovel:text(),
+                        link = shrinkURL(link)
+                    }
+                end
+            end
+        end
+    end)
+
+    return _listings
+end
+
 return {
     id = 221702,
     name = "Reigokai - Isekai Lunatic",
@@ -87,16 +121,7 @@ return {
     listings = {
         Listing("Novels", false, function(data)
             local doc = GETDocument(baseURL)
-            return map(flatten(mapNotNil(doc:selectFirst("ul#primary-menu"):children(), function(v)
-                local text = v:selectFirst("a"):text()
-                return (text:find("Active Project", 0, true) or text == "Novels") and
-                        map(v:selectFirst("ul.sub-menu"):select("> li > a"), function(v) return v end)
-            end)), function(v)
-                return Novel {
-                    title = v:text(),
-                    link = shrinkURL(v:attr("href"))
-                }
-            end)
+            return findListingFromDocument(doc)
         end)
     },
 
