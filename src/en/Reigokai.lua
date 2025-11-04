@@ -1,4 +1,4 @@
--- {"id":221702,"ver":"0.3.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":221702,"ver":"0.3.3","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://reigokaitranslations.com"
 local WPCommon = Require("WPCommon")
@@ -95,7 +95,9 @@ local function findListingFromDocument(doc)
             else 
                 -- check if link contains reigokaitranslations.com
                 local link = firstNovel:attr("href")
-                if WPCommon.contains(link, "reigokaitranslations.com") then
+                local isReigokai = WPCommon.contains(link, "reigokaitranslations.com")
+                local isDonateLink = WPCommon.contains(link, "/donate")
+                if isReigokai and not isDonateLink then
                     -- likely a single novel link
                     _listings[#_listings + 1] = Novel {
                         title = firstNovel:text(),
