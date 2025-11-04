@@ -1,4 +1,4 @@
--- {"id":24971,"ver":"0.1.11","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
+-- {"id":24971,"ver":"0.1.12","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.3"]}
 
 local baseURL = "https://re-library.com"
 
@@ -197,6 +197,14 @@ local function parsePageCommon(content)
     map(content:select("> div"), passageCleanup)
     map(content:select("p"), cleanupChildStyle)
 
+    -- remove any wpulike div or ai-viewports
+    map(content:select("div"), function(v)
+        local classData = v:attr("class")
+        if WPCommon.contains(classData, "wpulike") or WPCommon.contains(classData, "ai-viewport") or WPCommon.contains(classData, "ad-slot") then
+            v:remove()
+        end
+    end)
+
     return content
 end
 
@@ -264,18 +272,30 @@ local function parseListings(doc)
     local entryContent = doc:selectFirst(".entry-content")
 
     local _novels = {}
-    map(entryContent:select("table"), function (table)
-        map(table:select("p a"), function (novel)
-            local url = novel:attr("href")
+    map(entryContent:select(".repi-sections details"), function (table)
+        map(table:select(".repi-grid .repi-item"), function (novel)
+            local link = novel:selectFirst(".repi-title a")
+            if not link then return end
+            local url = link:attr("href")
             if not WPCommon.contains(url, "re-library.com") then end
             -- strip leading "* " if exist
-            local title = novel:text()
+            local title = link:text()
             title = title:gsub("^%*%s", "")
-            -- do not use Novel first since we want to sort by title
-            _novels[#_novels + 1] = {
+            local _temp = {
                 title = title,
                 link = shrinkURL(url),
+                imageUrl = nil,
             }
+
+            local novelCover = novel:selectFirst("img.repi-thumb")
+            if novelCover then
+                local imgSrc = novelCover:attr("src")
+                if imgSrc and imgSrc ~= "" then
+                    _temp.imageURL = imgSrc
+                end
+            end
+            -- do not use Novel first since we want to sort by title
+            _novels[#_novels + 1] = _temp
         end)
     end)
 
@@ -285,10 +305,15 @@ local function parseListings(doc)
     end)
 
     return map(_novels, function (v)
-        return Novel {
+        local novel = Novel {
             title = v.title,
             link = v.link,
         }
+
+        if v.imageUrl then
+            novel:setImageURL(v.imageURL)
+        end
+        return novel
     end)
 end
 
