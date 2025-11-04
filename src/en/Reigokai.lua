@@ -1,4 +1,4 @@
--- {"id":221702,"ver":"0.3.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":221702,"ver":"0.3.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://reigokaitranslations.com"
 local WPCommon = Require("WPCommon")
@@ -84,7 +84,7 @@ local function findListingFromDocument(doc)
         local firstNovel = v:selectFirst("a")
 
         if firstNovel then
-            local text = WPCommon firstNovel:text()
+            local text = firstNovel:text()
             if (text:find("Active Project", 0, true) or text == "Novels") then
                 map(v:selectFirst("ul.sub-menu"):select("> li > a"), function (v)
                     _listings[#_listings + 1] = Novel {
