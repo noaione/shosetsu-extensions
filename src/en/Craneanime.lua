@@ -1,4 +1,4 @@
--- {"id":221710,"ver":"0.3.1","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":221710,"ver":"0.3.2","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://translation.craneanime.xyz"
 local WPCommon = Require("WPCommon")
@@ -13,6 +13,17 @@ end
 --- @return string
 local function expandURL(url)
     return baseURL .. url
+end
+
+local function getImageUrl(elem)
+    if elem then
+        local dataSrc = elem:attr("data-src")
+        if dataSrc and #dataSrc > 0 then
+            return dataSrc
+        end
+        return elem:attr("src")
+    end
+    return nil
 end
 
 local function parsePage(url)
@@ -48,7 +59,7 @@ return {
             return map(content:select("figure"), function (v)
                 return Novel {
                     title = v:selectFirst("figcaption"):text(),
-                    imageURL = v:selectFirst("img"):attr("src"),
+                    imageURL = getImageUrl(v:selectFirst("img")),
                     link = shrinkURL(v:selectFirst("a"):attr("href"))
                 }
             end)
@@ -71,9 +82,9 @@ return {
 
         local content = innerWrap:selectFirst(".entry-content")
 
-        local imageTarget = content:selectFirst("img")
+        local imageTarget = getImageUrl(content:selectFirst("img"))
         if imageTarget then
-            info:setImageURL(imageTarget:attr("src"))
+            info:setImageURL(imageTarget)
         end
 
         if loadChapters then
