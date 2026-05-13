@@ -1,4 +1,4 @@
--- {"id":4302,"ver":"2.1.7","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
+-- {"id":4302,"ver":"2.1.8","libVer":"1.0.0","author":"N4O","dep":["dkjson>=1.0.1","Multipartd>=1.0.0","WPCommon>=1.0.3"]}
 
 local json = Require("dkjson");
 local Multipartd = Require("Multipartd");
@@ -247,6 +247,9 @@ local function getPassage(chapterURL)
         local firstOccurence = false
         for i = 0, p:childNodeSize() - 1 do
             local child = p:childNode(i)
+            if child:nodeName() == "#comment" then
+                goto continue
+            end
             local text = child:text()
 
             if WPCommon.contains(text, "⽔⽯⽪⽭⽴ ⽔⽠⽠⽟⽧⽤⽩⽢") or WPCommon.contains(text, "⽮⽯⽪⽭⽴⽮⽠⽠⽟⽧⽤⽩⽢") then
@@ -289,8 +292,17 @@ local function formatDescription(description)
     local totalNodes = description:childNodeSize()
     for i = 0, totalNodes - 1 do
         local node = description:childNode(i)
+        -- jsoup node, get node type
+        if node == nil then
+            break
+        end
+        if node:nodeName() == "#comment" then
+            -- continue
+            goto continue
+        end
         local textData = node:text():gsub("^%s*(.-)%s*$", "%1")
         synopsis = synopsis .. textData .. "\n"
+        ::continue::
     end
     return synopsis:gsub("\n+$", ""):gsub("%s+$", "")
 end
@@ -320,12 +332,15 @@ local function getChapterList(novelId, randomData)
     local headers = HeadersBuilder()
     headers:add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/129.0")
     headers:add("Origin", "https://storyseedling.com")
-    headers:add("Referer", "https://storyseedling.com/series" .. novelId)
+    headers:add("Referer", "https://storyseedling.com/series" .. novelId .. "/")
+    
+    local build = formBuilder:build()
+    headers:add("Content-Type", formBuilder:getHeader())
 
     local resp = Request(POST(
         expandURL("/ajax"),
         headers:build(),
-        RequestBody(formBuilder:build(), MediaType(formBuilder:getHeader()))
+        RequestBody(build, MediaType(formBuilder:getHeader()))
     ))
 
     -- json response
