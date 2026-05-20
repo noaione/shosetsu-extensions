@@ -1,4 +1,4 @@
--- {"id":176796,"ver":"0.1.7","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
+-- {"id":176796,"ver":"0.1.8","libVer":"1.0.0","author":"N4O","dep":["WPCommon>=1.0.0"]}
 
 local baseURL = "https://www.shmtranslations.com"
 local WPCommon = Require("WPCommon")
@@ -90,8 +90,13 @@ local function parseListings()
     
     local _novels = {}
     map(firstBlock:select("> .wp-block-query"), function (block)
+        -- check if block has data-wp-router-region, if yes stop
+        if block:attr("data-wp-router-region") then
+            return
+        end
+            
         map(block:select("ul.wp-block-post-template > li.wp-block-post"), function (post)
-            local titleBlock = post:selectFirst("a")
+            local titleBlock = post:selectFirst("h2 > a")
             local title = titleBlock:text()
             local url = shrinkURL(titleBlock:attr("href"))
             print(url)
