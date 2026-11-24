@@ -1,3 +1,11 @@
+### Archived
+
+Sorry about that, I have way too much real life obligations + other project I'm doing.
+I ended up stop reading stuff from most of the site I maintain and lost a bit of passion.
+(Also ended up just using Firefox + ublock for reading on my phone anyway so I haven't open Shosetsu for a long time)
+
+Feel free to fork this
+
 # N4O Shosetsu Extensions
 
 A collection of Shosetsu extensions that I've made as an extra accompanion for the upstream Shosetsu extensions.
